@@ -58,6 +58,11 @@ body {
 }
 
 
+canvas {
+    background-color: var(--backgroundColorOrange);
+}
+
+
 .content {
     display: flex;
     flex-direction: column;
