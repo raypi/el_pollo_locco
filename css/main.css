@@ -1,0 +1,109 @@
+:root {
+    --backgroundColorOrange: orange;
+    --backgroundColorGray: gray;
+    --backgroundColorDarkBlue: rgb(12, 12, 68);
+    --buttonGreen: green;
+    --textWhite: white;
+    --textBlack: black;
+    --lightGray: lightgray;
+    --errorRed: red;
+    --dialogBlue: blue;
+    --borderGray: gray;
+
+    --headerHeight: 64px;
+    --footerHeight: 64px;
+    --buttonHeight: 32px;
+    --buttonWidth: 100%;
+    --cardRadius: 8px;
+    --cartWidth: 300px;
+    --borderRadiusSmal: 4px;
+    --borderRadius: 8px;
+
+    --paddingSmall: 8px;
+    --paddingMedium: 16px;
+    --marginSmall: 4px;
+    --marginMedium: 8px;
+    --marginLarge: 16px;
+
+    --fontSizeSmall: 16px;
+    --fontSizeMedium: 18px;
+    --fontWeightNormal: 400;
+    --fontWeightBold: 700;
+
+    --boxShadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+
+html {
+    height: 100vh;
+}
+
+
+main {
+    flex: 1;
+    display: flex;
+}
+
+
+body {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    height: 100%;
+    width: 100vw;
+    overflow: auto;
+    background-color: var(--backgroundColorGray);
+}
+
+
+.content {
+    display: flex;
+    flex-direction: column;
+    height: 100%; /* Füllt die Höhe des Body */
+    width: 100%;
+}
+
+header {
+    background-color: var(--backgroundColorOrange);
+    display: flex;
+    justify-content: center;
+    height: var(--headerHeight);
+    width: 100vw;
+    padding: var(--paddingMedium);
+
+}
+
+.header-content {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+
+.main-contend {
+    flex: 1;
+    padding: var(--paddingMedium);
+    background-color: var(--backgroundColorGray);
+    display: flex;
+    justify-content: center;
+
+
+}
+
+footer {
+    background-color: var(--backgroundColorOrange);
+    height: var(--footerHeight);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100vw;
+}
+
+.footer-content {
+    display: flex;
+    justify-content: center;
+    height: var(--footerHeight);
+    align-items: center;
+}
