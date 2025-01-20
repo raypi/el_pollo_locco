@@ -23,6 +23,6 @@ function init() {
     //     ctx.drawImage(character, 20, 20, 50, 150);
     // }, 2000);
     
-    console.log('My Character is: ', character);
+    console.log('My Character is: ', world.character);
     
 }

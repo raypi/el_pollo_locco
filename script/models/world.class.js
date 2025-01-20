@@ -8,6 +8,5 @@ class World {
     ];
 
     draw() {
-        console.log('Drow the World!')
     }
 }
