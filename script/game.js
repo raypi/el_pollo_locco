@@ -25,3 +25,7 @@ function init() {
     console.log('My Character is: ', world.character);
     console.log('The enemies is: ', world.enemies);    
 }
+
+window.addEventListener('keypress', (event) => {
+    console.log(event);
+});
