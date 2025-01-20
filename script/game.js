@@ -1,6 +1,5 @@
 let canvas;
-let ctx;
-let world = new World();
+let world;
 
 // function init() {
 //     canvas = document.getElementById('canvas');
@@ -11,7 +10,7 @@ let world = new World();
 
 function init() {
     canvas = document.getElementById('canvas');
-    ctx = canvas.getContext('2d');
+    world = new World(canvas);
 
     // // Warten, bis das Bild geladen ist
     // character.onload = function() {
@@ -24,5 +23,5 @@ function init() {
     // }, 2000);
     
     console.log('My Character is: ', world.character);
-    
+    console.log('The enemies is: ', world.enemies);    
 }
