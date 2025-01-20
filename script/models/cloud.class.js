@@ -1,5 +1,5 @@
 class Cloud extends MovableObject {
-    y = 20; // aussehalb danicht dynamisch sein soll 
+    y = 20;  
     height = 250;
     width = 500;
 
@@ -11,7 +11,7 @@ class Cloud extends MovableObject {
 
     animate() {
         setInterval(() => {
-            this.x -= 5;
-        }, 500); 
+            this.x -= 0.15;
+        }, 1000 / 60); 
     }
 }
