@@ -3,7 +3,11 @@ class MovableObject {
      y = 400;
      img;
 
-     moveRight(params) { // das wort function kann auch entfertt werden da es nicht benötigt wird(drf nicht)
+     moveRight() { 
         console.log('Moving right!');
      }
+
+     moveLeft(){
+          console.log('Move left');
+      }
 }
