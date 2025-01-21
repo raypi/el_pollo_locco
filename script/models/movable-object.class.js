@@ -13,7 +13,7 @@ class MovableObject {
 
      applyGravity(){
          setInterval(() => {
-            if(this.isAboveGrund()) {
+            if(this.isAboveGrund() || this.speedY > 0) {
                this.y -= this.speedY;
                this.speedY -= this.acceleration;
                console.log('speedY:', this.speedY); // Ausgabe von speedY in der Konsole

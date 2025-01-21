@@ -2,7 +2,7 @@ class Character extends MovableObject {
     
     height = 280;
     x = 100;
-    y = 50; // standart 150
+    y = 150; // standart 150
     speed = 5;
     IMAGES_WALKING = [
         'assets/img/2_character_pepe/2_walk/W-21.png',
@@ -52,6 +52,13 @@ class Character extends MovableObject {
                 this.x -= this.speed;
                 this.otherDirection = true;
             }
+            // console.log('speedY: ', this.speedY); // Ausgabe von speedY in der Konsole
+            // Springen
+            if (this.world.keyboard.UP && !this.isAboveGrund()){
+                this.speedY = 22;
+                
+            }
+
             this.world.camera_x = -this.x + 100;
         }, 1000 / 60);
 
