@@ -13,12 +13,17 @@ class MovableObject {
 
      applyGravity(){
          setInterval(() => {
-            if(this.y < 150) {
+            if(this.isAboveGrund()) {
                this.y -= this.speedY;
                this.speedY -= this.acceleration;
                console.log('speedY:', this.speedY); // Ausgabe von speedY in der Konsole
             }
          }, 1000 / 25);
+     }
+
+
+     isAboveGrund(){
+      return this.y < 150;
      }
 
 // loadImg('img(test.png')
