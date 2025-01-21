@@ -8,7 +8,7 @@ function init() {
     world = new World(canvas, keyboard);
     
     console.log('My Character is: ', world.character);
-    console.log('The enemies is: ', world.enemies);    
+    console.log('The enemies is: ', world.enemies);    // aktuell nicht mehr verknüpft
 }
 
 
