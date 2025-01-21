@@ -8,6 +8,18 @@ class MovableObject {
      currentImage = 0;
      speed = 0.15;
      otherDirection = false;
+     speedY = 0;
+     acceleration = 1; // Fallgeschwindigkeit in pixel pro durchlauf
+
+     applyGravity(){
+         setInterval(() => {
+            if(this.y < 150) {
+               this.y -= this.speedY;
+               this.speedY -= this.acceleration;
+               console.log('speedY:', this.speedY); // Ausgabe von speedY in der Konsole
+            }
+         }, 1000 / 25);
+     }
 
 // loadImg('img(test.png')
    loadImage(path){
