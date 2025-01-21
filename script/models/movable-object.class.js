@@ -23,7 +23,7 @@ class MovableObject {
 
 
      isAboveGrund(){
-      return this.y < 150;
+      return this.y < 151;
      }
 
 // loadImg('img(test.png')
