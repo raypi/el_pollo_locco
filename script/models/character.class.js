@@ -54,9 +54,8 @@ class Character extends MovableObject {
             }
             // console.log('speedY: ', this.speedY); // Ausgabe von speedY in der Konsole
             // Springen
-            if (this.world.keyboard.UP && !this.isAboveGrund()){
-                this.speedY = 22;
-                
+            if (this.world.keyboard.SPACE && !this.isAboveGrund()){
+                this.jump();
             }
 
             this.world.camera_x = -this.x + 100;
@@ -86,11 +85,4 @@ class Character extends MovableObject {
         }    
     }, 100);    
     }
-
- 
-    // Funktion zum springen des Pepe
-    jump(){
-        
-    } 
-
 }
