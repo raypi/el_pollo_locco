@@ -10,6 +10,7 @@ class MovableObject {
      otherDirection = false;
      speedY = 0;
      acceleration = 1; // Fallgeschwindigkeit in pixel pro durchlauf
+     energy = 100;
 
      applyGravity(){
          setInterval(() => {
