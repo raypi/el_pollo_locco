@@ -11,14 +11,14 @@ class MovableObject {
      speedY = 0;
      acceleration = 1; // Fallgeschwindigkeit in pixel pro durchlauf
      energy = 100;
-     lastHit = 0;
+     lasthit = 0;
 
      applyGravity(){
          setInterval(() => {
             if(this.isAboveGrund() || this.speedY > 0) {
                this.y -= this.speedY;
                this.speedY -= this.acceleration;
-               console.log('speedY:', this.speedY); // Ausgabe von speedY in der Konsole
+               // console.log('speedY:', this.speedY); // Ausgabe von speedY in der Konsole
             }
          }, 1000 / 25);
      }
@@ -85,7 +85,7 @@ class MovableObject {
       if (this.energy < 0) {
          this.energy = 0;
       } else {
-         this.lastHit = new Date().getTime(); // speiert Zeit in Zahlenform seid dem 01.01.1970 in Milisekunden
+         this.lasthit = new Date().getTime(); // speiert Zeit in Zahlenform seid dem 01.01.1970 in Milisekunden
       }
    }
 
@@ -95,10 +95,10 @@ class MovableObject {
    }
 
    isHurt(){
-      let timeDuration = new Date().getTime()- this.lastHit; // errechnet uns die Differenz in Milisekunden
+      let timeDuration = new Date().getTime()- this.lasthit; // errechnet uns die Differenz in Milisekunden
       timeDuration = timeDuration / 1000; // rechnet die Differenz in sekunden um 
-      console.log('Zeit seid dem letzen treffer: ', this.timeDuration);
-      return timeDuration < 5; // gibt true zurück
+      console.log('Zeit seid dem letzen treffer: ', timeDuration);
+      return timeDuration < 1; // gibt true zurück
    }
 
    playAnimation(images) {
