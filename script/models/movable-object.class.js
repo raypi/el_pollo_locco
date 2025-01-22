@@ -11,6 +11,7 @@ class MovableObject {
      speedY = 0;
      acceleration = 1; // Fallgeschwindigkeit in pixel pro durchlauf
      energy = 100;
+     lastHit = 0;
 
      applyGravity(){
          setInterval(() => {
@@ -83,9 +84,29 @@ class MovableObject {
       this.energy -= 5; 
       if (this.energy < 0) {
          this.energy = 0;
+      } else {
+         this.lastHit = new Date().getTime(); // speiert Zeit in Zahlenform seid dem 01.01.1970 in Milisekunden
       }
    }
 
+   isDead(){
+      return this.energy == 0;
+
+   }
+
+   isHurt(){
+      let timeDuration = new Date().getTime()- this.lastHit; // errechnet uns die Differenz in Milisekunden
+      timeDuration = timeDuration / 1000; // rechnet die Differenz in sekunden um 
+      console.log('Zeit seid dem letzen treffer: ', this.timeDuration);
+      return timeDuration < 5; // gibt true zurück
+   }
+
+   playAnimation(images) {
+      let index = this.currentImage % images.length;    
+                    let path = images[index];
+                    this.img = this.imageCache[path];
+                    this.currentImage++;
+   }
 }
 
 // if (charachter.x + charachter.width > chicken.x &&
