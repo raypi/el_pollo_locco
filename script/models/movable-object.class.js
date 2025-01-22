@@ -37,11 +37,13 @@ class MovableObject {
    }
 
    drawBox(ctx) {
+      if(this instanceof Character || this instanceof Chicken || this instanceof Endboss) {
       ctx.beginPath();
       ctx.lineWidth = '5';
       ctx.strokeStyle = 'blue';
       ctx.rect(this.x, this.y,  this.width, this.height);
       ctx.stroke();
+      }
    }
 
    loadImages(arr){
@@ -68,4 +70,18 @@ class MovableObject {
    this.speedY = 22;
   }
 
+  // kann zum beispiel Huhn eingeben und prüfen ob mein Character damit kollidiert  
+  isColliding(mo) {
+   return this.x + this.width > mo.x &&
+      this.y + this.height > mo.y &&
+      this.x < mo.x &&
+      this.y < mo.y + mo.height;
+} 
+
 }
+
+// if (charachter.x + charachter.width > chicken.x &&
+//    charachter.y +charachter.height > chicken.y &&
+//    charachter.x < chicken.x &&
+//    charachter.y < chicken.y + chicken.height
+// )

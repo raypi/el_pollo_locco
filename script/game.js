@@ -60,5 +60,4 @@ window.addEventListener('keyup', (event) => {
         keyboard.SPACE = false;
     }
 
-    // Else für Warnton wegen falscher Taste, ggf. ausgabe in DIV
 });
