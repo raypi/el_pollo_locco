@@ -1,3 +1,16 @@
+// Aufgaben:
+// Coins erstellen und einsammeln
+// Flaschen erstellen und einsammeln als munition
+// Flaschen nur werfen, wenn sie eingesammelt sind 
+// Collision (drauf springen und besiegen können)
+// Endgegner besiegen (energie anzeigen und 3 mal treffen oder drauf springen tötet ihn)
+// Game Over Screen
+// Full Screen Button für Vollbild Modus (pixel) Tipp: canvis Fullscreen
+// Spielanleitung: welche Tasten welches Ziel
+// Start Screen
+// Musik und Sounds hinzufügen
+// Favicon erstellen und einfügen
+
 let canvas;
 let world;
 let keyboard = new Keyboard();
@@ -65,7 +78,7 @@ window.addEventListener('keyup', (event) => {
     }
 
     if(event.keyCode == 77){
-        keyboard.M = false;
+        keyboard.M = false;m
     }
 
 
