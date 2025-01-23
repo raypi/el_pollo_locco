@@ -64,7 +64,7 @@ class MovableObject extends DrawableObject {
    isHurt(){
       let timeDuration = new Date().getTime()- this.lasthit; // errechnet uns die Differenz in Milisekunden
       timeDuration = timeDuration / 1000; // rechnet die Differenz in sekunden um 
-      console.log('Zeit seid dem letzen treffer: ', timeDuration);
+      // console.log('Zeit seid dem letzen treffer: ', timeDuration);
       return timeDuration < 1; // gibt true zurück
    }
 
