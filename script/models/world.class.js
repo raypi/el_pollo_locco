@@ -53,41 +53,55 @@ class World {
 
     draw() {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-
+    
         this.ctx.translate(this.camera_x, 0);
         this.addObjectsToMap(this.level.backgroundObject);
-
+    
         this.ctx.translate(-this.camera_x, 0);
-
+    
         // Statusbars zeichnen
         this.statusBar.y = 0;
         this.addToMap(this.statusBar);
-
+    
         this.coinBar.y = 40;
         this.addToMap(this.coinBar);
-
+    
         this.bottleBar.y = 80;
         this.addToMap(this.bottleBar);
-
+    
         this.ctx.translate(this.camera_x, 0);
         this.addObjectsToMap(this.level.clouds);
         this.addObjectsToMap(this.level.enemies);
+    
+        // Coins und Bottles zeichnen
+        this.addObjectsToMap(this.level.coins);
+        this.addObjectsToMap(this.level.bottles);
+    
         this.addObjectsToMap(this.throwableObjects);
         this.addToMap(this.character);
-
+    
         this.ctx.translate(-this.camera_x, 0);
-
+    
         let self = this;
         requestAnimationFrame(function () {
             self.draw();
         });
     }
+    
 
+    // addObjectsToMap(objects) {
+    //     objects.forEach(o => {
+    //         this.addToMap(o);
+    //     });
+    // }
     addObjectsToMap(objects) {
+        if (!objects || objects.length === 0) return; // Sicherheitsprüfung
         objects.forEach(o => {
             this.addToMap(o);
         });
     }
+    
+
 
     addToMap(mo) {
         if (mo.otherDirection) {

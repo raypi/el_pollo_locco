@@ -22,4 +22,9 @@ class Bottles extends DrawableObject {
         'assets/img/6_salsa_bottle/bottle_rotation/bottle_splash/5_bottle_splash.png',
         'assets/img/6_salsa_bottle/bottle_rotation/bottle_splash/6_bottle_splash.png'
     ];
+
+    constructor() {
+        super();
+        this.loadImage(this.IMAGES_BOTTLES_GRUND[0]); // erstes bild bottle
+    }
 }
