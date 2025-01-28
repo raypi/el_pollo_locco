@@ -68,7 +68,7 @@ class World {
         this.ctx.translate(-this.camera_x, 0);
         // Space for Fixed Anzeigen
         this.statusBar.y = 0;  
-        this.addToMap(this.statusBar);
+        this.addToMap(this.statusBar); 
         // Coin-Bar unter der Health-Bar
         this.coinBar.y = 40;  // Position der Coin-Bar unter der Health Bar
         this.addToMap(this.coinBar);
