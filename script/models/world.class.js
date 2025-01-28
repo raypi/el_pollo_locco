@@ -1,16 +1,19 @@
 class World {
-    
     character = new Character();
     level = level001;
     canvas;
     ctx;
     keyboard;
     camera_x = 0;
-    statusBar = new StatusBar();
-    coinBar = new StatusBar();
+
+    // Jede StatusBar erhält einen eigenen Typ
+    statusBar = new StatusBar('Health');
+    coinBar = new StatusBar('Coin');
+    bottleBar = new StatusBar('Bottle');
+
     throwableObjects = [];
 
-    constructor(canvas, keyboard){
+    constructor(canvas, keyboard) {
         this.ctx = canvas.getContext('2d');
         this.canvas = canvas;
         this.keyboard = keyboard;
@@ -19,45 +22,34 @@ class World {
         this.run();
     }
 
-    setWorld(){
+    setWorld() {
         this.character.world = this;
         this.character.keyboard = this.keyboard;
     }
 
-    run(){
+    run() {
         setInterval(() => {
             this.checkCollisions();
             this.checkThrowObjects();
         }, 200);
     }
 
-    checkThrowObjects(){
+    checkThrowObjects() {
         if (this.keyboard.M) {
-            let bottle = new ThrowableObject(this.character.x + 100, this.character.y + 100)
+            let bottle = new ThrowableObject(this.character.x + 100, this.character.y + 100);
             this.throwableObjects.push(bottle);
         }
     }
 
-
-    checkCollisions(){
-        // prüft Kollisionen mit Gegenern 
+    checkCollisions() {
         this.level.enemies.forEach((enemy) => {
             if (this.character.isColliding(enemy)) {
-                // console.log('Kollision mit: ', enemy);
                 this.character.hit();
-                this.statusBar.setPercentageHealth(this.character.energy);
+                this.statusBar.setPercentage(this.character.energy); // Health aktualisieren
                 console.log('Energie: ', this.character.energy);
             }
         });
     }
-
-    updateCoinBar() {
-        // zählen der coin beim einsammeln
-        let newCoinValue = 100;  // coin = 100 oder als Zufallswert für Test: Math.random() * 100
-        this.statusBar.setPercentageCoin(newCoinValue);
-        console.log('Coins aktualisiert: ', newCoinValue);
-    }
-
 
     draw() {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
@@ -66,30 +58,32 @@ class World {
         this.addObjectsToMap(this.level.backgroundObject);
 
         this.ctx.translate(-this.camera_x, 0);
-        // Space for Fixed Anzeigen
-        this.statusBar.y = 0;  
-        this.addToMap(this.statusBar); 
-        // Coin-Bar unter der Health-Bar
-        this.coinBar.y = 40;  // Position der Coin-Bar unter der Health Bar
-        this.addToMap(this.coinBar);
-        // Cam Runs with Caracter 
-        this.ctx.translate(this.camera_x, 0);
 
+        // Statusbars zeichnen
+        this.statusBar.y = 0;
+        this.addToMap(this.statusBar);
+
+        this.coinBar.y = 40;
+        this.addToMap(this.coinBar);
+
+        this.bottleBar.y = 80;
+        this.addToMap(this.bottleBar);
+
+        this.ctx.translate(this.camera_x, 0);
         this.addObjectsToMap(this.level.clouds);
         this.addObjectsToMap(this.level.enemies);
         this.addObjectsToMap(this.throwableObjects);
         this.addToMap(this.character);
-        
 
         this.ctx.translate(-this.camera_x, 0);
-        
+
         let self = this;
-        requestAnimationFrame(function(){
+        requestAnimationFrame(function () {
             self.draw();
         });
     }
 
-    addObjectsToMap(objects){
+    addObjectsToMap(objects) {
         objects.forEach(o => {
             this.addToMap(o);
         });
@@ -107,14 +101,14 @@ class World {
         }
     }
 
-    flipImage(mo){
+    flipImage(mo) {
         this.ctx.save();
         this.ctx.translate(mo.width, 0);
         this.ctx.scale(-1, 1);
         mo.x = mo.x * -1;
     }
 
-    flipImageBack(mo){
+    flipImageBack(mo) {
         mo.x = mo.x * -1;
         this.ctx.restore();
     }
