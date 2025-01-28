@@ -7,6 +7,7 @@ class World {
     keyboard;
     camera_x = 0;
     statusBar = new StatusBar();
+    coinBar = new StatusBar();
     throwableObjects = [];
 
     constructor(canvas, keyboard){
@@ -20,6 +21,7 @@ class World {
 
     setWorld(){
         this.character.world = this;
+        this.character.keyboard = this.keyboard;
     }
 
     run(){
@@ -49,6 +51,14 @@ class World {
         });
     }
 
+    updateCoinBar() {
+        // zählen der coin beim einsammeln
+        let newCoinValue = 100;  // coin = 100 oder als Zufallswert für Test: Math.random() * 100
+        this.statusBar.setPercentageCoin(newCoinValue);
+        console.log('Coins aktualisiert: ', newCoinValue);
+    }
+
+
     draw() {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
@@ -57,7 +67,11 @@ class World {
 
         this.ctx.translate(-this.camera_x, 0);
         // Space for Fixed Anzeigen
+        this.statusBar.y = 0;  
         this.addToMap(this.statusBar);
+        // Coin-Bar unter der Health-Bar
+        this.coinBar.y = 40;  // Position der Coin-Bar unter der Health Bar
+        this.addToMap(this.coinBar);
         // Cam Runs with Caracter 
         this.ctx.translate(this.camera_x, 0);
 

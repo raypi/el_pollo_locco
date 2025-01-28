@@ -10,7 +10,7 @@ class StatusBar extends DrawableObject {
         'assets/img/7_statusbars/1_statusbar/2_statusbar_health/blue/100.png'
     ];
 
-    IMAGES_COIN [
+    IMAGES_COIN = [
         'assets/img/7_statusbars/1_statusbar/1_statusbar_coin/blue/0.png',
         'assets/img/7_statusbars/1_statusbar/1_statusbar_coin/blue/20.png',
         'assets/img/7_statusbars/1_statusbar/1_statusbar_coin/blue/40.png',
@@ -19,20 +19,20 @@ class StatusBar extends DrawableObject {
         'assets/img/7_statusbars/1_statusbar/1_statusbar_coin/blue/100.png'
     ];
 
-    IMAGES_BOTTLE [
-        'assets/img/7_statusbars/1_statusbar/3_statusbar_bottle/blue/0.png',
-        'assets/img/7_statusbars/1_statusbar/3_statusbar_bottle/blue/20.png',
-        'assets/img/7_statusbars/1_statusbar/3_statusbar_bottle/blue/40.png',
-        'assets/img/7_statusbars/1_statusbar/3_statusbar_bottle/blue/60.png',
-        'assets/img/7_statusbars/1_statusbar/3_statusbar_bottle/blue/80.png',
-        'assets/img/7_statusbars/1_statusbar/3_statusbar_bottle/blue/100.png'
-    ];
+    // IMAGES_BOTTLE =  [
+    //     'assets/img/7_statusbars/1_statusbar/3_statusbar_bottle/blue/0.png',
+    //     'assets/img/7_statusbars/1_statusbar/3_statusbar_bottle/blue/20.png',
+    //     'assets/img/7_statusbars/1_statusbar/3_statusbar_bottle/blue/40.png',
+    //     'assets/img/7_statusbars/1_statusbar/3_statusbar_bottle/blue/60.png',
+    //     'assets/img/7_statusbars/1_statusbar/3_statusbar_bottle/blue/80.png',
+    //     'assets/img/7_statusbars/1_statusbar/3_statusbar_bottle/blue/100.png'
+    // ];
 
 
 
 
-    setPercentageHealth = 100;
-    percentageCoin = 0;
+    PercentageHealth = 100;
+    PercentageCoin = 0;
 
 
     constructor(){
@@ -43,16 +43,26 @@ class StatusBar extends DrawableObject {
         this.y = 0;
         this.width = 200;
         this.height = 50;
-        this.setPercentage(100);
+        this.setPercentageHealth(100); // setz start auf 100
+        this.setPercentageCoin(0); // setzt start auf 0 
 
       }
     
-    // Funktion kann von aussen aufgerufen werden um den percentage einen neuen wert zu geben    
+    // Funktion kann von aussen aufgerufen werden um health  einen neuen wert zu geben    
     setPercentageHealth(percentage){
         this.percentage = percentage; // => 0 - 5 
         let path = this.IMAGES_HEALTH[this.resolveImageIndex()];
         this.img = this.imageCache[path];
     }  
+
+    // Funktion kann von aussen aufgerufen werden um health  einen neuen wert zu geben
+     // Function to set coin percentage
+     setPercentageCoin(percentage){
+        this.percentageCoin = percentage;
+        let path = this.IMAGES_COIN[this.resolveImageIndex(this.percentageCoin)];
+        this.img = this.imageCache[path];
+    }    
+
 
     resolveImageIndex(){
         if(this.percentage == 100){
