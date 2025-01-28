@@ -43,7 +43,7 @@ class World {
             if (this.character.isColliding(enemy)) {
                 // console.log('Kollision mit: ', enemy);
                 this.character.hit();
-                this.statusBar.setPercentage(this.character.energy);
+                this.statusBar.setPercentageHealth(this.character.energy);
                 console.log('Energie: ', this.character.energy);
             }
         });

@@ -31,22 +31,24 @@ class StatusBar extends DrawableObject {
 
 
 
-    percentage = 100;
+    setPercentageHealth = 100;
     percentageCoin = 0;
-    
+
 
     constructor(){
         super();
-        this.loadImages(this.IMAGES_HEALTH);
+        this.loadImages(this.IMAGES_HEALTH); // laden der  health imag 
+        this.loadImages(this.IMAGES_COIN);  // laden der  coin imag
         this.x = 0;  
         this.y = 0;
         this.width = 200;
         this.height = 50;
         this.setPercentage(100);
+
       }
     
     // Funktion kann von aussen aufgerufen werden um den percentage einen neuen wert zu geben    
-    setPercentage(percentage){
+    setPercentageHealth(percentage){
         this.percentage = percentage; // => 0 - 5 
         let path = this.IMAGES_HEALTH[this.resolveImageIndex()];
         this.img = this.imageCache[path];
