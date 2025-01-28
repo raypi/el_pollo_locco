@@ -32,6 +32,8 @@ class StatusBar extends DrawableObject {
 
 
     percentage = 100;
+    percentageCoin = 0;
+    
 
     constructor(){
         super();
