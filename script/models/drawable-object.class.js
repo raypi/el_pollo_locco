@@ -1,4 +1,4 @@
-class DrawableObject {
+class DrawableObject { // zeichenbare Objekte
     x = 100;
     y = 280;
     height = 150;
