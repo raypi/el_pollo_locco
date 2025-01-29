@@ -38,6 +38,7 @@ class World {
             this.checkCollisions();
             this.checkThrowObjects();
             this.collectingCoins();
+            this.collectingBottles();
         }, 200);
     }
 
@@ -152,7 +153,14 @@ class World {
     }
 
     collectingBottles() {
-    
+        this.level.bottles = this.level.bottles.filter((bottle) => {
+            if (this.character.isColliding(bottle)) {
+                console.log('Bottle eingesammelt!', bottle);
+                this.bottleBar.setPercentage(this.bottleBar.percentage + 10); // Beispiel: Flaschenanzeige aktualisieren
+                return false; // Bottle wird entfernt
+            }
+            return true; // Bottle bleibt in der Welt
+        });
     }    
 
 }
