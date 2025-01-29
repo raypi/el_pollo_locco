@@ -43,9 +43,17 @@ class World {
         }, 200);
     }
 
-    checkThrowObjects() { // Flasche werfen 
+    checkThrowObjects() {
         if (this.keyboard.M) {
+            // Hoher Wurf
             let bottle = new ThrowableObject(this.character.x + 100, this.character.y + 100);
+            bottle.throwHigh(); 
+            this.throwableObjects.push(bottle);
+        }
+        if (this.keyboard.N) {
+            // Waagerechter Wurf
+            let bottle = new ThrowableObject(this.character.x + 100, this.character.y + 100);
+            bottle.throwHorizontal();
             this.throwableObjects.push(bottle);
         }
     }
