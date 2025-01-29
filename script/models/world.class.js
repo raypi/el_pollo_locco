@@ -82,6 +82,7 @@ class World {
         this.addObjectsToMap(this.level.clouds);
         this.addObjectsToMap(this.level.enemies);
         this.addObjectsToMap(this.level.smalChicken);
+        this.addObjectsToMap(this.level.endboss);
     
         
         
