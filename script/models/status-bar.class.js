@@ -48,7 +48,7 @@ class StatusBar extends DrawableObject {
             this.setPercentage(30); // Standard für Coins
         } else if (this.type === 'Bottle') {
             this.loadImages(this.IMAGES_BOTTLE);
-            this.setPercentage(60); // Standard für Bottles
+            this.setPercentage(0); // Standard für Bottles
         }
     }
 

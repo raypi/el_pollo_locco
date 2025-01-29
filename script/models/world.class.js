@@ -145,7 +145,7 @@ class World {
         this.level.coins = this.level.coins.filter((coin) => {
             if (this.character.isColliding(coin)) {
                 console.log('Coin eingesammelt!', coin);
-                this.coinBar.setPercentage(this.coinBar.percentage + 10);
+                this.coinBar.setPercentage(Math.min(this.coinBar.percentage + 10, 100));// Test
                 return false; // Coin wird entfernt
             }
             return true; // Coin bleibt in der Welt
