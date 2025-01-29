@@ -144,10 +144,15 @@ class World {
         this.level.coins = this.level.coins.filter((coin) => {
             if (this.character.isColliding(coin)) {
                 console.log('Coin eingesammelt!', coin);
-                this.coinBar.setPercentage(this.coinBar.percentage + 10); // Beispiel: CoinBar aktualisieren
+                this.coinBar.setPercentage(this.coinBar.percentage + 10);
                 return false; // Coin wird entfernt
             }
             return true; // Coin bleibt in der Welt
         });
     }
+
+    collectingBottles() {
+    
+    }    
+
 }
