@@ -39,6 +39,7 @@ class World {
             this.checkThrowObjects();
             this.collectingCoins();
             this.collectingBottles();
+            this.checkSmalChickenCollisions();
         }, 200);
     }
 
@@ -175,4 +176,17 @@ class World {
             return true; // Huhn bleibt in der Welt
         });
     }
+
+    // Erweiterung mit verhalten bei Töten...
+    // checkSmalChickenCollisions() {
+    //     this.level.smalChicken = this.level.smalChicken.filter((chicken) => {
+    //         if (this.character.isColliding(chicken)) {
+    //             console.log('Kleines Huhn getroffen!');
+    //             this.character.score += 10; // Beispiel: Punkte für das Besiegen
+    //             chicken.splitAnimation(); // Animation oder spezielle Effekte
+    //             return false;
+    //         }
+    //         return true;
+    //     });
+    // }
 }

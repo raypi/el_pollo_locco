@@ -30,4 +30,13 @@ class SmalChicken extends MovableObject {
             this.currentImage++;
         }, 200);    
     }
+
+    // Bild wenn getötet 
+    // deadAnimation() {
+    //     this.loadImage('assets/img/3_enemies_chicken/chicken_small/2_dead/dead.png');
+    //     setTimeout(() => {
+    //         // Entfernen nach Animation
+    //         this.isDead = true; // Optionales Flag
+    //     }, 1000); // Nach 1000 ms = 1s
+    // }
 }
