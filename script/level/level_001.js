@@ -50,8 +50,13 @@ const level001 = new Level(
         new Bottles(600, 280),
         new Bottles(700, 280),
         new Bottles(800, 280),
-    ]
-    
-    
+    ],
+    [
+        new SmalChicken(),
+        new SmalChicken(),
+        new SmalChicken(),
+        new SmalChicken(),
+        new SmalChicken()
+    ],    
 );
  
