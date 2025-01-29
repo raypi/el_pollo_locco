@@ -156,7 +156,7 @@ class World {
         this.level.bottles = this.level.bottles.filter((bottle) => {
             if (this.character.isColliding(bottle)) {
                 console.log('Bottle eingesammelt!', bottle);
-                this.bottleBar.setPercentage(this.bottleBar.percentage + 10); // Beispiel: Flaschenanzeige aktualisieren
+                this.bottleBar.setPercentage(Math.min(this.bottleBar.percentage + 10, 100));
                 return false; // Bottle wird entfernt
             }
             return true; // Bottle bleibt in der Welt
