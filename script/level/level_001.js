@@ -38,18 +38,18 @@ const level001 = new Level(
         new Endboss(),
     ],
     [
-        new Coins(1200, 280),
-        new Coins(1300, 280),
-        new Coins(1400, 280),
-        new Coins(1500, 280),
-        new Coins(1600, 280),
+        new Coins(1200, 320),
+        new Coins(1300, 250),
+        new Coins(1400, 200),
+        new Coins(1500, 250),
+        new Coins(1600, 320),
     ],
     [
+        new Bottles(400, 280),
         new Bottles(500, 280),
         new Bottles(600, 280),
         new Bottles(700, 280),
         new Bottles(800, 280),
-        new Bottles(900, 280),
     ]
     
     

@@ -3,8 +3,8 @@ class Level {
     clouds;
     endboss;
     backgroundObject;
-    coins; // coins in level einfügen
-    bottles; // bottles in das level einfügen
+    coins;
+    bottles;
     level_end_x = 2255;
 
 
