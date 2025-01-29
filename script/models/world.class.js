@@ -162,6 +162,17 @@ class World {
             }
             return true; // Bottle bleibt in der Welt
         });
-    }    
-
+    }
+    
+    
+    checkSmalChickenCollisions() {
+        this.level.smalChicken = this.level.smalChicken.filter((chicken) => {
+            if (this.character.isColliding(chicken)) {
+                console.log('smalChick getroffen!');
+                // Punkte hinzufügen oder andere Aktionen ausführen
+                return false; // Huhn wird entfernt
+            }
+            return true; // Huhn bleibt in der Welt
+        });
+    }
 }
