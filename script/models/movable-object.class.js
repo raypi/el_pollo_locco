@@ -21,7 +21,7 @@ class MovableObject extends DrawableObject { // bewegbare Objekte
 
      isAboveGrund() {
       if (this instanceof ThrowableObject) {
-          return this.y < 400; // Bodenhöhe für die Flasche
+          return this.y < 380; // Bodenhöhe für die Flasche
       } else {
           return this.y < 151; // Standardhöhe für andere Objekte
       }
