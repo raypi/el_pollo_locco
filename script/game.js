@@ -26,7 +26,7 @@ function init() {
 
 
 window.addEventListener('keydown', (event) => {
-    console.log(event.keyCode);
+    // console.log(event.keyCode);
     if(event.keyCode == 39){
         keyboard.RIGHT = true;
     }
@@ -49,6 +49,10 @@ window.addEventListener('keydown', (event) => {
 
     if(event.keyCode == 77){
         keyboard.M = true;
+    }
+
+    if(event.keyCode == 78){
+        keyboard.N = true;
     }
 
     // Else für Warnton wegen falscher Taste, ggf. ausgabe in DIV
@@ -78,8 +82,10 @@ window.addEventListener('keyup', (event) => {
     }
 
     if(event.keyCode == 77){
-        keyboard.M = false;m
+        keyboard.M = false;
     }
 
-
+    if(event.keyCode == 78){
+        keyboard.N = false;
+    }
 });

@@ -24,8 +24,8 @@ class World {
         this.setWorld();
         this.run();
         // D E B U G
-        console.log('DG Constructor World, Coins:', this.level.coins);
-        console.log('DG Constructor World, Bottles:', this.level.bottles);
+        // console.log('DG Constructor World, Coins:', this.level.coins);
+        // console.log('DG Constructor World, Bottles:', this.level.bottles);
     }
 
     setWorld() {
@@ -96,9 +96,9 @@ class World {
         
         // Coins und Bottles zeichnen
         this.addObjectsToMap(this.level.bottles);
-        console.log('DG World Draw, Bottel:', this.level.bottles);
+        // console.log('DG World Draw, Bottel:', this.level.bottles);
         this.addObjectsToMap(this.level.coins);
-        console.log('DG World Draw, Coins:', this.level.coins);
+        // console.log('DG World Draw, Coins:', this.level.coins);
     
         this.addObjectsToMap(this.throwableObjects);
         this.addToMap(this.character);
