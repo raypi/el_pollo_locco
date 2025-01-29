@@ -4,6 +4,11 @@ class Character extends MovableObject {
     x = 100;
     y = 150; // standart 150
     speed = 5;
+    // Zeitnahme
+    lastMoveTime = Date.now();
+    longIdle = false; 
+
+
     IMAGES_WALKING = [
         'assets/img/2_character_pepe/2_walk/W-21.png',
         'assets/img/2_character_pepe/2_walk/W-22.png',
@@ -78,6 +83,8 @@ class Character extends MovableObject {
         this.loadImages(this.IMAGES_JUMPING);
         this.loadImages(this.IMAGES_DEAD);
         this.loadImages(this.IMAGES_HURT);
+        this.loadImages(this.IMAGES_IDLE);
+        this.loadImages(this.IMAGES_LONGIDLE);
         this.applyGravity();
         this.animate(); 
     }
@@ -92,16 +99,22 @@ class Character extends MovableObject {
             if (this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x) {
                 this.moveRight();
                 this.otherDirection = false;
+                this.lastMoveTime = Date.now();
+                this.longIdle = false;
             }
 
             if (this.world.keyboard.LEFT && this.x > 0) {
                 this.x -= this.speed;
                 this.otherDirection = true;
+                this.lastMoveTime = Date.now();
+                this.longIdle = false;
             }
             // console.log('speedY: ', this.speedY); // Ausgabe von speedY in der Konsole
             // Springen
             if (this.world.keyboard.SPACE && !this.isAboveGrund()){
                 this.jump();
+                this.lastMoveTime = Date.now();
+                this.longIdle = false;
             }
 
             this.world.camera_x = -this.x + 100;
@@ -123,8 +136,25 @@ class Character extends MovableObject {
 
                 if(this.world.keyboard.RIGHT || this.world.keyboard.LEFT){
                     this.playAnimation(this.IMAGES_WALKING);
+                } else {
+                    this.checkIdle();
                 }
         }    
     }, 100);    
     }
+
+
+    // nach X sekunden idle nach y Sekunden longidle setzen
+    checkIdle() {
+        const now = Date.now();
+        const timeSinceLastMove = now - this.lastMoveTime;
+    
+        if (timeSinceLastMove > 10000) { // nach 10s
+            this.playAnimation(this.IMAGES_LONGIDLE);
+            this.longIdle = true; // Zustand merken
+        } else if (timeSinceLastMove > 3000 && !this.longIdle) { // nach 3s
+            this.playAnimation(this.IMAGES_IDLE);
+        }
+    }
+      
 }
