@@ -12,6 +12,9 @@ class World {
     bottleBar = new StatusBar('Bottle');
 
     throwableObjects = [];
+    bottle = new Bottles();
+    coins = new Coins();
+
 
     constructor(canvas, keyboard) {
         this.ctx = canvas.getContext('2d');
@@ -34,7 +37,7 @@ class World {
         }, 200);
     }
 
-    checkThrowObjects() {
+    checkThrowObjects() { // Flasche werfen 
         if (this.keyboard.M) {
             let bottle = new ThrowableObject(this.character.x + 100, this.character.y + 100);
             this.throwableObjects.push(bottle);
@@ -74,8 +77,13 @@ class World {
         this.addObjectsToMap(this.level.enemies);
     
         // Coins und Bottles zeichnen
-        this.addObjectsToMap(this.level.coins);
+        
+        
         this.addObjectsToMap(this.level.bottles);
+        // console.log('Bottel:', this.level.bottles);
+        
+        this.addObjectsToMap(this.level.coins);
+        // console.log('Coins:', this.level.coins);
     
         this.addObjectsToMap(this.throwableObjects);
         this.addToMap(this.character);
@@ -94,6 +102,8 @@ class World {
     //         this.addToMap(o);
     //     });
     // }
+
+
     addObjectsToMap(objects) {
         if (!objects || objects.length === 0) return; // Sicherheitsprüfung
         objects.forEach(o => {

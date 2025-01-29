@@ -5,8 +5,10 @@ class Coins extends DrawableObject {
         'assets/img/8_coin/coin_2.png'
     ];
 
-    constructor() {
+    constructor(x, y) {
         super();
         this.loadImage(this.IMAGES_COINS[0]);
+        this.x = x;
+        this.y = y;
     }
 }
