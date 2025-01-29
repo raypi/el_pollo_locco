@@ -21,7 +21,7 @@ class ThrowableObject extends MovableObject {
 
 
     throwHigh() {
-        this.speedY = 25; // geringere Höhe für bessere Sichtbarkeit
+        this.speedY = 18; // geringere Höhe für bessere Sichtbarkeit
         this.applyGravity();
         setInterval(() => {
             this.x += 8; // Horizontale Geschwindigkeit
@@ -30,7 +30,7 @@ class ThrowableObject extends MovableObject {
 
 
     throwHorizontal() {
-        this.speedY = 5; // geringer Anstieg
+        this.speedY = 3; // geringer Anstieg
         this.applyGravity();
         setInterval(() => {
             this.x += 15; // Schnellere horizontale Geschwindigkeit
