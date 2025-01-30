@@ -35,7 +35,7 @@
 
 @font-face {
     font-family: 'Sixtyfour';
-    src: url('./fonts/Sixtyfour-Regular.ttf') format('truetype');
+    src: url('../assets/fonts/Sixtyfour/Sixtyfour-Regular-VariableFont_BLED,SCAN.ttf') format('truetype');
     font-weight: normal;
     font-style: normal;
 }
@@ -76,6 +76,7 @@ canvas {
     flex-direction: column;
     height: 100%; /* Füllt die Höhe des Body */
     width: 100%;
+    font-family: 'Sixtyfour', sans-serif;
 }
 
 header {
