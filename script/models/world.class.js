@@ -41,6 +41,7 @@ class World {
             this.collectingCoins();
             this.collectingBottles();
             this.checkSmalChickenCollisions();
+            this.checkChickenCollisions();
         }, 200);
     }
 
