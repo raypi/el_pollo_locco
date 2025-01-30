@@ -5,6 +5,7 @@ class World {
     ctx;
     keyboard;
     camera_x = 0;
+    countOpponents = 0;
 
     // Jede StatusBar erhält einen eigenen Typ
     statusBar = new StatusBar('Health');
@@ -198,4 +199,22 @@ class World {
     //         return true;
     //     });
     // }
+
+    checkChickenCollisions() {
+        this.level.enemies = this.level.enemies.filter((enemy) => {
+            if (enemy instanceof Chicken && this.character.isColliding(enemy)) {
+                // Prüfen, ob der Spieler von oben auf das Chicken springt
+                if (this.character.speedY < 0) { // Spieler fällt nach unten
+                    this.countOpponents += 10; // Gegnerzähler erhöhen
+                    console.log('Chicken besiegt! Punkte: ', this.countOpponents);
+                    return false; // Chicken wird entfernt
+                } else {
+                    this.character.hit(); // Spieler nimmt Schaden
+                    this.statusBar.setPercentage(this.character.energy);
+                }
+            }
+            return true; // Gegner bleibt in der Welt
+        });
+    }
+    
 }
