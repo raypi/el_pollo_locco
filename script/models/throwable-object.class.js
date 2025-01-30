@@ -81,13 +81,19 @@ class ThrowableObject extends MovableObject {
     // Splash-Animation (Zerbrechen der Flasche)
     splashBottle() {
         clearInterval(this.rotationInterval);
-        let i = 0;
-        let splashInterval = setInterval(() => {
+            let i = 0;
+            let splashInterval = setInterval(() => {
             this.loadImage(Bottles.IMAGES_BOTTLES_SPLASH[i]);
             i++;
-            if (i >= Bottles.IMAGES_BOTTLES_SPLASH.length) {
-                clearInterval(splashInterval);
-            }
-        }, 100);
+        if (i >= Bottles.IMAGES_BOTTLES_SPLASH.length) {
+            clearInterval(splashInterval);
+
+            // Das Endbild nach 1 Sekunde entfernen
+            setTimeout(() => {
+                this.loadImage(''); // Setzt das Bild auf ein leeres Bild oder Standardbild
+            }, 1000);
+        }
+    }, 100);
+
     } 
 }
