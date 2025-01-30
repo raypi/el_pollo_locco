@@ -36,7 +36,7 @@ class World {
 
     run() {
         setInterval(() => {
-            this.checkCollisions();
+            // this.checkCollisions();
             this.checkThrowObjects();
             this.collectingCoins();
             this.collectingBottles();
@@ -210,9 +210,11 @@ class World {
                 // Prüfen, ob der Spieler von oben auf das Chicken springt
                 if (this.character.speedY < 0) { // Spieler fällt nach unten
                     this.countOpponents += 10; // Gegnerzähler erhöhen
-                    console.log('Chicken besiegt! Punkte: ', this.countOpponents);
+                    console.log('[road]killed Chicken! Punkte: ', this.countOpponents);
                     return false; // Chicken wird entfernt
                 } else {
+                    // Spieler wird nur dann verletzt, wenn er nicht von oben kommt
+                    console.log('Schaden genommen von Chicken!');
                     this.character.hit(); // Spieler nimmt Schaden
                     this.statusBar.setPercentage(this.character.energy);
                 }
@@ -220,5 +222,6 @@ class World {
             return true; // Gegner bleibt in der Welt
         });
     }
+    
     
 }
