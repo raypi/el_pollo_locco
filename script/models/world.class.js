@@ -185,12 +185,12 @@ class World {
             if (this.character.isColliding(chicken)) {
                 // Prüfen, ob der Spieler von oben auf das kleine Huhn springt
                 if (this.character.speedY < 0) { // Spieler fällt nach unten
-                    this.countOpponents += 5; // Punkte für kleines Huhn hinzufügen
+                    this.countOpponents += 5; // Punkte buchen
                     console.log('[road]killed SmalChicken! Punkte: ', this.countOpponents);
-                    chicken.removeFromWorld = true; // Markiere das kleine Huhn zur Entfernung
+                    chicken.removeFromWorld = true; // entfernen
                 } else {
                     console.log('Schaden genommen von SmalChicken!');
-                    this.character.hit(); // Spieler nimmt Schaden
+                    this.character.hit(); // Schaden buchen
                     this.statusBar.setPercentage(this.character.energy);
                 }
             }
@@ -223,14 +223,14 @@ class World {
                     console.log('[road]killed Chicken! Punkte: ', this.countOpponents);
                     enemy.removeFromWorld = true; // Markiere das Chicken zur Entfernung
                 } else {
-                    // Spieler wird nur dann verletzt, wenn er nicht von oben kommt
+                    // schaden bei collision
                     console.log('Schaden genommen von Chicken!');
-                    this.character.hit(); // Spieler nimmt Schaden
+                    this.character.hit(); // schaden buchen
                     this.statusBar.setPercentage(this.character.energy);
                 }
             }
         });
-        // Entferne markierte Hühner aus der Liste
+        // chicken aus liste 
         this.level.enemies = this.level.enemies.filter((enemy) => !enemy.removeFromWorld);
     }
     

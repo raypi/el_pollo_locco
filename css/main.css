@@ -33,6 +33,13 @@
     --boxShadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
+@font-face {
+    font-family: 'Sixtyfour';
+    src: url('./fonts/Sixtyfour-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
 
 html {
     height: 100vh;
