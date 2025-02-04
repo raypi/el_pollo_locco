@@ -84,6 +84,10 @@ class Endboss extends MovableObject{
         // this.currentAnimationFrame++;
     }
 
+    isWalk() {
+        this.playAnimation(this.IMAGES_WALKING);
+    }
+
     
 
     // Sound
