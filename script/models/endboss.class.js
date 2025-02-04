@@ -43,7 +43,8 @@ class Endboss extends MovableObject{
         'assets/img/4_enemie_boss_chicken/5_dead/G25.png',
         'assets/img/4_enemie_boss_chicken/5_dead/G26.png'
     ];
-
+    currentAnimation = 0;
+    contact = false;
 
     constructor(){
         super().loadImage('assets/img/4_enemie_boss_chicken/2_alert/G5.png');
@@ -59,19 +60,64 @@ class Endboss extends MovableObject{
     }
    
 
+    
     animate() {
         setInterval(() => {
-            this.playAnimation(this.IMAGES_WALKING);
-            // if (this.isDead()) {
-            //     this.playAnimation(this.IMAGES_DEAD);
-            // } else if (this.isHurt()) {
-            //     this.playAnimation(this.IMAGES_HURT);
-            // } else if (this.isAlert()) {
-            //     this.playAnimation(this.IMAGES_ALERT);
-            // } else {
-            //     this.playAnimation(this.IMAGES_WALKING);
-            // }
+            this.playEndboss();
         }, 100);
     }
-    
+
+    playEndboss() {
+        this.playAnimation(this.IMAGES_ALERT);
+        // if (this.isDead()) {
+        //     this.playDeadAnimation();
+        // } else if (this.isHurt()) {
+        //     this.playHurtAnimation();
+        // } else if (this.currentAnimationFrame < 15) {
+        //     this.playAlertAnimation();
+        // } else if (this.currentAnimationFrame < 30) {
+        //     this.playAttackAnimation();
+        // } else {
+        //     this.playWalkAnimation();
+        // }
+        // this.checkFirstContact();
+        // this.currentAnimationFrame++;
+    }
+
+    isWalk() {
+        this.playAnimation(this.IMAGES_WALKING);
+    }
+
+    isAlert() {
+        this.playAnimation(this.IMAGES_ALERT);
+    }
+
+    isAttack() {
+        this.playAnimation(this.IMAGES_ATTACK);
+    }
+
+    isHurt() {
+        this.playAnimation(this.IMAGES_HURT);
+    }
+
+    isDead() {
+        this.playAnimation(this.IMAGES_DEAD);
+        this.showWinScreen(); // Spielabschluss
+    }
+
+    moveLeft() {
+        this.x -= 1.0; // Geschwindigkeit des Bosses nach links
+    }
+
+    checkFirstContact() {
+        if (world.character.x > 2100 && !this.contact) {
+            console.log("Erster Kontakt Endboss!");
+            this.currentAnimation = 0;
+            this.contact = true;
+            // statusbar anzeigen
+        }
+    }
+
+    // Sound
+    // End Schirm wenn spiel zu ende 
 }
