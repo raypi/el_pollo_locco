@@ -105,7 +105,9 @@ class Endboss extends MovableObject{
         this.showWinScreen(); // Spielabschluss
     }
 
-    
+    moveLeft() {
+        this.x -= 1.0; 
+    }
 
     // Sound
     // End Schirm wenn spiel zu ende 
