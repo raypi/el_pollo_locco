@@ -30,3 +30,4 @@ class Bottles extends DrawableObject {
         this.y = y;
     }
 }
+

@@ -24,6 +24,7 @@ class World {
         this.draw();
         this.setWorld();
         this.run();
+         
         // D E B U G
         // console.log('DG Constructor World, Coins:', this.level.coins);
         // console.log('DG Constructor World, Bottles:', this.level.bottles);
@@ -40,23 +41,39 @@ class World {
             this.checkThrowObjects();
             this.collectingCoins();
             this.collectingBottles();
-            this.checkSmalChickenCollisions();
-            this.checkChickenCollisions();
+            //this.checkSmalChickenCollisions();
+            // this.checkChickenCollisions();
+            this.checkJumpChickenCollisions();
+            //this.cCCollisions();
+            this.chickenBottle()
         }, 200);
     }
 
     checkThrowObjects() {
         if (this.keyboard.M) {
             // Hoher Wurf
-            let bottle = new ThrowableObject(this.character.x + 100, this.character.y + 100);
-            bottle.throwHigh(); 
-            this.throwableObjects.push(bottle);
+            if (ThrowableObject.countBottle > 0) {
+                let bottle = new ThrowableObject(this.character.x + 100, this.character.y + 100);
+                bottle.throwHigh();
+                this.throwableObjects.push(bottle);
+                ThrowableObject.countBottle--; // Flasche verbrauchen
+                console.log(`Flasche geworfen! Verbleibende Flaschen: ${ThrowableObject.countBottle}`);
+            } else {
+                console.log('Keine Flaschen verfügbar, um zu werfen!');
+            }
         }
+    
         if (this.keyboard.N) {
             // Waagerechter Wurf
-            let bottle = new ThrowableObject(this.character.x + 100, this.character.y + 100);
-            bottle.throwHorizontal();
-            this.throwableObjects.push(bottle);
+            if (ThrowableObject.countBottle > 0) {
+                let bottle = new ThrowableObject(this.character.x + 100, this.character.y + 100);
+                bottle.throwHorizontal();
+                this.throwableObjects.push(bottle);
+                ThrowableObject.countBottle--; // Flasche verbrauchen
+                console.log(`Flasche geworfen! Verbleibende Flaschen: ${ThrowableObject.countBottle}`);
+            } else {
+                console.log('Keine Flaschen verfügbar, um zu werfen!');
+            }
         }
     }
 
@@ -171,8 +188,13 @@ class World {
     collectingBottles() {
         this.level.bottles = this.level.bottles.filter((bottle) => {
             if (this.character.isColliding(bottle)) {
-                console.log('Bottle eingesammelt!', bottle);
+                console.log('Fkasche eingesammelt', bottle);
                 this.bottleBar.setPercentage(Math.min(this.bottleBar.percentage + 10, 100));
+                
+                // Erhöhe den Zähler der gesammelten Flaschen
+                ThrowableObject.countBottle++;
+                console.log('Flaschen:', ThrowableObject.countBottle);
+    
                 return false; // Bottle wird entfernt
             }
             return true; // Bottle bleibt in der Welt
@@ -196,44 +218,71 @@ class World {
             }
         });
         // Entferne markierte kleine Hühner aus der Liste
-        this.level.smalChicken = this.level.smalChicken.filter((chicken) => !chicken.removeFromWorld);
+        //this.level.smalChicken = this.level.smalChicken.filter((chicken) => !chicken.removeFromWorld);
+    }
+    
+    checkChickenCollisions() {
+        // Prüfen, ob der Charakter nicht springt
+        if (this.character.speedY == 0) {
+            this.level.enemies.forEach((enemy) => {
+                if (this.character.isColliding(enemy)) {
+                    console.log('Spieler läuft gegen Huhn');
+                    this.character.hit(); // Schaden buchen
+                    this.statusBar.setPercentage(this.character.energy);
+                }
+            });
+        }
+    }
+
+
+    checkJumpChickenCollisions() {
+        this.level.enemies.forEach((enemy) => {
+            // Aktionen nur ausführen, wenn beide Bedingungen erfüllt sind
+            if (this.character.isColliding(enemy) && this.character.speedY < 0) {
+                console.log('Spieler springt auf Huhn');
+                console.log('PepeY:', this.character.y);
+    
+                // Zeige das Todesbild
+                enemy.loadImage(enemy.IMAGES_DEATH[0]);
+                
+                // Verzögertes Entfernen des Huhns nach 1 Sekunde
+                setTimeout(() => {
+                    enemy.removeFromWorld = true;
+                    console.log('Huhn entfernt');
+                }, 1000);
+            }
+        });
     }
     
     
-
-    // Erweiterung mit verhalten bei Töten...
-    // checkSmalChickenCollisions() {
-    //     this.level.smalChicken = this.level.smalChicken.filter((chicken) => {
-    //         if (this.character.isColliding(chicken)) {
-    //             console.log('Kleines Huhn getroffen!');
-    //             this.character.score += 10; // Beispiel: Punkte für das Besiegen
-    //             chicken.splitAnimation(); // Animation oder spezielle Effekte
-    //             return false;
-    //         }
-    //         return true;
-    //     });
-    // }
-
-    checkChickenCollisions() {
+    chickenBottle() {
+        // Gehe durch alle Hühner im Level
         this.level.enemies.forEach((enemy) => {
-            if (enemy instanceof Chicken && this.character.isColliding(enemy)) {
-                // Prüfen, ob der Spieler von oben auf das Chicken springt
-                if (this.character.speedY < 0) { // Spieler fällt nach unten
-                    this.countOpponents += 10; // Gegnerzähler erhöhen
-                    console.log('[road]killed Chicken! Punkte: ', this.countOpponents);
-                    enemy.removeFromWorld = true; // Markiere das Chicken zur Entfernung
-                } else {
-                    // schaden bei collision
-                    console.log('Schaden genommen von Chicken!');
-                    this.character.hit(); // schaden buchen
-                    this.statusBar.setPercentage(this.character.energy);
+            // Prüfen, ob eine Flasche vorhanden ist und ob sie das Huhn trifft
+            if (this.throwableObjects.length > 0) {
+                let bottle = this.throwableObjects[0]; // Aktuelle Flasche
+                if (bottle.isColliding(enemy)) {
+                    console.log('Flasche trifft Huhn!');
+                    
+                    // Zeige das Todesbild des Huhns
+                    enemy.loadImage(enemy.IMAGES_DEATH[0]);
+    
+                    // Entferne das Huhn nach 1 Sekunde
+                    setTimeout(() => {
+                        enemy.removeFromWorld = true;
+                        console.log('Huhn entfernt');
+                    }, 1000);
+    
+                    // Keine separate Entfernung der Flasche nötig, da splashBottle() sie bereits entfernt
                 }
             }
         });
-        // chicken aus liste 
-        this.level.enemies = this.level.enemies.filter((enemy) => !enemy.removeFromWorld);
     }
     
     
-    
+
+
+
 }
+
+

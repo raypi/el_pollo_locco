@@ -156,5 +156,27 @@ class Character extends MovableObject {
             this.playAnimation(this.IMAGES_IDLE);
         }
     }
+
+    // prüft ob Charachter in der Luft ist
+    // isCharacterJump() {
+    //     // Prüfe, ob die Geschwindigkeit in der vertikalen Achse größer als 0 ist,
+    //     // was bedeutet, dass der Charakter nach oben springt.
+    //     if (this.character.speedY > 0) {
+    //         return true; // Der Charakter ist in der Luft und springt nach oben.
+    //     }
+        
+    //     // Falls die Geschwindigkeit nicht größer als 0 ist, überprüfe, ob der Charakter
+    //     // sich nicht auf dem Boden oder einer anderen festen Oberfläche befindet.
+    //     // Wenn der Charakter nicht über dem Boden ist, dann befindet er sich in der Luft.
+    //     if (!this.character.isAboveGrund()) {
+    //         return true; // Der Charakter ist in der Luft, da er nicht über dem Boden ist.
+    //     }
+    
+    //     // Wenn keine der Bedingungen zutrifft, bedeutet das, dass der Charakter entweder
+    //     // stillsteht oder nach unten fällt (also sich nicht im Springen befindet).
+    //     return false; // Der Charakter springt nicht.
+    // }
+    
+    
       
 }
