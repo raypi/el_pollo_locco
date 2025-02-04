@@ -84,39 +84,7 @@ class Endboss extends MovableObject{
         // this.currentAnimationFrame++;
     }
 
-    isWalk() {
-        this.playAnimation(this.IMAGES_WALKING);
-    }
-
-    isAlert() {
-        this.playAnimation(this.IMAGES_ALERT);
-    }
-
-    isAttack() {
-        this.playAnimation(this.IMAGES_ATTACK);
-    }
-
-    isHurt() {
-        this.playAnimation(this.IMAGES_HURT);
-    }
-
-    isDead() {
-        this.playAnimation(this.IMAGES_DEAD);
-        this.showWinScreen(); // Spielabschluss
-    }
-
-    moveLeft() {
-        this.x -= 1.0; // Geschwindigkeit des Bosses nach links
-    }
-
-    checkFirstContact() {
-        if (world.character.x > 2100 && !this.contact) {
-            console.log("Erster Kontakt Endboss!");
-            this.currentAnimation = 0;
-            this.contact = true;
-            // statusbar anzeigen
-        }
-    }
+    
 
     // Sound
     // End Schirm wenn spiel zu ende 
