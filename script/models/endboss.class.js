@@ -99,7 +99,14 @@ class Endboss extends MovableObject{
     isHurt() {
         this.playAnimation(this.IMAGES_HURT);
     }
+
+    isDead() {
+        this.playAnimation(this.IMAGES_DEAD);
+        this.showWinScreen(); // Spielabschluss
+    }
+
     
+
     // Sound
     // End Schirm wenn spiel zu ende 
 }
