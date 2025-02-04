@@ -52,6 +52,10 @@ class Endboss extends MovableObject{
     constructor(){
         super().loadImage('assets/img/4_enemie_boss_chicken/2_alert/G5.png');
         this.loadImages(this.IMAGES_WALKING);
+        this.loadImages(this.IMAGES_ALERT);
+        this.loadImages(this.IMAGES_ATTACK);
+        this.loadImages(this.IMAGES_HURT);
+        this.loadImages(this.IMAGES_DEAD);
 
         this.x = 2550; // + Math.random() * 500 zufällige Platzierung Aktuell startposition EB = 2550!
         this.speed = 0.15 + Math.random() + 0.25;
