@@ -42,12 +42,12 @@ class World {
             this.checkThrowObjects();
             this.collectingCoins();
             this.collectingBottles();
-            //this.checkSmalChickenCollisions();
-            // this.checkChickenCollisions();
+            this.checkSmalChickenCollisions();
+            this.checkChickenCollisions();
             this.checkJumpChickenCollisions();
-            //this.cCCollisions();
             this.chickenBottle();
             this.checkEndbossCollisions();
+            this.endbossBottle();
         }, 200);
     }
 
@@ -225,7 +225,7 @@ class World {
     
     checkChickenCollisions() {
         // Prüfen, ob der Charakter nicht springt
-        if (this.character.speedY == 0) {
+        if (this.character.y == 151) {
             this.level.enemies.forEach((enemy) => {
                 if (this.character.isColliding(enemy)) {
                     console.log('Spieler läuft gegen Huhn');
@@ -240,7 +240,7 @@ class World {
     checkJumpChickenCollisions() {
         this.level.enemies.forEach((enemy) => {
             // Aktionen nur ausführen, wenn beide Bedingungen erfüllt sind
-            if (this.character.isColliding(enemy) && this.character.speedY < 0) {
+            if (this.character.isColliding(enemy) && this.character.y < 151) {
                 console.log('Spieler springt auf Huhn');
                 console.log('PepeY:', this.character.y);
     
@@ -291,7 +291,18 @@ class World {
             }
         });
     }
-
+    endbossBottle() {
+        console.log('endbossBottle wird aufgerufen');
+        if (this.throwableObjects.length > 0) {
+            let bottle = this.throwableObjects[0];
+            this.level.endboss.forEach((endboss) => {
+                if (bottle.isColliding(endboss)) {
+                    console.log('Flasche trifft den Endboss!');
+                }
+            });
+        }
+    }
+    
 
 }
 
