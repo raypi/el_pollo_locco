@@ -2,6 +2,7 @@ class Endboss extends MovableObject{
     width = 300;
     height = 300;
     y = 150;
+    energy = 100;
 
     IMAGES_WALKING = [
         'assets/img/4_enemie_boss_chicken/1_walk/G1.png',
@@ -109,6 +110,12 @@ class Endboss extends MovableObject{
         this.x -= 1.0; 
     }
 
+    hit() {
+        this.energy = Math.max(0, this.energy - 20);
+        if (this.energy === 0) {
+            this.die(); // Endboss besiegen
+        }
+    }
     // Sound
     // End Schirm wenn spiel zu ende 
 }
