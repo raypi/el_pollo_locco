@@ -46,7 +46,8 @@ class World {
             // this.checkChickenCollisions();
             this.checkJumpChickenCollisions();
             //this.cCCollisions();
-            this.chickenBottle()
+            this.chickenBottle();
+            this.checkEndbossCollisions();
         }, 200);
     }
 
@@ -284,7 +285,7 @@ class World {
     checkEndbossCollisions() {
         this.level.endboss.forEach((endboss) => {
             if (this.character.isColliding(endboss)) {
-                console.log('Spieler läuft gegen Huhn');
+                console.log('Spieler läuft gegen Endboss' );
                 this.character.hit(); // Schaden buchen
                 this.statusBar.setPercentage(this.character.energy);
             }
