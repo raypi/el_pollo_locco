@@ -116,6 +116,12 @@ class Endboss extends MovableObject{
             this.die(); // Endboss besiegen
         }
     }
+
+    die() {
+        console.log('Endboss besiegt!');
+        this.removeFromWorld = true;
+    }
+    
     // Sound
     // End Schirm wenn spiel zu ende 
 }
