@@ -46,13 +46,33 @@ class MovableObject extends DrawableObject { // bewegbare Objekte
    this.speedY = 22;
   }
 
-  // kann zum beispiel Huhn eingeben und prüfen ob mein Character damit kollidiert  
-  isColliding(mo) {
-   return this.x + this.width > mo.x &&
-      this.y + this.height > mo.y &&
-      this.x < mo.x &&
-      this.y < mo.y + mo.height;
-   } 
+//   // kann zum beispiel Huhn eingeben und prüfen ob mein Character damit kollidiert  
+//   isColliding(mo) {
+//    return this.x + this.width > mo.x &&
+//       this.y + this.height > mo.y &&
+//       this.x < mo.x &&
+//       this.y < mo.y + mo.height;
+//    } 
+
+
+isColliding(mo) {
+   if (this instanceof Character) {
+       return (
+           this.x + 60 + this.width - 105 > mo.x &&
+           this.y + this.height > mo.y &&
+           this.x + 60 < mo.x + mo.width &&
+           this.y + 130 < mo.y + mo.height
+       );
+   } else {
+       return (
+           this.x + this.width > mo.x &&
+           this.y + this.height > mo.y &&
+           this.x < mo.x + mo.width &&
+           this.y < mo.y + mo.height
+       );
+   }
+}
+
 
    hit() {
       this.energy -= 5; 
