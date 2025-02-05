@@ -29,11 +29,20 @@ class StatusBar extends DrawableObject {
         'assets/img/7_statusbars/1_statusbar/3_statusbar_bottle/blue/100.png'
     ];
 
+    IMAGES_ENDBOSS = [
+        'assets/img/7_statusbars/2_statusbar_endboss/blue/blue0.png',
+        'assets/img/7_statusbars/2_statusbar_endboss/blue/blue20.png',
+        'assets/img/7_statusbars/2_statusbar_endboss/blue/blue40.png',
+        'assets/img/7_statusbars/2_statusbar_endboss/blue/blue60.png',
+        'assets/img/7_statusbars/2_statusbar_endboss/blue/blue80.png',
+        'assets/img/7_statusbars/2_statusbar_endboss/blue/blue100.png'
+    ];
+
     percentage = 100; // Standardwert
 
     constructor(type) {
         super();
-        this.type = type; // Health, Coin oder Bottle
+        this.type = type; 
         this.x = 0;
         this.y = 0;
         this.width = 200;
@@ -49,7 +58,7 @@ class StatusBar extends DrawableObject {
         } else if (this.type === 'Bottle') {
             this.loadImages(this.IMAGES_BOTTLE);
             this.setPercentage(0); // Standard für Bottles
-        }
+        } 
     }
 
     setPercentage(percentage) {
