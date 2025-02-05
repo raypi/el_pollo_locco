@@ -208,7 +208,7 @@ class World {
         this.level.smalChicken.forEach((chicken) => {
             if (this.character.isColliding(chicken)) {
                 // Prüfen, ob der Spieler von oben auf das kleine Huhn springt
-                if (this.character.speedY < 0) { // Spieler fällt nach unten
+                if (this.character.y == 151) { // Spieler fällt nach unten
                     this.countOpponents += 5; // Punkte buchen
                     console.log('[road]killed SmalChicken! Punkte: ', this.countOpponents);
                     chicken.removeFromWorld = true; // entfernen
@@ -219,9 +219,32 @@ class World {
                 }
             }
         });
-        // Entferne markierte kleine Hühner aus der Liste
-        //this.level.smalChicken = this.level.smalChicken.filter((chicken) => !chicken.removeFromWorld);
     }
+
+    smalChickenBottle() {
+        // Gehe durch alle kleinen Hühner im Level
+        this.level.smalChicken.forEach((chicken) => {
+            // Prüfen, ob eine Flasche vorhanden ist und ob sie das kleine Huhn trifft
+            if (this.throwableObjects.length > 0) {
+                let bottle = this.throwableObjects[0]; // Aktuelle Flasche
+                if (bottle.isColliding(chicken)) {
+                    console.log('Flasche trifft kleines Huhn!');
+                    
+                    // Zeige das Todesbild des kleinen Huhns
+                    chicken.loadImage(SmalChicken.IMAGES_DEATH[0]);
+    
+                    // Entferne das kleine Huhn nach 1 Sekunde
+                    setTimeout(() => {
+                        chicken.removeFromWorld = true;
+                        console.log('Kleines Huhn entfernt');
+                    }, 1000);
+    
+                    // Keine separate Entfernung der Flasche nötig, da splashBottle() sie bereits entfernt
+                }
+            }
+        });
+    }
+    
     
     checkChickenCollisions() {
         // Prüfen, ob der Charakter nicht springt
@@ -291,16 +314,31 @@ class World {
             }
         });
     }
+    // endbossBottle() {
+    //     console.log('endbossBottle wird aufgerufen');
+    //     if (this.throwableObjects.length > 0) {
+    //         let bottle = this.throwableObjects[0];
+    //         this.level.endboss.forEach((endboss) => {
+    //             if (bottle.isColliding(endboss)) {
+    //                 console.log('Flasche trifft den Endboss!');
+    //             }
+    //         });
+    //     }
+    // }
+
     endbossBottle() {
-        console.log('endbossBottle wird aufgerufen');
-        if (this.throwableObjects.length > 0) {
-            let bottle = this.throwableObjects[0];
+        // console.log('endbossBottle wird aufgerufen');
+        this.throwableObjects.forEach((bottle) =>{
             this.level.endboss.forEach((endboss) => {
                 if (bottle.isColliding(endboss)) {
-                    console.log('Flasche trifft den Endboss!');
+                    console.log('Flasche trifft Endboss!');
+                    setTimeout(() => {
+                        bottle.removeFromWorld = true; // Entferne die Flasche aus der Welt
+                        console.log('Flasche entfernt');
+                    }, 1000);
                 }
             });
-        }
+        })
     }
     
 
