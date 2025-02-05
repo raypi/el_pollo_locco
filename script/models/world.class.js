@@ -281,7 +281,15 @@ class World {
     }
     
     
-
+    checkEndbossCollisions() {
+        this.level.endboss.forEach((endboss) => {
+            if (this.character.isColliding(endboss)) {
+                console.log('Spieler läuft gegen Huhn');
+                this.character.hit(); // Schaden buchen
+                this.statusBar.setPercentage(this.character.energy);
+            }
+        });
+    }
 
 
 }
