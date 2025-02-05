@@ -11,6 +11,7 @@ class World {
     statusBar = new StatusBar('Health');
     coinBar = new StatusBar('Coin');
     bottleBar = new StatusBar('Bottle');
+    endbossBar = new StatusBar('Endboss');
 
     throwableObjects = [];
     bottle = new Bottles();
