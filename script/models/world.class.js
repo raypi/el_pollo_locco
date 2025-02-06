@@ -6,6 +6,7 @@ class World {
     keyboard;
     camera_x = 0;
     countOpponents = 0;
+   
 
     // Jede StatusBar erhält einen eigenen Typ
     statusBar = new StatusBar('Health');
@@ -25,6 +26,8 @@ class World {
         this.draw();
         this.setWorld();
         this.run();
+        // this.level.endboss = this;
+        // this.endboss.world = this; // Endboss erhält Referenz zur World
          
         // D E B U G
         // console.log('DG Constructor World, Coins:', this.level.coins);
@@ -34,6 +37,8 @@ class World {
     setWorld() {
         this.character.world = this;
         this.character.keyboard = this.keyboard;
+        // this.level.endboss[0].world = this;
+        // this.endboss.world = this;  // Endboss erhält Referenz auf World
     }
 
     run() {
@@ -48,6 +53,8 @@ class World {
             this.chickenBottle();
             this.checkEndbossCollisions();
             this.endbossBottle();
+            this.smalChickenBottle();
+            this.chickenBottle();
         }, 200);
     }
 
@@ -238,8 +245,6 @@ class World {
                         chicken.removeFromWorld = true;
                         console.log('Kleines Huhn entfernt');
                     }, 1000);
-    
-                    // Keine separate Entfernung der Flasche nötig, da splashBottle() sie bereits entfernt
                 }
             }
         });
@@ -326,19 +331,35 @@ class World {
     //     }
     // }
 
+    // endbossBottle() {
+    //     // console.log('endbossBottle wird aufgerufen');
+    //     this.throwableObjects.forEach((bottle) =>{
+    //         this.level.endboss.forEach((endboss) => {
+    //             if (bottle.isColliding(endboss)) {
+    //                 console.log('Flasche trifft Endboss!');
+    //                 setTimeout(() => {
+    //                     bottle.removeFromWorld = true; // Entferne die Flasche aus der Welt
+    //                     console.log('Flasche entfernt');
+    //                 }, 1000);
+    //             }
+    //         });
+    //     })
+    // }
+
     endbossBottle() {
-        // console.log('endbossBottle wird aufgerufen');
-        this.throwableObjects.forEach((bottle) =>{
-            this.level.endboss.forEach((endboss) => {
-                if (bottle.isColliding(endboss)) {
-                    console.log('Flasche trifft Endboss!');
-                    setTimeout(() => {
-                        bottle.removeFromWorld = true; // Entferne die Flasche aus der Welt
-                        console.log('Flasche entfernt');
-                    }, 1000);
-                }
-            });
-        })
+        this.throwableObjects.forEach(bottle => {
+            if (!bottle.removeFromWorld) { // Prüfe, ob die Flasche noch aktiv ist
+                this.level.endboss.forEach(endboss => {
+                    if (bottle.isColliding(endboss)) {
+                        console.log('Flasche trifft Endboss!');
+                        bottle.removeFromWorld = true; // Markiere Flasche als entfernt
+                        setTimeout(() => {
+                            console.log('Flasche entfernt');
+                        }, 1000);
+                    }
+                });
+            }
+        });
     }
     
 

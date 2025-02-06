@@ -7,6 +7,7 @@ class Character extends MovableObject {
     // Zeitnahme
     lastMoveTime = Date.now();
     longIdle = false; 
+    world;
 
 
     IMAGES_WALKING = [
