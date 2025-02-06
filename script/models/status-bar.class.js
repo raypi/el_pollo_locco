@@ -74,6 +74,8 @@ class StatusBar extends DrawableObject {
             path = this.IMAGES_COIN[this.resolveImageIndex()];
         } else if (this.type === 'Bottle') {
             path = this.IMAGES_BOTTLE[this.resolveImageIndex()];
+        } else if (this.type === 'Endboss') {
+            path = this.IMAGES_ENDBOSS[this.resolveImageIndex()];
         }
 
         this.img = this.imageCache[path];

@@ -6,13 +6,14 @@ class World {
     keyboard;
     camera_x = 0;
     countOpponents = 0;
+
    
 
     // Jede StatusBar erhält einen eigenen Typ
     statusBar = new StatusBar('Health');
     coinBar = new StatusBar('Coin');
     bottleBar = new StatusBar('Bottle');
-    endbossBar = new StatusBar('Endboss');
+    endbossBar;
 
     throwableObjects = [];
     bottle = new Bottles();
@@ -26,7 +27,8 @@ class World {
         this.draw();
         this.setWorld();
         this.run();
-        
+        this.contactBossBar = false;
+       
          
        
         // console.log('DG Constructor World, Coins:', this.level.coins);
@@ -115,9 +117,9 @@ class World {
         this.addToMap(this.bottleBar);
 
         // Zeichne die Endboss-Statusbar nur, wenn der Kampf begonnen hat
-        if (this.contact) {
+        if (this.contactBossBar) {
         this.addToMap(this.endbossBar);  // Endboss Statusbar einblenden
-    }
+        }
     
         this.ctx.translate(this.camera_x, 0);
         this.addObjectsToMap(this.level.clouds);

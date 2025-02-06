@@ -29,6 +29,14 @@ function init() {
     // console.log('The enemies is: ', world.enemies);    // aktuell nicht mehr verknüpft
 }
 
+
+//*css*/`
+function newGame(){
+    console.log('neues spiel')
+    // alle prozesse stoppen clear all inverals und inhalt der init.
+}
+
+
 // später ändern in einen Bildschirm Manager um andere Ansichten zu realisieren wie Pause, Game Over...
 function startGame() {
     console.log('Spiel wird gestartet!');

@@ -117,20 +117,19 @@ class Endboss extends MovableObject {
     }
 
 
-    firstContact(){
-        // console.log("world:", world);
-        // console.log("world.character:", world?.character);
-        if (world.character.x > 2250 && !this.contact) {
-            // console.log("Erstkontakt Endboss");
+    firstContact() {
+        if (world.character.x > 2100 && !world.contact) {
             this.currentAnimationFrame = 0;
+            world.contactBossBar = true;
             this.contact = true;
-            // Erstelle und zeige die Endboss-Statusbar
-            this.endbossBar = new StatusBar('Endboss');
-            // Beispiel: Positioniere die Statusbar auf dem Bildschirm, zum Beispiel oben
-            this.endbossBar.x = 350;  // Position X
-            this.endbossBar.y = 50;   // Position Y
+    
+            // Endboss-Statusbar erstellen und in der Welt speichern
+            world.endbossBar = new StatusBar('Endboss');
+            world.endbossBar.x = 470;
+            world.endbossBar.y = 20;
         }
     }
+    
 
 
     moveLeft() {
