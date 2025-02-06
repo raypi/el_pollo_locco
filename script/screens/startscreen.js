@@ -1,17 +1,16 @@
 class StartScreen {
     
-    constructor(game) {
-        this.game = game; 
-        this.canvas = document.getElementById('gameCanvas');
-        this.ctx = this.canvas.getContext('2d');
+    constructor(canvas, startGameCallback) {
+        this.canvas = canvas;
+        this.ctx = canvas.getContext('2d');
+        this.startGameCallback = startGameCallback; // Methode zum Starten des Spiels
         this.backgroundImage = new Image();
-        this.backgroundImage.src = 'assets/img/9_intro_outro_screens/start/startscreen_1.png';
+        this.backgroundImage.src = 'path/to/your/startscreen-image.jpg'; // Hintergrundbild
         this.buttons = [
-            { label: 'Start', action: () => this.startGame() },
+            { label: 'Start', action: this.startGameCallback },
             { label: 'Steuerung', action: () => this.showControls() },
             { label: 'Erklärung', action: () => this.showExplanation() },
-            { label: 'Erklärung', action: () => this.showExplanation() },
-            { label: 'Sound', action: () => this.toggleSound() },
+            { label: 'Sound On/Off', action: () => this.toggleSound() },
         ];
     }
 
