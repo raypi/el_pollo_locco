@@ -55,5 +55,7 @@ class StartScreen {
         });
     }
 
-
+    showControls(){
+        console.log('glick auf Steuerung');
+    }
 }
