@@ -87,8 +87,8 @@ class Endboss extends MovableObject {
         } else {
             this.isWalk();
         }
-        this.firstContact(); // Überprüft, ob der Endboss mit etwas kollidiert
-        this.currentAnimationFrame++;
+        // this.firstContact(); // Überprüft, ob der Endboss mit etwas kollidiert
+        // this.currentAnimationFrame++;
     }
     
 
