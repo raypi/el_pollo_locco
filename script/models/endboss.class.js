@@ -5,6 +5,7 @@ class Endboss extends MovableObject {
     energy = 100;
     currentAnimationFrame = 0;
     contact = false;
+    energyBoss = 100;
 
     IMAGES_WALKING = [
         'assets/img/4_enemie_boss_chicken/1_walk/G1.png',
@@ -63,6 +64,7 @@ class Endboss extends MovableObject {
         this.animate();
     }
 
+
     animate() {
         setInterval(() => {
             this.playEndboss();
@@ -73,27 +75,6 @@ class Endboss extends MovableObject {
             }
         }, 1000 / 120); // Update für Bewegungen
     }
-
-    // playEndboss() {
-    //     if (this.isDead()) {
-    //         this.playDeadAnimation();
-    //         //this.showGameWinScreen(); // Spielabschluss-Screen
-    //     } else if (this.isHurt()) {
-    //         this.playHurtAnimation();
-    //     } else if (this.currentAnimationFrame < 15) {
-    //         this.isAlert();
-    //         this.currentAnimationFrame += 4;
-    //     } else if (this.currentAnimationFrame < 30) {
-    //         this.isAttack();
-    //     } else {
-    //         this.isWalk();
-    //     }
-    //     if (world)  {
-    //         this.firstContact(); // Überprüft ob Char in der nähe ist 
-    //         this.currentAnimationFrame++;
-        
-    //     }
-    // }
 
     playEndboss() {
         if (this.isDead()) {
@@ -118,7 +99,15 @@ class Endboss extends MovableObject {
             this.currentAnimationFrame++;
         }
     }
-    
+
+    // Verzögerte Überprüfung auf Kontakt mit dem Charakter
+    // setTimeout(() => {
+    //     if (world) {
+    //         this.firstContact(); // Überprüft, ob der Charakter in der Nähe ist
+    //         this.currentAnimationFrame++;
+    //     }
+    // }, 200); // Verzögerung von 200ms
+    // }
     
 
     walkAnimation() {
@@ -142,19 +131,7 @@ class Endboss extends MovableObject {
     }
 
 
-    // firstContact() {
-    //     if (world.character.x > 2100 && !world.contact) {
-    //         console.log('CONTACT')
-    //         this.currentAnimationFrame = 0;
-    //         world.contactBossBar = true;
-    //         this.contact = true;
-    
-    //         // Endboss-Statusbar erstellen und in der Welt speichern
-    //         world.endbossBar = new StatusBar('Endboss');
-    //         world.endbossBar.x = 470;
-    //         world.endbossBar.y = 20;
-    //     }
-    // }
+
     firstContact() {
         if (!this.contact && world.character.x > 2100 && !world.contact) {
             console.log('CONTACT');
@@ -176,11 +153,19 @@ class Endboss extends MovableObject {
         this.x -= 1.5; 
     }
 
+    // hitBoss() {
+    //     this.energy = Math.max(0, this.energy - 20); // Schaden
+    //     if (this.energy === 0) {
+    //         this.die(); // Endboss besiegen
+    //     }
+    // }
+
     hitBoss() {
-        this.energy = Math.max(0, this.energy - 20); // Schaden
-        if (this.energy === 0) {
-            this.die(); // Endboss besiegen
+        this.energyEndboss -= 35;
+        if (this.energyEndboss < 0) {
+            this.energyEndboss = 0;
         }
+        console.log('Hit ENdboss', this.energyBoss)
     }
 
     dieBoss() {

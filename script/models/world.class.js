@@ -150,13 +150,6 @@ class World {
     }
     
 
-    // addObjectsToMap(objects) {
-    //     objects.forEach(o => {
-    //         this.addToMap(o);
-    //     });
-    // }
-
-
     addObjectsToMap(objects) {
         if (!objects || objects.length === 0) return; // Sicherheitsprüfung
         objects.forEach(o => {
@@ -346,6 +339,23 @@ class World {
         });
     }
 
+    // endbossBottle() {
+    //     this.throwableObjects.forEach(bottle => {
+    //         if (!bottle.removeFromWorld) { // Prüfe, ob die Flasche noch aktiv ist
+    //             this.level.endboss.forEach(endboss => {
+    //                 if (bottle.isColliding(endboss)) {
+    //                     console.log('Flasche trifft Endboss!');
+    //                     bottle.removeFromWorld = true; // Markiere Flasche als entfernt
+    //                     setTimeout(() => {
+    //                         console.log('Flasche entfernt');
+    //                     }, 1000);
+    //                 }
+    //             });
+    //         }
+    //     });
+    // }
+  
+    
     endbossBottle() {
         this.throwableObjects.forEach(bottle => {
             if (!bottle.removeFromWorld) { // Prüfe, ob die Flasche noch aktiv ist
@@ -353,6 +363,11 @@ class World {
                     if (bottle.isColliding(endboss)) {
                         console.log('Flasche trifft Endboss!');
                         bottle.removeFromWorld = true; // Markiere Flasche als entfernt
+                        
+                        // Verursache Schaden beim Endboss
+                        endboss.hitBoss();
+    
+                        // Verzögerte Entfernung der Flasche
                         setTimeout(() => {
                             console.log('Flasche entfernt');
                         }, 1000);
@@ -361,7 +376,6 @@ class World {
             }
         });
     }
-    
 
 }
 
