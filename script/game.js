@@ -29,6 +29,12 @@ function init() {
     // console.log('The enemies is: ', world.enemies);    // aktuell nicht mehr verknüpft
 }
 
+// später ändern in einen Bildschirm Manager um andere Ansichten zu realisieren wie Pause, Game Over...
+function startGame() {
+    console.log('Spiel wird gestartet!');
+    world = new World(canvas, keyboard);
+}
+
 
 window.addEventListener('keydown', (event) => {
     // console.log(event.keyCode);
