@@ -3,9 +3,12 @@ class StartScreen {
     constructor(canvas, startGameCallback) {
         this.canvas = canvas;
         this.ctx = canvas.getContext('2d');
-        this.startGameCallback = startGameCallback; // Methode zum Starten des Spiels
+        this.startGameCallback = startGameCallback;
         this.backgroundImage = new Image();
-        this.backgroundImage.src = 'path/to/your/startscreen-image.jpg'; // Hintergrundbild
+        this.backgroundImage.src = 'assets/img/9_intro_outro_screens/start/startscreen_1.png';
+        this.backgroundImage.onload = () => {
+            this.draw(); // Zeichne den Startscreen, sobald das Bild geladen ist
+        };
         this.buttons = [
             { label: 'Start', action: this.startGameCallback },
             { label: 'Steuerung', action: () => this.showControls() },
@@ -16,6 +19,7 @@ class StartScreen {
 
     draw() {
         // Hintergrund zeichnen
+        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height); // Canvas löschen
         this.ctx.drawImage(this.backgroundImage, 0, 0, this.canvas.width, this.canvas.height);
 
         // Buttons zeichnen
