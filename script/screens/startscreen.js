@@ -13,7 +13,7 @@ class StartScreen {
             { label: 'Start', action: this.startGameCallback },
             { label: 'Steuerung', action: () => this.showControls() },
             { label: 'Erklärung', action: () => this.showExplanation() },
-            { label: 'Sound On/Off', action: () => this.toggleSound() },
+            { label: 'Musik e/ a', action: () => this.toggleSound() },
         ];
     }
 
@@ -37,6 +37,23 @@ class StartScreen {
         });
     }
 
+    handleClick(event) {
+        const rect = this.canvas.getBoundingClientRect();
+        const clickX = event.clientX - rect.left;
+        const clickY = event.clientY - rect.top;
+
+        // Prüfen, ob ein Button geklickt wurde
+        this.buttons.forEach((button) => {
+            if (
+                clickX > button.x &&
+                clickX < button.x + button.width &&
+                clickY > button.y &&
+                clickY < button.y + button.height
+            ) {
+                button.action(); // Führe die Aktion des Buttons aus
+            }
+        });
+    }
 
 
 }
