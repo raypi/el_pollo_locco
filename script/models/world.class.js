@@ -26,10 +26,9 @@ class World {
         this.draw();
         this.setWorld();
         this.run();
-        // this.level.endboss = this;
-        // this.endboss.world = this; // Endboss erhält Referenz zur World
+        
          
-        // D E B U G
+       
         // console.log('DG Constructor World, Coins:', this.level.coins);
         // console.log('DG Constructor World, Bottles:', this.level.bottles);
     }
@@ -37,8 +36,8 @@ class World {
     setWorld() {
         this.character.world = this;
         this.character.keyboard = this.keyboard;
-        // this.level.endboss[0].world = this;
-        // this.endboss.world = this;  // Endboss erhält Referenz auf World
+        //  this.level.endboss[0].world = this;
+        
     }
 
     run() {

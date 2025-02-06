@@ -36,6 +36,9 @@ function startGame() {
 }
 
 
+
+
+
 window.addEventListener('keydown', (event) => {
     // console.log(event.keyCode);
     if(event.keyCode == 39){

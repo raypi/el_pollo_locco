@@ -44,7 +44,7 @@ class Endboss extends MovableObject {
         'assets/img/4_enemie_boss_chicken/5_dead/G25.png',
         'assets/img/4_enemie_boss_chicken/5_dead/G26.png'
     ];
-
+    //world;
     currentAnimationFrame = 0;
     contact = false;
 
@@ -87,8 +87,11 @@ class Endboss extends MovableObject {
         } else {
             this.isWalk();
         }
-        // this.firstContact(); // Überprüft, ob der Endboss mit etwas kollidiert
-        // this.currentAnimationFrame++;
+        if (world)  {
+            this.firstContact(); // Überprüft ob Char in der nähe ist 
+            this.currentAnimationFrame++;
+        
+        }
     }
     
 
@@ -117,10 +120,10 @@ class Endboss extends MovableObject {
     firstContact(){
         // console.log("world:", world);
         // console.log("world.character:", world?.character);
-        if (world.character[0].x > 2250 && !this.contact) {
-            // console.log("*** Erstkontakt Endboss ***");
+        if (world.character.x > 2250 && !this.contact) {
+            console.log("*** Erstkontakt Endboss ***");
             this.currentAnimationFrame = 0;
-            this.hasFirstContact = true;
+            this.contact = true;
             //world.bossStatusBar.isVisible = true; Statusbar anzeigen von endboss 
         }
     }
