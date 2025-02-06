@@ -56,6 +56,11 @@ class StartScreen {
     }
 
     showControls(){
-        console.log('glick auf Steuerung');
+        console.log('Klick auf Steuerung');
     }
+
+    showExplanation(){
+        console.log('Klick auf Erklärung');
+    }
+
 }
