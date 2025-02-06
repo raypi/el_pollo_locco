@@ -161,11 +161,11 @@ class Endboss extends MovableObject {
     // }
 
     hitBoss() {
-        this.energyEndboss -= 35;
-        if (this.energyEndboss < 0) {
-            this.energyEndboss = 0;
+        this.energyBoss -= 35;
+        if (this.energyBoss < 0) {
+            this.energyBoss = 0;
         }
-        console.log('Hit ENdboss', this.energyBoss)
+        console.log('Hit Endboss', this.energyBoss)
     }
 
     dieBoss() {

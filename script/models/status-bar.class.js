@@ -1,7 +1,8 @@
 class StatusBar extends DrawableObject {
     // Neue Typ-Definition: Typ dieser StatusBar (Health, Coin, Bottle)
     type;
-
+    percentage = 100; // Standardwert
+    
     IMAGES_HEALTH = [
         'assets/img/7_statusbars/1_statusbar/2_statusbar_health/blue/0.png',
         'assets/img/7_statusbars/1_statusbar/2_statusbar_health/blue/20.png',
@@ -38,7 +39,7 @@ class StatusBar extends DrawableObject {
         'assets/img/7_statusbars/2_statusbar_endboss/blue/blue100.png'
     ];
 
-    percentage = 100; // Standardwert
+    
 
     constructor(type) {
         super();

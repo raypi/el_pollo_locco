@@ -6,6 +6,7 @@ class World {
     keyboard;
     camera_x = 0;
     countOpponents = 0;
+    endboss = new Endboss();
 
    
 
@@ -365,7 +366,8 @@ class World {
                         bottle.removeFromWorld = true; // Markiere Flasche als entfernt
                         
                         // Verursache Schaden beim Endboss
-                        endboss.hitBoss();
+                        this.endboss.hitBoss();
+                        this.statusBar.setPercentage(this.endboss.energyBoss);
     
                         // Verzögerte Entfernung der Flasche
                         setTimeout(() => {
