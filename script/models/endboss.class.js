@@ -3,6 +3,8 @@ class Endboss extends MovableObject {
     height = 300;
     y = 150;
     energy = 100;
+    currentAnimationFrame = 0;
+    contact = false;
 
     IMAGES_WALKING = [
         'assets/img/4_enemie_boss_chicken/1_walk/G1.png',
@@ -45,8 +47,7 @@ class Endboss extends MovableObject {
         'assets/img/4_enemie_boss_chicken/5_dead/G26.png'
     ];
     //world;
-    currentAnimationFrame = 0;
-    contact = false;
+    
 
     constructor() {
         super().loadImage('assets/img/4_enemie_boss_chicken/2_alert/G5.png');
@@ -73,52 +74,90 @@ class Endboss extends MovableObject {
         }, 1000 / 120); // Update für Bewegungen
     }
 
+    // playEndboss() {
+    //     if (this.isDead()) {
+    //         this.playDeadAnimation();
+    //         //this.showGameWinScreen(); // Spielabschluss-Screen
+    //     } else if (this.isHurt()) {
+    //         this.playHurtAnimation();
+    //     } else if (this.currentAnimationFrame < 15) {
+    //         this.isAlert();
+    //         this.currentAnimationFrame += 4;
+    //     } else if (this.currentAnimationFrame < 30) {
+    //         this.isAttack();
+    //     } else {
+    //         this.isWalk();
+    //     }
+    //     if (world)  {
+    //         this.firstContact(); // Überprüft ob Char in der nähe ist 
+    //         this.currentAnimationFrame++;
+        
+    //     }
+    // }
+
     playEndboss() {
         if (this.isDead()) {
-            this.playDeadAnimation();
-            //this.showGameWinScreen(); // Spielabschluss-Screen
+            this.DeadAnimation();
+            //Spielabschluss-Screen
+            
         } else if (this.isHurt()) {
-            this.playHurtAnimation();
+            
+            this.hurtAnimation();
+            
         } else if (this.currentAnimationFrame < 15) {
-            this.isAlert();
+            this.alertAnimation();
             this.currentAnimationFrame += 4;
         } else if (this.currentAnimationFrame < 30) {
-            this.isAttack();
+            this.attackAnimation();
         } else {
-            this.isWalk();
+            this.walkAnimation();
         }
-        if (world)  {
-            this.firstContact(); // Überprüft ob Char in der nähe ist 
+    
+        if (world) {
+            this.firstContact(); // Überprüft ob Char in der Nähe ist 
             this.currentAnimationFrame++;
-        
         }
     }
     
+    
 
-    isWalk() {
+    walkAnimation() {
         this.playAnimation(this.IMAGES_WALKING);
     }
 
-    isAlert() {
+    alertAnimation() {
         this.playAnimation(this.IMAGES_ALERT);
     }
 
-    isAttack() {
+    attackAnimation() {
         this.playAnimation(this.IMAGES_ATTACK);
     }
 
-    isHurt() {
+    hurtAnimation() {
         this.playAnimation(this.IMAGES_HURT);
     }
 
-    isDead() {
+    DeadAnimation() {
         this.playAnimation(this.IMAGES_DEAD);
-        //this.showWin(); // Spielabschluss
     }
 
 
+    // firstContact() {
+    //     if (world.character.x > 2100 && !world.contact) {
+    //         console.log('CONTACT')
+    //         this.currentAnimationFrame = 0;
+    //         world.contactBossBar = true;
+    //         this.contact = true;
+    
+    //         // Endboss-Statusbar erstellen und in der Welt speichern
+    //         world.endbossBar = new StatusBar('Endboss');
+    //         world.endbossBar.x = 470;
+    //         world.endbossBar.y = 20;
+    //     }
+    // }
     firstContact() {
-        if (world.character.x > 2100 && !world.contact) {
+        if (!this.contact && world.character.x > 2100 && !world.contact) {
+            console.log('CONTACT');
             this.currentAnimationFrame = 0;
             world.contactBossBar = true;
             this.contact = true;
@@ -130,20 +169,21 @@ class Endboss extends MovableObject {
         }
     }
     
+    
 
 
     moveLeft() {
         this.x -= 1.5; 
     }
 
-    hit() {
+    hitBoss() {
         this.energy = Math.max(0, this.energy - 20); // Schaden
         if (this.energy === 0) {
             this.die(); // Endboss besiegen
         }
     }
 
-    die() {
+    dieBoss() {
         console.log('Endboss besiegt!');
         this.removeFromWorld = true;
     }
