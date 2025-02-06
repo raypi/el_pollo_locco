@@ -55,6 +55,7 @@ class World {
             this.endbossBottle();
             this.smalChickenBottle();
             this.chickenBottle();
+            this.checkJumpSmalChicken();
         }, 200);
     }
 
@@ -212,21 +213,40 @@ class World {
     
     
     checkSmalChickenCollisions() {
-        this.level.smalChicken.forEach((chicken) => {
-            if (this.character.isColliding(chicken)) {
-                // Prüfen, ob der Spieler von oben auf das kleine Huhn springt
-                if (this.character.y == 151) { // Spieler fällt nach unten
-                    this.countOpponents += 5; // Punkte buchen
-                    console.log('[road]killed SmalChicken! Punkte: ', this.countOpponents);
-                    chicken.removeFromWorld = true; // entfernen
-                } else {
-                    console.log('Schaden genommen von SmalChicken!');
+        // Prüfen, ob der Charakter nicht springt
+        if (this.character.y == 151) {
+            this.level.smalChicken.forEach((chicken) => {
+                if (this.character.isColliding(chicken)) {
+                    console.log('Spieler läuft gegen kleines Huhn');
                     this.character.hit(); // Schaden buchen
                     this.statusBar.setPercentage(this.character.energy);
                 }
+            });
+        }
+    }
+    
+
+
+    checkJumpSmalChicken() {
+        // Iteriere durch alle kleinen Hühner im Level
+        this.level.smalChicken.forEach((chicken) => {
+            // Aktionen nur ausführen, wenn der Spieler mit dem kleinen Huhn kollidiert und über dem Huhn ist
+            if (this.character.isColliding(chicken) && this.character.y < 151) {
+                console.log('Spieler springt auf kleines Huhn');
+                console.log('PepeY:', this.character.y);
+    
+                // Zeige das Todesbild des kleinen Huhns
+                chicken.loadImage(SmalChicken.IMAGES_DEATH[0]);
+                
+                // Verzögertes Entfernen des kleinen Huhns nach 1 Sekunde
+                setTimeout(() => {
+                    chicken.removeFromWorld = true;
+                    console.log('Kleines Huhn entfernt');
+                }, 1000);
             }
         });
     }
+
 
     smalChickenBottle() {
         // Gehe durch alle kleinen Hühner im Level
@@ -319,32 +339,6 @@ class World {
             }
         });
     }
-    // endbossBottle() {
-    //     console.log('endbossBottle wird aufgerufen');
-    //     if (this.throwableObjects.length > 0) {
-    //         let bottle = this.throwableObjects[0];
-    //         this.level.endboss.forEach((endboss) => {
-    //             if (bottle.isColliding(endboss)) {
-    //                 console.log('Flasche trifft den Endboss!');
-    //             }
-    //         });
-    //     }
-    // }
-
-    // endbossBottle() {
-    //     // console.log('endbossBottle wird aufgerufen');
-    //     this.throwableObjects.forEach((bottle) =>{
-    //         this.level.endboss.forEach((endboss) => {
-    //             if (bottle.isColliding(endboss)) {
-    //                 console.log('Flasche trifft Endboss!');
-    //                 setTimeout(() => {
-    //                     bottle.removeFromWorld = true; // Entferne die Flasche aus der Welt
-    //                     console.log('Flasche entfernt');
-    //                 }, 1000);
-    //             }
-    //         });
-    //     })
-    // }
 
     endbossBottle() {
         this.throwableObjects.forEach(bottle => {

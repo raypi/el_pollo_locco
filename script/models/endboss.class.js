@@ -115,10 +115,10 @@ class Endboss extends MovableObject {
 
 
     firstContact(){
-        console.log("world:", world);
-        console.log("world.character:", world?.character);
+        // console.log("world:", world);
+        // console.log("world.character:", world?.character);
         if (world.character[0].x > 2250 && !this.contact) {
-            console.log("*** Erstkontakt Endboss ***");
+            // console.log("*** Erstkontakt Endboss ***");
             this.currentAnimationFrame = 0;
             this.hasFirstContact = true;
             //world.bossStatusBar.isVisible = true; Statusbar anzeigen von endboss 

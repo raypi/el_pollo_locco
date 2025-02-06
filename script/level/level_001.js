@@ -5,12 +5,12 @@
 
 const level001 = new Level(
     [
-        new Chicken(),
-        new Chicken(),
-        new Chicken(),
-        new Chicken(),
-        new Chicken(),
-        new Chicken()  
+        // new Chicken(),
+        // new Chicken(),
+        // new Chicken(),
+        // new Chicken(),
+        // new Chicken(),
+        // new Chicken()  
     ],
     [
         new Cloud()
@@ -55,11 +55,19 @@ const level001 = new Level(
         new Bottles(800, 280),
     ],
     [
-        // new SmalChicken(),
-        // new SmalChicken(),
-        // new SmalChicken(),
-        // new SmalChicken(),
-        // new SmalChicken()
+        new SmalChicken(),
+        new SmalChicken(),
+        new SmalChicken(),
+        new SmalChicken(),
+        new SmalChicken(),
+        new SmalChicken(),
+        new SmalChicken(),
+        new SmalChicken(),
+        new SmalChicken(),
+        new SmalChicken(),
+        new SmalChicken(),
+        new SmalChicken(),
+        new SmalChicken()
     ],    
 );
  
