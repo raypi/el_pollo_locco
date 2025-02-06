@@ -13,7 +13,7 @@ class StartScreen {
             { label: 'Start', action: this.startGameCallback },
             { label: 'Steuerung', action: () => this.showControls() },
             { label: 'Erklärung', action: () => this.showExplanation() },
-            { label: 'Musik e/ a', action: () => this.toggleSound() },
+            { label: 'Musik J/ N', action: () => this.toggleSound() },
         ];
     }
 
@@ -63,4 +63,7 @@ class StartScreen {
         console.log('Klick auf Erklärung');
     }
 
+    toggleSound(){
+        console.log('Klick auf Musik');
+    }
 }
