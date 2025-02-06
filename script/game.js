@@ -14,12 +14,17 @@
 let canvas;
 let world;
 let keyboard = new Keyboard();
+let startScreen;
 
 
 function init() {
     canvas = document.getElementById('canvas');
-    world = new World(canvas, keyboard);
-    
+    startScreen = new StartScreen(canvas, startGame);
+    startScreen.draw();
+    canvas.addEventListener('click', (event) => {
+        startScreen.handleClick(event);
+    });
+    // world = new World(canvas, keyboard);
     // console.log('My Character is: ', world.character);
     // console.log('The enemies is: ', world.enemies);    // aktuell nicht mehr verknüpft
 }
