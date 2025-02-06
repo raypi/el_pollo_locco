@@ -127,7 +127,7 @@ class Endboss extends MovableObject {
             // Erstelle und zeige die Endboss-Statusbar
             this.endbossBar = new StatusBar('Endboss');
             // Beispiel: Positioniere die Statusbar auf dem Bildschirm, zum Beispiel oben
-            this.endbossBar.x = 3500;  // Position X
+            this.endbossBar.x = 350;  // Position X
             this.endbossBar.y = 50;   // Position Y
         }
     }

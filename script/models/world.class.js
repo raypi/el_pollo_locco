@@ -113,6 +113,11 @@ class World {
     
         this.bottleBar.y = 80;
         this.addToMap(this.bottleBar);
+
+        // Zeichne die Endboss-Statusbar nur, wenn der Kampf begonnen hat
+        if (this.contact) {
+        this.addToMap(this.endbossBar);  // Endboss Statusbar einblenden
+    }
     
         this.ctx.translate(this.camera_x, 0);
         this.addObjectsToMap(this.level.clouds);
@@ -186,7 +191,7 @@ class World {
     collectingCoins(){
         this.level.coins = this.level.coins.filter((coin) => {
             if (this.character.isColliding(coin)) {
-                console.log('Coin eingesammelt!', coin);
+                // console.log('Coin eingesammelt!', coin);
                 this.coinBar.setPercentage(Math.min(this.coinBar.percentage + 10, 100));// Test
                 return false; // Coin wird entfernt
             }
@@ -197,12 +202,12 @@ class World {
     collectingBottles() {
         this.level.bottles = this.level.bottles.filter((bottle) => {
             if (this.character.isColliding(bottle)) {
-                console.log('Fkasche eingesammelt', bottle);
+                // console.log('Fkasche eingesammelt', bottle);
                 this.bottleBar.setPercentage(Math.min(this.bottleBar.percentage + 10, 100));
                 
                 // Erhöhe den Zähler der gesammelten Flaschen
                 ThrowableObject.countBottle++;
-                console.log('Flaschen:', ThrowableObject.countBottle);
+                // console.log('Flaschen:', ThrowableObject.countBottle);
     
                 return false; // Bottle wird entfernt
             }

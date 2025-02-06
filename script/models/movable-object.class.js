@@ -32,7 +32,7 @@ class MovableObject extends DrawableObject { // bewegbare Objekte
 
    moveRight() { 
       this.x += this.speed;
-      console.log('Moving right!');
+      // console.log('Moving right!');
    }
 
 
@@ -45,15 +45,6 @@ class MovableObject extends DrawableObject { // bewegbare Objekte
   jump(){
    this.speedY = 22;
   }
-
-//   // kann zum beispiel Huhn eingeben und prüfen ob mein Character damit kollidiert  
-//   isColliding(mo) {
-//    return this.x + this.width > mo.x &&
-//       this.y + this.height > mo.y &&
-//       this.x < mo.x &&
-//       this.y < mo.y + mo.height;
-//    } 
-
 
 isColliding(mo) {
    if (this instanceof Character) {
@@ -102,9 +93,3 @@ isColliding(mo) {
                     this.currentImage++;
    }
 }
-
-// if (charachter.x + charachter.width > chicken.x &&
-//    charachter.y +charachter.height > chicken.y &&
-//    charachter.x < chicken.x &&
-//    charachter.y < chicken.y + chicken.height
-// )
