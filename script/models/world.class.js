@@ -367,7 +367,7 @@ class World {
                         
                         // Verursache Schaden beim Endboss
                         this.endboss.hitBoss();
-                        this.endbossBar.setPercentage(this.endboss.energyBoss);
+                        
     
                         // Verzögerte Entfernung der Flasche
                         setTimeout(() => {

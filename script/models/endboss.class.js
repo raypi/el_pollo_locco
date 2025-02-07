@@ -2,10 +2,10 @@ class Endboss extends MovableObject {
     width = 300;
     height = 300;
     y = 150;
-    energy = 100;
+    energyBoss = 100;
     currentAnimationFrame = 0;
     contact = false;
-    energyBoss = 100;
+    
 
     IMAGES_WALKING = [
         'assets/img/4_enemie_boss_chicken/1_walk/G1.png',
@@ -161,17 +161,29 @@ class Endboss extends MovableObject {
     // }
 
     hitBoss() {
-        this.energyBoss -= 35;
+        this.energyBoss -= 110;
         if (this.energyBoss < 0) {
-            this.energyBoss = 0;
+            this.enerenergyBoss = 0;
         }
-        console.log('Hit Endboss', this.energyBoss)
-    }
+        console.log('Hit Endboss', this.enenergyBoss)
+        this.endbossBar.setPercentage(this.endboss.energyBoss);
+        // world.bossStatusBar.setPercentage(this.energy);    
+        } 
+    
+        isDead(){
+            return this.energyBoss == 0;
+      
+         }
+      
+         isHurt(){
+            let timeDuration = new Date().getTime()- this.lasthit; // errechnet uns die Differenz in Milisekunden
+            timeDuration = timeDuration / 1000; // rechnet die Differenz in sekunden um 
+            //  
+             return timeDuration < 1; // gibt true zurück
+         }
 
-    dieBoss() {
-        console.log('Endboss besiegt!');
-        this.removeFromWorld = true;
-    }
+    
+
 
     // Weitere Methoden zum Schaden oder Animationen spielen (z.B. playDamageSound() oder playWalkSound())
 }
