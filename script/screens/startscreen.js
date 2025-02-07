@@ -14,6 +14,7 @@ class StartScreen {
             { label: 'Steuerung', action: () => this.showControls() },
             { label: 'Erklärung', action: () => this.showExplanation() },
             { label: 'Musik J/ N', action: () => this.toggleSound() },
+            { label: 'Game Over Screen', action: () => this.showGameOver() },
         ];
     }
 
@@ -66,4 +67,20 @@ class StartScreen {
     toggleSound(){
         console.log('Klick auf Musik');
     }
+
+
+    showGameOver() {
+        const gameOverScreen = new EndScreen(this.canvas, () => {}, () => {});
+        gameOverScreen.draw(); // Game-Over-Screen anzeigen
+        
+        // Klickereignisse an den GameOverScreen weiterleiten
+        const handleGameOverClick = (event) => {
+            gameOverScreen.handleClick(event);
+        };
+    
+        this.canvas.addEventListener('click', handleGameOverClick);
+    }
+    
+    
+    
 }

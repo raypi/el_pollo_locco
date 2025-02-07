@@ -5,17 +5,17 @@ class EndScreen {
         this.ctx = canvas.getContext('2d');
         this.restartGameCallback = restartGameCallback;
         this.exitGameCallback = exitGameCallback;
-
+    
         this.logoImage = new Image();
-        this.logoImage.src = 'assets/img/gameover_logo.png'; 
+        this.logoImage.src = 'assets/img/9_intro_outro_screens/game_over/game over.png'; 
         this.logoImage.onload = () => {
             this.draw(); 
         };
+    
         this.buttons = [
-            { label: 'Neues Spiel', action: this.newGame() },
-            { label: 'Menü', action: () => this.showStartscreen() }
+            { label: 'Neues Spiel', action: () => this.restartGameCallback() },
+            { label: 'Menü', action: () => this.exitGameCallback() }
         ];
-        
     }
 
 
@@ -80,5 +80,5 @@ class EndScreen {
         });
     }
 
-    
+
 }
