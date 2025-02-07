@@ -61,4 +61,24 @@ class EndScreen {
             button.height = buttonHeight;
         });
     }
+
+    handleClick(event) {
+        const rect = this.canvas.getBoundingClientRect();
+        const clickX = event.clientX - rect.left;
+        const clickY = event.clientY - rect.top;
+
+        // Prüfen, ob ein Button geklickt wurde
+        this.buttons.forEach((button) => {
+            if (
+                clickX > button.x &&
+                clickX < button.x + button.width &&
+                clickY > button.y &&
+                clickY < button.y + button.height
+            ) {
+                button.action(); // Führe die Aktion des Buttons aus
+            }
+        });
+    }
+
+    
 }
