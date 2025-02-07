@@ -1,16 +1,18 @@
 class EndScreen {
 
-    constructor() {
+    constructor(canvas, restartGameCallback, exitGameCallback) {
         this.canvas = canvas;
         this.ctx = canvas.getContext('2d');
-        this.startGameCallback = startGameCallback;
-        this.backgroundImage = new Image();
-        this.backgroundImage.src = 'assets/img/9_intro_outro_screens/game_over/game over.png';
-        this.backgroundImage.onload = () => {
-            this.draw(); // erstesst den Game Over screen 
+        this.restartGameCallback = restartGameCallback;
+        this.exitGameCallback = exitGameCallback;
+
+        this.logoImage = new Image();
+        this.logoImage.src = 'assets/img/gameover_logo.png'; 
+        this.logoImage.onload = () => {
+            this.draw(); 
         };
         this.buttons = [
-            { label: 'Neues Spiel', action: this.startGameCallback },
+            { label: 'Neues Spiel', action: this.newGame() },
             { label: 'Menü', action: () => this.showStartscreen() }
         ];
         
