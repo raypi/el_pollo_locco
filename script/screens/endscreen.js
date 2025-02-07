@@ -20,22 +20,45 @@ class EndScreen {
 
 
     draw() {
-        // Hintergrund zeichnen
-        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height); // Canvas löschen
-        this.ctx.drawImage(this.backgroundImage, 0, 0, this.canvas.width, this.canvas.height);
+        // Canvas leeren
+        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+
+        // Hintergrundfarbe
+        this.ctx.fillStyle = 'rgba(0, 0, 0, 0.7)';
+        this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
+
+        // Logo zeichnen
+        const logoWidth = 300;
+        const logoHeight = 100;
+        const logoX = (this.canvas.width - logoWidth) / 2;
+        const logoY = this.canvas.height / 3 - logoHeight / 2;
+
+        this.ctx.drawImage(this.logoImage, logoX, logoY, logoWidth, logoHeight);
 
         // Buttons zeichnen
         this.ctx.font = '30px Arial';
         this.ctx.textAlign = 'center';
         this.ctx.fillStyle = 'white';
+
         this.buttons.forEach((button, index) => {
-            const x = this.canvas.width / 2;
-            const y = 200 + index * 60; // Vertikaler Abstand zwischen den Buttons
-            this.ctx.fillText(button.label, x, y);
-            button.x = x - 100; // Für Klickerkennung
-            button.y = y - 30;
-            button.width = 200;
-            button.height = 40;
+            const buttonWidth = 200;
+            const buttonHeight = 50;
+            const x = (this.canvas.width / 2) - (buttonWidth / 2) + index * (buttonWidth + 20) - (this.buttons.length - 1) * 120; // Zentrierung der Buttons
+            const y = this.canvas.height / 2 + 100;
+
+            // Button Rechteck
+            this.ctx.fillStyle = 'rgba(255, 255, 255, 0.8)';
+            this.ctx.fillRect(x, y, buttonWidth, buttonHeight);
+
+            // Button Text
+            this.ctx.fillStyle = 'black';
+            this.ctx.fillText(button.label, x + buttonWidth / 2, y + buttonHeight / 2 + 10);
+
+            // Speichere die Position für Klickerkennung
+            button.x = x;
+            button.y = y;
+            button.width = buttonWidth;
+            button.height = buttonHeight;
         });
     }
 }
