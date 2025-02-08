@@ -6,9 +6,6 @@ class World {
     keyboard;
     camera_x = 0;
     countOpponents = 0;
-    endboss = new Endboss();
-
-   
 
     // Jede StatusBar erhält einen eigenen Typ
     statusBar = new StatusBar('Health');
@@ -358,27 +355,20 @@ class World {
   
     
     endbossBottle() {
-        this.throwableObjects.forEach(bottle => {
-            if (!bottle.removeFromWorld) { // Prüfe, ob die Flasche noch aktiv ist
-                this.level.endboss.forEach(endboss => {
-                    if (bottle.isColliding(endboss)) {
-                        console.log('Flasche trifft Endboss!');
-                        bottle.removeFromWorld = true; // Markiere Flasche als entfernt
-                        
-                        // Verursache Schaden beim Endboss
-                        this.endboss.hitBoss();
-                        
-    
-                        // Verzögerte Entfernung der Flasche
-                        setTimeout(() => {
-                            console.log('Flasche entfernt');
-                        }, 1000);
-                    }
-                });
+        // Filtere aktive Flaschen
+        this.throwableObjects = this.throwableObjects.filter(bottle => {
+            if (bottle.removeFromWorld) return false;
+
+            // Prüfe Kollision mit Endboss
+            for (let endboss of this.level.endboss) {
+                if (bottle.isColliding(endboss)) {
+                    console.log('Flasche trifft Endboss!');
+                    endboss.hitBoss();
+                    return false; // Entferne die Flasche sofort
+                }
             }
+            return true; // Behalte die Flasche
         });
     }
 
 }
-
-
