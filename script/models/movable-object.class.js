@@ -36,11 +36,22 @@ class MovableObject extends DrawableObject { // bewegbare Objekte
    }
 
 
-   moveLeft(){
-      setInterval(() => {
-          this.x -= this.speed;
-      }, 1000 / 60);   
-  }
+//    moveLeft(){
+//       setInterval(() => {
+//           this.x -= this.speed;
+//       }, 1000 / 60);   
+//   }
+
+  moveLeft() {
+   // Falls das Objekt einen state hat (z. B. Endboss) und nicht "alive" ist, tue nichts.
+   if (this.state && this.state !== "alive") return;
+   
+   setInterval(() => {
+     if (this.state && this.state !== "alive") return; // keine Bewegung, wenn nicht alive
+     this.x -= this.speed;
+   }, 1000 / 60);
+ }
+
 
   jump(){
    this.speedY = 22;
