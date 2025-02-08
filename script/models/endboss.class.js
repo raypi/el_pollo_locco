@@ -7,6 +7,7 @@ class Endboss extends MovableObject {
     contact = false;
     gameOverTimeoutStarted = false;
     liveBoss = true;
+    deathAnimationFinished = false;
 
     IMAGES_WALKING = [
         'assets/img/4_enemie_boss_chicken/1_walk/G1.png',
@@ -76,26 +77,25 @@ class Endboss extends MovableObject {
     }
 
     playEndboss() {
-        // Wenn der Endboss tot ist, wird die Todesanimation fortlaufend abgespielt.
-        if (!this.liveBoss) {
-            if (!this.gameOverTimeoutStarted) {
-                this.gameOverTimeoutStarted = true;
-                setTimeout(() => {
-                    this.DeadAnimation();
-                }, 3000); // 3000ms = 3 Sekunden
-            }
-            //showGameOver();  // Game-Over-Screen anzeigen
-            return;
+       // Falls der Endboss gerade stirbt (also noch lebendig, aber Energie 0 hat):
+       if (this.energyBoss === 0 && this.liveBoss) {
+        console.log('Endboss besiegt!');
+        this.liveBoss = false;
+        this.currentAnimationFrame = 0; // Reset für die Todesanimation, falls nötig
+        // Starte den Timer, der nach 3 Sekunden den Game Over Screen zeigt
+        if (!this.gameOverTimeoutStarted) {
+            this.gameOverTimeoutStarted = true;
+            setTimeout(() => {
+                //showGameOver();  // Game-Over-Screen anzeigen
+            }, 3000); // 3000ms = 3 Sekunden
         }
-        
-        // Überprüfe, ob der Endboss sterben soll:
-        if (this.energyBoss === 0) {
-            console.log('Endboss besiegt!');
-            this.liveBoss = false;
-            this.currentAnimationFrame = 0; // Reset für die Todesanimation, falls nötig
-            this.DeadAnimation();
-            return;
-        }
+    }
+    
+    // Wenn der Endboss tot ist, spiele fortlaufend die DeadAnimation:
+    if (!this.liveBoss) {
+    this.DeadAnimation();
+    return;
+}
         
         // Normale Animationen, solange der Endboss noch lebt
         if (this.isHurt()) {
