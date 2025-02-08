@@ -1,7 +1,3 @@
-/**
- * Endboss-Klasse, die von MovableObject erbt
- * Verwaltet den Endgegner mit verschiedenen Zuständen (alive, dead) und Animationen
- */
 class Endboss extends MovableObject {
     // Grundlegende Eigenschaften des Endgegners
     width = 300;
@@ -80,36 +76,33 @@ class Endboss extends MovableObject {
       this.startAnimation();
     }
   
-    
+
     startAnimation() {
       this.animationInterval = setInterval(() => {
-        // Wenn der Boss tot ist, stoppe diesen Interval sofort
+        // Wenn der Boss tot ist, stoppe diesen Interval und starte die Todesanimation
         if (this.state !== "alive") {
-          clearInterval(this.animationInterval); // Stoppe zuerst den Interval
+          clearInterval(this.animationInterval);
+          // Hier kannst du nun den neuen Interval für die Tot-Animation einfügen:
           
-          // Fixiere die Position sofort
-          if (this.deathX !== null) {
-            this.x = this.deathX;
-          }
-          
-          // Starte einen neuen Interval nur für die Todesanimation
+          // Berechne den Delay basierend auf der Anzahl der Frames, damit insgesamt 3000ms (3 Sekunden) erreicht werden
+          const frameCount = this.IMAGES_DEAD.length;
+          const delay = 3000 / frameCount; // in Millisekunden
+    
           let deathFrame = 0;
           let deathInterval = setInterval(() => {
             this.playAnimation(this.IMAGES_DEAD);
             deathFrame++;
             
-            // Wenn die Animation einmal durchgelaufen ist
-            if (deathFrame >= this.IMAGES_DEAD.length) {
+            // Sobald alle Frames einmal angezeigt wurden:
+            if (deathFrame >= frameCount) {
               clearInterval(deathInterval);
               this.state = "finished";
-              // Behalte das letzte Bild der Todesanimation
+              // Lade das letzte Bild, damit es stehen bleibt
               this.loadImage(this.IMAGES_DEAD[this.IMAGES_DEAD.length - 1]);
-              console.log("starte Game Over screen");
-              //showGameOver();
+              console.log("Game Over wird aufgerufen.");
+              showGameOver();
             }
-          }, 200); // Langsamere Animation für dramatischeren Effekt
-          
-          return;
+          }, delay);
         }
         
         // Normale Animationen - werden nur ausgeführt wenn der Boss lebt
@@ -125,6 +118,7 @@ class Endboss extends MovableObject {
         this.currentAnimationFrame++;
       }, 100);
     }
+    
   
     hitBoss() {
       this.energyBoss -= 110;
