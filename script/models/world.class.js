@@ -336,22 +336,6 @@ class World {
             }
         });
     }
-
-    // endbossBottle() {
-    //     this.throwableObjects.forEach(bottle => {
-    //         if (!bottle.removeFromWorld) { // Prüfe, ob die Flasche noch aktiv ist
-    //             this.level.endboss.forEach(endboss => {
-    //                 if (bottle.isColliding(endboss)) {
-    //                     console.log('Flasche trifft Endboss!');
-    //                     bottle.removeFromWorld = true; // Markiere Flasche als entfernt
-    //                     setTimeout(() => {
-    //                         console.log('Flasche entfernt');
-    //                     }, 1000);
-    //                 }
-    //             });
-    //         }
-    //     });
-    // }
   
     
     endbossBottle() {
