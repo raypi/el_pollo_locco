@@ -72,31 +72,27 @@ class Endboss extends MovableObject {
       this.startAnimation();
     }
   
-    // Hier wird der Animations-Loop mit setInterval realisiert.
+    
     startAnimation() {
       this.animationInterval = setInterval(() => {
-        // Wenn der Endboss NICHT mehr "alive" ist...
+        // Endboss tot
         if (this.state !== "alive") {
-          // ...spiele kontinuierlich die Tot-Animation ab:
+          // spielt images death 
+          console.log("spield death animation.", this.state);
           this.playAnimation(this.IMAGES_DEAD);
-          // Falls der Game Over Timer noch nicht gestartet wurde, starte ihn:
-          if (!this.deadTimerStarted) {
-            this.deadTimerStarted = true;
-            setTimeout(() => {
-              clearInterval(this.animationInterval); // Stoppe den Animations-Loop
-              console.log("Game Over wird aufgerufen.");
-              showGameOver();
-            }, 5000);
-          }
+          setTimeout(() => {
+          console.log("starte Game Over screen");
+            showGameOver();
+        }, 5000);
         } else {
           // Boss lebt – normale Animationen:
           if (this.isHurt()) {
             this.playAnimation(this.IMAGES_HURT);
-          } else if ((this.currentAnimationFrame % 60) < 15) {
+          } else if ((this.currentAnimationFrame) < 15) {
             this.playAnimation(this.IMAGES_ALERT);
-          } else if ((this.currentAnimationFrame % 60) < 30) {
+          } else if ((this.currentAnimationFrame) < 30) {
             this.playAnimation(this.IMAGES_ATTACK);
-          } else {
+          } else if (this.state === "alive"){
             this.playAnimation(this.IMAGES_WALKING);
           }
           this.currentAnimationFrame++; // Frame-Zähler erhöhen
