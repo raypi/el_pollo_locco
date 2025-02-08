@@ -5,7 +5,8 @@ class Endboss extends MovableObject {
     energyBoss = 100;
     currentAnimationFrame = 0;
     contact = false;
-    
+    gameOverTimeoutStarted = false;
+    liveBoss = true;
 
     IMAGES_WALKING = [
         'assets/img/4_enemie_boss_chicken/1_walk/G1.png',
@@ -47,8 +48,6 @@ class Endboss extends MovableObject {
         'assets/img/4_enemie_boss_chicken/5_dead/G25.png',
         'assets/img/4_enemie_boss_chicken/5_dead/G26.png'
     ];
-    //world;
-    
 
     constructor() {
         super().loadImage('assets/img/4_enemie_boss_chicken/2_alert/G5.png');
@@ -57,19 +56,19 @@ class Endboss extends MovableObject {
         this.loadImages(this.IMAGES_ATTACK);
         this.loadImages(this.IMAGES_HURT);
         this.loadImages(this.IMAGES_DEAD);
-        // this.level.endboss[0].world = this; 
 
         this.x = 2550; // Startposition
         this.speed = 0.15 + Math.random() + 0.25;
         this.animate();
     }
 
-
     animate() {
         setInterval(() => {
             this.playEndboss();
         }, 200); // 200ms für Animationen
+
         setInterval(() => {
+            // Falls Endboss schon in Kontakt ist, der Animationscounter groß genug ist und er weder tot noch verletzt ist:
             if (this.contact && this.currentAnimationFrame > 30 && !this.isDead() && !this.isHurt()) {
                 this.moveLeft(); // Der Endboss bewegt sich nach links
             }
@@ -77,14 +76,30 @@ class Endboss extends MovableObject {
     }
 
     playEndboss() {
-        if (this.isDead()) {
+        // Wenn der Endboss tot ist, wird die Todesanimation fortlaufend abgespielt.
+        if (!this.liveBoss) {
+            if (!this.gameOverTimeoutStarted) {
+                this.gameOverTimeoutStarted = true;
+                setTimeout(() => {
+                    this.DeadAnimation();
+                }, 3000); // 3000ms = 3 Sekunden
+            }
+            //showGameOver();  // Game-Over-Screen anzeigen
+            return;
+        }
+        
+        // Überprüfe, ob der Endboss sterben soll:
+        if (this.energyBoss === 0) {
+            console.log('Endboss besiegt!');
+            this.liveBoss = false;
+            this.currentAnimationFrame = 0; // Reset für die Todesanimation, falls nötig
             this.DeadAnimation();
-            //Spielabschluss-Screen
-            
-        } else if (this.isHurt()) {
-            
+            return;
+        }
+        
+        // Normale Animationen, solange der Endboss noch lebt
+        if (this.isHurt()) {
             this.hurtAnimation();
-            
         } else if (this.currentAnimationFrame < 15) {
             this.alertAnimation();
             this.currentAnimationFrame += 4;
@@ -93,22 +108,12 @@ class Endboss extends MovableObject {
         } else {
             this.walkAnimation();
         }
-    
+        
         if (world) {
-            this.firstContact(); // Überprüft ob Char in der Nähe ist 
+            this.firstContact(); // Überprüft, ob der Charakter in der Nähe ist
             this.currentAnimationFrame++;
         }
     }
-
-    // Verzögerte Überprüfung auf Kontakt mit dem Charakter
-    // setTimeout(() => {
-    //     if (world) {
-    //         this.firstContact(); // Überprüft, ob der Charakter in der Nähe ist
-    //         this.currentAnimationFrame++;
-    //     }
-    // }, 200); // Verzögerung von 200ms
-    // }
-    
 
     walkAnimation() {
         this.playAnimation(this.IMAGES_WALKING);
@@ -130,24 +135,19 @@ class Endboss extends MovableObject {
         this.playAnimation(this.IMAGES_DEAD);
     }
 
-
-
     firstContact() {
         if (!this.contact && world.character.x > 2100 && !world.contact) {
             console.log('CONTACT');
             this.currentAnimationFrame = 0;
             world.contactBossBar = true;
             this.contact = true;
-    
+
             // Endboss-Statusbar erstellen und in der Welt speichern
             world.endbossBar = new StatusBar('Endboss');
             world.endbossBar.x = 470;
             world.endbossBar.y = 20;
         }
     }
-    
-    
-
 
     moveLeft() {
         this.x -= 1.5; 
@@ -156,27 +156,22 @@ class Endboss extends MovableObject {
     hitBoss() {
         this.energyBoss -= 110;
         if (this.energyBoss < 0) {
-            this.enerenergyBoss = 0;
+            this.energyBoss = 0;
         }
-        console.log('Hit Endboss', this.enenergyBoss)
-        this.endbossBar.setPercentage(this.endboss.energyBoss);
-        // world.bossStatusBar.setPercentage(this.energy);    
-        } 
+        console.log('Hit Endboss', this.energyBoss);
+        if (world && world.endbossBar) {
+            world.endbossBar.setPercentage(this.energyBoss);
+        }
+    }
     
-        isDead(){
-            return this.energyBoss == 0;
-      
-         }
-      
-         isHurt(){
-            let timeDuration = new Date().getTime()- this.lasthit; // errechnet uns die Differenz in Milisekunden
-            timeDuration = timeDuration / 1000; // rechnet die Differenz in sekunden um 
-            //  
-             return timeDuration < 1; // gibt true zurück
-         }
-
+    isDead() {
+        return this.energyBoss === 0;
+    }
     
+    isHurt() {
+        let timeDuration = (new Date().getTime() - this.lasthit) / 1000; // Differenz in Sekunden
+        return timeDuration < 1; // Gibt true zurück, wenn seit dem letzten Treffer weniger als 1 Sekunde vergangen ist
+    }
 
-
-    // Weitere Methoden zum Schaden oder Animationen spielen (z.B. playDamageSound() oder playWalkSound())
+    // Weitere Methoden (z.B. playDamageSound() oder playWalkSound()) ...
 }
