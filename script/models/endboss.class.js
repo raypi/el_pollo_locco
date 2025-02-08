@@ -153,13 +153,6 @@ class Endboss extends MovableObject {
         this.x -= 1.5; 
     }
 
-    // hitBoss() {
-    //     this.energy = Math.max(0, this.energy - 20); // Schaden
-    //     if (this.energy === 0) {
-    //         this.die(); // Endboss besiegen
-    //     }
-    // }
-
     hitBoss() {
         this.energyBoss -= 110;
         if (this.energyBoss < 0) {
