@@ -59,7 +59,7 @@ class Endboss extends MovableObject {
      */
 
 
-    constructor() {
+    constructor(gameOverCallback) {
       // Lade ein Startbild
       super().loadImage('assets/img/4_enemie_boss_chicken/2_alert/G5.png');
       // Alle Bilder laden
