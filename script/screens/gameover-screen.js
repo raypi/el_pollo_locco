@@ -1,4 +1,4 @@
-class EndScreen {
+class GameOverScreen {
 
     constructor(canvas, restartGameCallback, exitGameCallback) {
         this.canvas = canvas;
