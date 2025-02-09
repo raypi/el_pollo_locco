@@ -79,6 +79,7 @@ class GameOverScreen {
             button.width = buttonWidth;
             button.height = buttonHeight;
         });
+    }
     
 
     // Leitet Klicks an die Buttons weiter.
@@ -99,5 +100,3 @@ class GameOverScreen {
     }
 }
 
-
-}
