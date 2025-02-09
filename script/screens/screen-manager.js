@@ -28,4 +28,21 @@ class ScreenManager {
        // Rufe die globale startGame()-Funktion auf.
        startGame();
     }
+
+    // Zeigt den Game Over Screen an.
+    // Der Parameter type steuert, welche Grafik angezeigt wird:
+    // 'endboss' (Spieler gewinnt, weil er den Boss besiegt) oder 'character' (Spieler verliert).
+    showGameOverScreen(type) {
+        this.currentScreen = new GameOverScreen(this.canvas, type, () => {
+            // Callback für "Neues Spiel"
+            this.newGame();
+        }, () => {
+            // Callback für "Menü" – zurück zum Startscreen
+            this.showStartScreen();
+        });
+        this.currentScreen.draw();
+        this.canvas.onclick = (event) => {
+            this.currentScreen.handleClick(event);
+        };
+    }
 }
