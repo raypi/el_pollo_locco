@@ -1,6 +1,12 @@
 class StartScreen {
-    
+
+    /**
+     * @param {HTMLCanvasElement} canvas - Das Canvas-Element.
+     * @param {function} startGameCallback - Callback, das ausgeführt wird, wenn der Spieler startet.
+     */  
+
     constructor(canvas, startGameCallback) {
+
         this.canvas = canvas;
         this.ctx = canvas.getContext('2d');
         this.startGameCallback = startGameCallback;
@@ -14,15 +20,16 @@ class StartScreen {
             { label: 'Steuerung', action: () => this.showControls() },
             { label: 'Erklärung', action: () => this.showExplanation() },
             { label: 'Musik J/ N', action: () => this.toggleSound() },
-            { label: 'Game Over Screen', action: () => this.showGameOver() },
+            { label: 'Game Over', action: () => this.showGameOver() },// nur zu testzwecken
         ];
     }
 
+    // Zeichnet den Startscreen.
     draw() {
-        // Hintergrund zeichnen
-        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height); // Canvas löschen
+        // Canvas leeren
+        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+        // Hintergrundbild zeichnen
         this.ctx.drawImage(this.backgroundImage, 0, 0, this.canvas.width, this.canvas.height);
-
         // Buttons zeichnen
         this.ctx.font = '30px Arial';
         this.ctx.textAlign = 'center';
@@ -31,7 +38,8 @@ class StartScreen {
             const x = this.canvas.width / 2;
             const y = 200 + index * 60; // Vertikaler Abstand zwischen den Buttons
             this.ctx.fillText(button.label, x, y);
-            button.x = x - 100; // Für Klickerkennung
+            // Button-Größen und Positionen für die Klickerkennung speichern.
+            button.x = x - 100;
             button.y = y - 30;
             button.width = 200;
             button.height = 40;
