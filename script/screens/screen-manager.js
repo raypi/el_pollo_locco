@@ -20,4 +20,12 @@ class ScreenManager {
         };
     }
 
+    // Startet das Spiel.
+    startGame() {
+       // Entferne den Klickhandler des Menüs.
+       this.canvas.onclick = null;
+       this.clearCanvas();
+       // Rufe die globale startGame()-Funktion auf.
+       startGame();
+    }
 }
