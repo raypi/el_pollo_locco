@@ -9,7 +9,15 @@ class ScreenManager {
     }
 
     showStartScreen(){
-        
+        // Erstelle eine neue Instanz von StartScreen und übergebe als Callback zum Starten des Spiels.
+        this.currentScreen = new StartScreen(this.canvas, () => {
+            this.startGame();
+        });
+        this.currentScreen.draw();
+        // Richte den Klick-Eventhandler so ein, dass er an den aktuellen Screen weiterreicht.
+        this.canvas.onclick = (event) => {
+            this.currentScreen.handleClick(event);
+        };
     }
 
 }
