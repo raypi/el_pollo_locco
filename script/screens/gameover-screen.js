@@ -45,55 +45,47 @@ class GameOverScreen {
 
 
 
-    draw() {
+     // Zeichnet den Game Over Screen.
+     draw() {
         // Canvas leeren
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-
-        // Hintergrundfarbe
+        // Zeichne einen halbtransparenten Hintergrund.
         this.ctx.fillStyle = 'rgba(0, 0, 0, 0.7)';
         this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
-
-        // Logo zeichnen
-        const logoWidth = 300;
-        const logoHeight = 100;
-        const logoX = (this.canvas.width - logoWidth) / 2;
-        const logoY = this.canvas.height / 3 - logoHeight / 2;
-
-        this.ctx.drawImage(this.logoImage, logoX, logoY, logoWidth, logoHeight);
-
-        // Buttons zeichnen
+        // Zeichne die Game Over Grafik mittig.
+        const imgWidth = 300;
+        const imgHeight = 100;
+        const imgX = (this.canvas.width - imgWidth) / 2;
+        const imgY = this.canvas.height / 3 - imgHeight / 2;
+        this.ctx.drawImage(this.gameOverImage, imgX, imgY, imgWidth, imgHeight);
+        // Zeichne die Buttons unterhalb der Grafik.
         this.ctx.font = '30px Arial';
         this.ctx.textAlign = 'center';
         this.ctx.fillStyle = 'white';
-
         this.buttons.forEach((button, index) => {
             const buttonWidth = 200;
             const buttonHeight = 50;
-            const x = (this.canvas.width / 2) - (buttonWidth / 2) + index * (buttonWidth + 20) - (this.buttons.length - 1) * 120; // Zentrierung der Buttons
-            const y = this.canvas.height / 2 + 100;
-
-            // Button Rechteck
+            const x = (this.canvas.width - buttonWidth) / 2;
+            const y = this.canvas.height / 2 + 100 + index * (buttonHeight + 20);
+            // Zeichne das Rechteck für den Button.
             this.ctx.fillStyle = 'rgba(255, 255, 255, 0.8)';
             this.ctx.fillRect(x, y, buttonWidth, buttonHeight);
-
-            // Button Text
+            // Zeichne den Text.
             this.ctx.fillStyle = 'black';
             this.ctx.fillText(button.label, x + buttonWidth / 2, y + buttonHeight / 2 + 10);
-
-            // Speichere die Position für Klickerkennung
+            // Speichere die Buttonposition und -größe für die Klickerkennung.
             button.x = x;
             button.y = y;
             button.width = buttonWidth;
             button.height = buttonHeight;
         });
-    }
+    
 
+    // Leitet Klicks an die Buttons weiter.
     handleClick(event) {
         const rect = this.canvas.getBoundingClientRect();
         const clickX = event.clientX - rect.left;
         const clickY = event.clientY - rect.top;
-
-        // Prüfen, ob ein Button geklickt wurde
         this.buttons.forEach((button) => {
             if (
                 clickX > button.x &&
@@ -101,10 +93,11 @@ class GameOverScreen {
                 clickY > button.y &&
                 clickY < button.y + button.height
             ) {
-                button.action(); // Führe die Aktion des Buttons aus
+                button.action();
             }
         });
     }
+}
 
 
 }
