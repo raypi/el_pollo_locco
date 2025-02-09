@@ -9,24 +9,40 @@ class GameOverScreen {
      * @param {function} exitGameCallback - Callback für "Menü" (zurück zum Startscreen).
      */
 
-    
-    constructor(canvas, restartGameCallback, exitGameCallback) {
+
+    constructor(canvas, type, restartGameCallback, exitGameCallback) {
         this.canvas = canvas;
         this.ctx = canvas.getContext('2d');
         this.restartGameCallback = restartGameCallback;
         this.exitGameCallback = exitGameCallback;
-    
-        this.logoImage = new Image();
-        this.logoImage.src = 'assets/img/9_intro_outro_screens/game_over/game over.png'; 
-        this.logoImage.onload = () => {
-            this.draw(); 
+        this.type = type; // 'endboss' oder 'character'
+
+        // Wähle die Grafik anhand des Typs
+        this.gameOverImage = new Image();
+        if (this.type === 'endboss') {
+            // Beispiel: Spieler gewinnt (Boss besiegt)
+            this.gameOverImage.src = 'assets/img/9_intro_outro_screens/win/win_1.png';
+        } else if (this.type === 'character') {
+            // Beispiel: Spieler verliert
+            this.gameOverImage.src = 'assets/img/9_intro_outro_screens/game_over/you lost.png';
+        } else {
+            // Fallback-Grafik
+            this.gameOverImage.src = 'assets/img/3_enemies_chicken/chicken_small/1_walk/1_w.png';
+            console.log('kann nicht passieren ist aber passiert, nicht von character und endboss')
+        }
+
+        // Sobald das Bild geladen ist, wird der Screen gezeichnet.
+        this.gameOverImage.onload = () => {
+            this.draw();
         };
-    
+
+        // Definiere die Buttons.
         this.buttons = [
             { label: 'Neues Spiel', action: () => this.restartGameCallback() },
             { label: 'Menü', action: () => this.exitGameCallback() }
         ];
     }
+
 
 
     draw() {
