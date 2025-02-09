@@ -25,13 +25,23 @@ function init() {
     //     startScreen.handleClick(event);
     // });
     
+    canvas = document.getElementById('canvas');
+    // Erstelle den Screen Manager und übergebe den Canvas
+    screenManager = new ScreenManager(canvas);
+    // Zeige zunächst den Startscreen an
+    screenManager.showStartScreen();
+    // Füge Tastatur-Eventlistener hinzu
+    window.addEventListener('keydown', keyboardKeyDown);
+    window.addEventListener('keyup', keyboardKeyUp);
+    
 }
 
 
-//*css*/`
+//newGame
 function newGame(){
     console.log('neues spiel')
     // alle prozesse stoppen clear all inverals und inhalt der init.
+    startGame();
 }
 
 
