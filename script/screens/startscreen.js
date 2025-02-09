@@ -77,4 +77,15 @@ class StartScreen {
     toggleSound(){
         console.log('Klick auf Musik');
     }  
+
+    // nur zum testen
+    showGameOver() {
+        // Hier greifen wir auf den globalen screenManager zu und rufen dessen Methode auf.
+        // Wir übergeben als Typ 'character' (für Testzwecke), du kannst hier auch 'endboss' übergeben, je nach Bedarf.
+        if (typeof screenManager !== 'undefined') {
+            screenManager.showGameOverScreen('character');
+        } else {
+            console.error("screenManager ist nicht definiert!");
+        }
+    }
 }
