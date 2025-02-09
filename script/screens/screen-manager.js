@@ -7,4 +7,9 @@ class ScreenManager {
         // Aktueller Screen (z. B. StartScreen, GameOverScreen)
         this.currentScreen = null;
     }
+
+    showStartScreen(){
+        
+    }
+
 }
