@@ -6,17 +6,9 @@ class Endboss extends MovableObject {
     energyBoss = 100;
     currentAnimationFrame = 0;
     contact = false;
-  
-    // Zeitstempel des letzten Treffers für die "hurt" Animation
     lasthitBoss = Date.now();
-  
-    // Zustandsverwaltung: Der Boss kann "alive" oder "dead" sein
     state = "alive";
-  
-    // Zeitstempel für Animationssteuerung
     lastAnimationTime = Date.now();
-  
-    // Position beim Tod wird gespeichert, damit der Boss an dieser Stelle bleibt
     deathX = null;
   
     // Bildsequenzen für verschiedene Animationen
@@ -60,7 +52,15 @@ class Endboss extends MovableObject {
       'assets/img/4_enemie_boss_chicken/5_dead/G26.png'
     ];
   
+
+    /**
+     * @param {function} [gameOverCallback] - Optionaler Callback, der beim Abschluss der Todesanimation aufgerufen wird.
+     * Er wird mit dem Parameter 'endboss' aufgerufen, um anzuzeigen, dass der Spieler den Boss besiegt hat.
+     */
+
+
     constructor() {
+      // Lade ein Startbild
       super().loadImage('assets/img/4_enemie_boss_chicken/2_alert/G5.png');
       // Alle Bilder laden
       this.loadImages(this.IMAGES_WALKING);
@@ -71,6 +71,9 @@ class Endboss extends MovableObject {
   
       this.x = 2550; // Startposition
       this.speed = 0.15 + Math.random() + 0.25;
+
+      // Speichere den Callback, falls vorhanden
+      this.gameOverCallback = gameOverCallback;
   
       // Starte den normalen Animations-Loop
       this.startAnimation();
@@ -79,33 +82,34 @@ class Endboss extends MovableObject {
 
     startAnimation() {
       this.animationInterval = setInterval(() => {
-        // Wenn der Boss tot ist, stoppe diesen Interval und starte die Todesanimation
+        // Wenn der Boss nicht mehr "alive" ist, starte die Todesanimation.
         if (this.state !== "alive") {
           clearInterval(this.animationInterval);
-          // Hier kannst du nun den neuen Interval für die Tot-Animation einfügen:
-          
-          // Berechne den Delay basierend auf der Anzahl der Frames, damit insgesamt 3000ms (3 Sekunden) erreicht werden
+          // Berechne den Delay, damit die Todesanimation insgesamt 3000ms dauert.
           const frameCount = this.IMAGES_DEAD.length;
-          const delay = 3000 / frameCount; // in Millisekunden
-    
+          const delay = 3000 / frameCount;
           let deathFrame = 0;
           let deathInterval = setInterval(() => {
             this.playAnimation(this.IMAGES_DEAD);
             deathFrame++;
-            
-            // Sobald alle Frames einmal angezeigt wurden:
             if (deathFrame >= frameCount) {
               clearInterval(deathInterval);
               this.state = "finished";
-              // Lade das letzte Bild, damit es stehen bleibt
+              // Zeige das letzte Todesbild dauerhaft an.
               this.loadImage(this.IMAGES_DEAD[this.IMAGES_DEAD.length - 1]);
               console.log("Game Over wird aufgerufen.");
-              showGameOver();
+              // Statt eine globale Funktion zu rufen, nutzen wir den Callback.
+              if (this.gameOverCallback) {
+                // Übergabe des Typs 'endboss' signalisiert, dass der Spieler den Boss besiegt hat.
+                this.gameOverCallback('endboss');
+              }
             }
           }, delay);
+          return;
         }
-        
-        // Normale Animationen - werden nur ausgeführt wenn der Boss lebt
+  
+        // Wenn der Boss verwundet ist, spiele die Hurt-Animation;
+        // ansonsten zyklisch zwischen Alert-, Attack- und Walking-Animation wechseln.
         if (this.isHurt()) {
           this.playAnimation(this.IMAGES_HURT);
         } else if ((this.currentAnimationFrame % 60) < 15) {
@@ -118,6 +122,7 @@ class Endboss extends MovableObject {
         this.currentAnimationFrame++;
       }, 100);
     }
+      
     
   
     hitBoss() {
@@ -128,8 +133,6 @@ class Endboss extends MovableObject {
         world.endbossBar.setPercentage(this.energyBoss);
       }
       this.lasthitBoss = Date.now();
-  
-      // Wenn die Energie 0 erreicht, soll der Boss sterben
       if (this.energyBoss === 0) {
         this.dieBoss();
       }
@@ -138,8 +141,7 @@ class Endboss extends MovableObject {
     // Diese Methode wird aufgerufen, wenn der Boss sterben soll.
     dieBoss() {
       this.state = "dead";
-      // Optional: Hier kannst du auch die aktuelle Position speichern,
-      // falls der Boss sich beim Sterben noch bewegen könnte.
+      // speichert Podition um boss bestzuhalten
       this.deathX = this.x;
     }
   
