@@ -53,11 +53,9 @@ class ScreenManager {
         this.clearCanvas();
         newGame();
     }
-    
-    
+
     // Hilfsfunktion, um den Canvas zu leeren.
     clearCanvas() {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
     }
-
 }
