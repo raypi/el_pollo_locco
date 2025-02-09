@@ -1,5 +1,15 @@
-class GameOverScreen {
+// Es handelt sich um einen einheitlichen Game Over Screen, der je nach übergebenem Typ
+// (z. B. 'endboss' oder 'character') unterschiedliche Grafiken anzeigt.
 
+class GameOverScreen {
+    /**
+     * @param {HTMLCanvasElement} canvas - Das Canvas-Element.
+     * @param {string} type - Bestimmt, welche Grafik angezeigt wird ('endboss' oder 'character').
+     * @param {function} restartGameCallback - Callback für "Neues Spiel".
+     * @param {function} exitGameCallback - Callback für "Menü" (zurück zum Startscreen).
+     */
+
+    
     constructor(canvas, restartGameCallback, exitGameCallback) {
         this.canvas = canvas;
         this.ctx = canvas.getContext('2d');
