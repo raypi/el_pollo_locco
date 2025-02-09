@@ -46,12 +46,11 @@ class StartScreen {
         });
     }
 
+    // Leitet Klicks an die korrekten Buttons weiter.
     handleClick(event) {
         const rect = this.canvas.getBoundingClientRect();
         const clickX = event.clientX - rect.left;
         const clickY = event.clientY - rect.top;
-
-        // Prüfen, ob ein Button geklickt wurde
         this.buttons.forEach((button) => {
             if (
                 clickX > button.x &&
@@ -59,36 +58,23 @@ class StartScreen {
                 clickY > button.y &&
                 clickY < button.y + button.height
             ) {
-                button.action(); // Führe die Aktion des Buttons aus
+                button.action();
             }
         });
     }
 
+    // Steurung anzeien ggf. ändern
     showControls(){
         console.log('Klick auf Steuerung');
     }
 
+    // Spielanleitung
     showExplanation(){
         console.log('Klick auf Erklärung');
     }
 
+    // hintergrund sound ein und ausschalten
     toggleSound(){
         console.log('Klick auf Musik');
-    }
-
-
-    showGameOver() {
-        const gameOverScreen = new EndScreen(this.canvas, () => {}, () => {});
-        gameOverScreen.draw(); // Game-Over-Screen anzeigen
-        
-        // Klickereignisse an den GameOverScreen weiterleiten
-        const handleGameOverClick = (event) => {
-            gameOverScreen.handleClick(event);
-        };
-    
-        this.canvas.addEventListener('click', handleGameOverClick);
-    }
-    
-    
-    
+    }  
 }
