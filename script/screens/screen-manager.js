@@ -45,4 +45,19 @@ class ScreenManager {
             this.currentScreen.handleClick(event);
         };
     }
+
+
+    // Startet ein neues Spiel.
+    newGame() {
+        this.canvas.onclick = null;
+        this.clearCanvas();
+        newGame();
+    }
+    
+    
+    // Hilfsfunktion, um den Canvas zu leeren.
+    clearCanvas() {
+        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+    }
+
 }
