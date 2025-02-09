@@ -14,19 +14,17 @@
 let canvas;
 let world;
 let keyboard = new Keyboard();
-let startScreen;
-
+// let startScreen;
+let screenManager; // Referenz auf Screen Manager
 
 function init() {
-    canvas = document.getElementById('canvas');
-    startScreen = new StartScreen(canvas, startGame);
-    startScreen.draw();
-    canvas.addEventListener('click', (event) => {
-        startScreen.handleClick(event);
-    });
-    // world = new World(canvas, keyboard);
-    // console.log('My Character is: ', world.character);
-    // console.log('The enemies is: ', world.enemies);    // aktuell nicht mehr verknüpft
+    // canvas = document.getElementById('canvas');
+    // startScreen = new StartScreen(canvas, startGame);
+    // startScreen.draw();
+    // canvas.addEventListener('click', (event) => {
+    //     startScreen.handleClick(event);
+    // });
+    
 }
 
 
