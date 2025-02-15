@@ -10,7 +10,7 @@ class StartScreen {
         this.canvas = canvas;
         this.ctx = canvas.getContext('2d');
         this.startGameCallback = startGameCallback;
-        this.musicOn = true; // Standard: Musik ist an
+        this.musicOn = false; // Standard: Musik ist aus
         this.backgroundImage = new Image();
         this.backgroundImage.src = 'assets/img/9_intro_outro_screens/start/startscreen_1.png';
         this.backgroundImage.onload = () => {
@@ -20,11 +20,10 @@ class StartScreen {
             { label: 'Start', action: this.startGameCallback },
             { label: 'Steuerung', action: () => this.showControls() },
             { label: 'Erklärung', action: () => this.showExplanation() },
-            { label: 'Musik aus', action: () => this.toggleSound() },// standart Hintergrundmusik läuft, bei klick wird ausgeschalten
+            { label: 'Musik an', action: () => this.toggleSound() },// standart Hintergrundmusik aus, bei klick wird eingeschalten
             { label: 'Game Over', action: () => this.showGameOver() },// nur zu testzwecken
         ];
-        // Hintergrundmusik starten
-        AudioHub.playOneSound(AudioHub.GAMEMUSIC);
+
     }
 
     // Zeichnet den Startscreen.
