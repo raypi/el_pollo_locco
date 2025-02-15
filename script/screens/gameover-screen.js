@@ -59,7 +59,7 @@ class GameOverScreen {
         const imgY = this.canvas.height / 3 - imgHeight / 2;
         this.ctx.drawImage(this.gameOverImage, imgX, imgY, imgWidth, imgHeight);
         // Zeichne die Buttons unterhalb der Grafik.
-        this.ctx.font = '30px Arial';
+        this.ctx.font = '18px Sixtyfour, sans-serif';
         this.ctx.textAlign = 'center';
         this.ctx.fillStyle = 'white';
         this.buttons.forEach((button, index) => {

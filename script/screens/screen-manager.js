@@ -1,7 +1,9 @@
 class ScreenManager {
-
-    constructor(){
-    
+  /**
+   * Canvas als Parameter zu übergeben.
+   * @param {HTMLCanvasElement} canvas 
+   */
+    constructor(canvas){
         this.canvas = canvas;
         this.ctx = canvas.getContext('2d');
         // Aktueller Screen (z. B. StartScreen, GameOverScreen)
@@ -28,23 +30,28 @@ class ScreenManager {
        // Rufe die globale startGame()-Funktion auf.
        startGame();
     }
-
-    // Zeigt den Game Over Screen an.
-    // Der Parameter type steuert, welche Grafik angezeigt wird:
-    // 'endboss' (Spieler gewinnt, weil er den Boss besiegt) oder 'character' (Spieler verliert).
-    showGameOverScreen(type) {
-        this.currentScreen = new GameOverScreen(this.canvas, type, () => {
-            // Callback für "Neues Spiel"
-            this.newGame();
-        }, () => {
-            // Callback für "Menü" – zurück zum Startscreen
-            this.showStartScreen();
-        });
-        this.currentScreen.draw();
-        this.canvas.onclick = (event) => {
-            this.currentScreen.handleClick(event);
-        };
-    }
+/**
+   * Zeigt den Game Over Screen an.
+   * @param {string} type - 'endboss' (Spieler gewinnt, weil er den Boss besiegt) oder 'character' (Spieler verliert).
+   */
+showGameOverScreen(type) {
+    this.currentScreen = new GameOverScreen(
+      this.canvas,
+      type,
+      () => {
+        // Callback für "Neues Spiel"
+        this.newGame();
+      },
+      () => {
+        // Callback für "Menü" – zurück zum Startscreen
+        this.showStartScreen();
+      }
+    );
+    this.currentScreen.draw();
+    this.canvas.onclick = (event) => {
+      this.currentScreen.handleClick(event);
+    };
+  }
 
 
     // Startet ein neues Spiel.
@@ -58,4 +65,12 @@ class ScreenManager {
     clearCanvas() {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
     }
+
+    showOrientationScreen() {
+        this.currentScreen = new OrientationScreen(this.canvas);
+        this.currentScreen.draw();
+        this.canvas.onclick = (event) => {
+          this.currentScreen.handleClick(event);
+        };
+      }
 }

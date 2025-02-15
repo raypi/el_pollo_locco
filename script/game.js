@@ -18,24 +18,30 @@ let keyboard = new Keyboard();
 let screenManager; // Referenz auf Screen Manager
 
 function init() {
-    // canvas = document.getElementById('canvas');
-    // startScreen = new StartScreen(canvas, startGame);
-    // startScreen.draw();
-    // canvas.addEventListener('click', (event) => {
-    //     startScreen.handleClick(event);
-    // });
-    
     canvas = document.getElementById('canvas');
     // Erstelle den Screen Manager und übergebe den Canvas
     screenManager = new ScreenManager(canvas);
     // Zeige zunächst den Startscreen an
     screenManager.showStartScreen();
+      // Event-Listener für Orientierungswechsel
+    window.addEventListener("orientationchange", checkOrientation);
+    window.addEventListener("resize", checkOrientation);
     // Füge Tastatur-Eventlistener hinzu
     window.addEventListener('keydown', keyboardKeyDown);
     window.addEventListener('keyup', keyboardKeyUp);
     
 }
 
+function checkOrientation() {
+    if (window.matchMedia("(orientation: portrait)").matches) {
+      // Gerät ist im Portraitmodus – zeige den OrientationScreen
+      screenManager.showOrientationScreen();
+    } else {
+      // Gerät ist im Landscapemodus – zeige den StartScreen (oder den zuletzt genutzten Screen)
+      screenManager.showStartScreen();
+    }
+  }
+  
 
 //newGame
 function newGame(){
