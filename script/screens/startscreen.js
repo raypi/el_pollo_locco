@@ -10,6 +10,7 @@ class StartScreen {
         this.canvas = canvas;
         this.ctx = canvas.getContext('2d');
         this.startGameCallback = startGameCallback;
+        this.musicOn = true; // Standard: Musik ist an
         this.backgroundImage = new Image();
         this.backgroundImage.src = 'assets/img/9_intro_outro_screens/start/startscreen_1.png';
         this.backgroundImage.onload = () => {
@@ -19,9 +20,11 @@ class StartScreen {
             { label: 'Start', action: this.startGameCallback },
             { label: 'Steuerung', action: () => this.showControls() },
             { label: 'Erklärung', action: () => this.showExplanation() },
-            { label: 'Musik J/ N', action: () => this.toggleSound() },
+            { label: 'Musik aus', action: () => this.toggleSound() },// standart Hintergrundmusik läuft, bei klick wird ausgeschalten
             { label: 'Game Over', action: () => this.showGameOver() },// nur zu testzwecken
         ];
+        // Hintergrundmusik starten
+        AudioHub.playOneSound(AudioHub.GAMEMUSIC);
     }
 
     // Zeichnet den Startscreen.
@@ -73,10 +76,23 @@ class StartScreen {
         console.log('Klick auf Erklärung');
     }
 
-    // hintergrund sound ein und ausschalten
-    toggleSound(){
-        console.log('Klick auf Musik');
-    }  
+    // Hintergrundmusik ein- und ausschalten
+    toggleSound() {
+        if (this.musicOn) {
+            // Musik ist an – also ausschalten
+            AudioHub.stopOneSound(AudioHub.GAMEMUSIC);
+            this.musicOn = false;
+            // Button-Label anpassen: jetzt "Musik an", da beim nächsten Klick Musik eingeschaltet wird
+            this.buttons[3].label = 'Musik an';
+        } else {
+            // Musik ist aus – also einschalten
+            AudioHub.playOneSound(AudioHub.GAMEMUSIC);
+            this.musicOn = true;
+            // Button-Label anpassen: jetzt "Musik aus"
+            this.buttons[3].label = 'Musik aus';
+    }
+    this.draw(); // Neuzeichnen, um den geänderten Button-Text anzuzeigen
+}
 
     // nur zum testen
     showGameOver() {
