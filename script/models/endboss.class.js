@@ -95,12 +95,12 @@ class Endboss extends MovableObject {
             if (deathFrame >= frameCount) {
               clearInterval(deathInterval);
               this.state = "finished";
-              // Zeige das letzte Todesbild dauerhaft an.
-              this.loadImage(this.IMAGES_DEAD[this.IMAGES_DEAD.length - 1]);
               console.log("Game Over wird aufgerufen.");
-              // Statt eine globale Funktion zu rufen, nutzen wir den Callback.
-              if (this.gameOverCallback) {
-                // Übergabe des Typs 'endboss' signalisiert, dass der Spieler den Boss besiegt hat.
+              //world stoppen
+              if (typeof world !== 'undefined' && world.stopGame) {
+                world.stopGame();  // Stoppe die Welt (Animation, Intervals etc.)
+              }
+              if (this.gameOverCallback && typeof this.gameOverCallback === 'function') {
                 this.gameOverCallback('endboss');
               }
             }

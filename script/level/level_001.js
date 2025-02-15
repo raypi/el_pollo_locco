@@ -38,7 +38,10 @@ const level001 = new Level(
         new BackgroundObject('assets/img/5_background/layers/1_first_layer/2.png', 2157)
     ],
     [
-        new Endboss(),
+        new Endboss((resultType) => {
+            // resultType wird 'endboss' sein, wenn der Boss stirbt
+            screenManager.showGameOverScreen(resultType);
+        }),
     ],
     [
         new Coins(1200, 320),
