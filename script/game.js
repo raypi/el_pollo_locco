@@ -41,6 +41,9 @@ function init() {
 function newGame(){
     console.log('neues spiel')
     // alle prozesse stoppen clear all inverals und inhalt der init.
+    if (world && world.stopGame) {
+        world.stopGame();
+      }
     startGame();
 }
 
