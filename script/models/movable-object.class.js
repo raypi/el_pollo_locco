@@ -77,6 +77,8 @@ isColliding(mo) {
 
 
    hit() {
+      AudioHub.stopOneSound(AudioHub.HITCHARACTER);
+      AudioHub.playOneSound(AudioHub.HITCHARACTER);
       this.energy -= 5; 
       if (this.energy < 0) {
          this.energy = 0;

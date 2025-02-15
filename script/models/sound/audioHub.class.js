@@ -14,7 +14,7 @@ class AudioHub {
 
 
    // Array für alle audio Dateien
-   static allSounds = [AudioHub.CHICKENHIT, AudioHub.COINBARCOLLECT, AudioHub.COINBARCOUNT, AudioHub.DEATH, AudioHub.ENDBOSSBATTLE , AudioHub.JUMP , AudioHub.GAMEMUSIC];
+   static allSounds = [AudioHub.CHICKENHIT, AudioHub.COINBARCOLLECT, AudioHub.COINBARCOUNT, AudioHub.DEATH, AudioHub.ENDBOSSBATTLE , AudioHub.JUMP , AudioHub.GAMEMUSIC, AudioHub.HITCHARACTER];
    
     // methode zum abspielen einzelner Sound
     static playOneSound(sound) { 
