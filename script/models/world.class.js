@@ -214,7 +214,7 @@ class World {
                 AudioHub.stopOneSound(AudioHub.COINBARCOLLECT);
                 AudioHub.playOneSound(AudioHub.COINBARCOLLECT);
                 // console.log('Fkasche eingesammelt', bottle);
-                this.bottleBar.setPercentage(Math.min(this.bottleBar.percentage + 10, 100));
+                this.bottleBar.setPercentage(Math.min(this.bottleBar.percentage + 20, 100));
                 
                 // Erhöhe den Zähler der gesammelten Flaschen
                 ThrowableObject.countBottle++;
