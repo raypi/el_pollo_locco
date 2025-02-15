@@ -15,4 +15,8 @@ class AudioError {
         }, 200);
     }
 
+    // Stoppt das Abspielen einer einzelnen Audiodatei
+    static stopOneSound(sound) {
+        sound.pause();  // Pausiert das übergebene Audio
+    }
 }
