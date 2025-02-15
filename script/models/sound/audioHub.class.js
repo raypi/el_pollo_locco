@@ -14,7 +14,12 @@ class AudioHub {
    // Array für alle audio Dateien
    static allSounds = [AudioHub.CHICKENHIT, AudioHub.COINBARCOLLECT, AudioHub.COINBARCOUNT, AudioHub.DEATH, AudioHub.ENDBOSSBATTLE , AudioHub.JUMP , AudioHub.GAMEMUSIC];
    
-    // methode zum abspielen einzelner Sounds
+    // methode zum abspielen einzelner Sound
+    static playOne(sound) { 
+        sound.volume = 0.2;  // Setzt die Lautstärke auf 0.2 = 20% / 1 = 100%
+        sound.currentTime = 0;  // Startet ab einer bestimmten stelle ggf. im Array speichern und mit übergeben
+        sound.play();  // Spielt das übergebene Sound-Objekt ab
+    }
 
     // methode zum stoppen aller Sounds
 
