@@ -184,6 +184,8 @@ class World {
     collectingCoins(){
         this.level.coins = this.level.coins.filter((coin) => {
             if (this.character.isColliding(coin)) {
+                AudioHub.stopOneSound(AudioHub.COINBARCOLLECT);
+                AudioHub.playOneSound(AudioHub.COINBARCOLLECT);
                 // console.log('Coin eingesammelt!', coin);
                 this.coinBar.setPercentage(Math.min(this.coinBar.percentage + 10, 100));// Test
                 return false; // Coin wird entfernt
