@@ -24,29 +24,44 @@
     }    
 }
 
-@media (min-width: 800px) and (max-width: 1439px) {
+@media (min-width: 900px) and (max-width: 1439px) {
     .header-content {
-        width: 800px;
+        width: 900px;
     }
     .content-main {
-        width: 800px;
+        width: 900px;
     }
     .footer-content{
-        width: 800px;
+        width: 900px;
     }  
 }
 
-@media only screen and (max-width: 720px) {
+@media only screen and (max-width: 899px) {
+    header,
+    footer {
+        display: none !important;
+    }
+
     .game-container {
       width: 100vw;
+      height: 100vh;
+      margin: 0;
+      padding: 0;
       /* Mit aspect-ratio wird das Seitenverhältnis 720:480 (3:2) beibehalten */
       aspect-ratio: 720 / 480;
     }
-  }
-  
-  @media only screen and (max-width: 480px) {
-    header, footer {
-      font-size: var(--fontSizeSmall);
+    #canvas {
+        width: 100%;
+        height: 100%;
+        object-fit: container;/* oder ggf. cover*/
     }
   }
+
+/* @media only screen and (max-width: 720px) {
+ 
+  } */
+  
+  /* @media only screen and (max-width: 480px) {
+      
+  } */
 
