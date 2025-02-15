@@ -2,13 +2,13 @@ class AudioHub {
    // grundsätzliche steuerung aller sounds im spiel
 
    // Audiodateien laden
-   static CHICKENHIT = new Audio('assets/audio/ChickenSound.mp3');
-   static COINBARCOLLECT = new Audio('assets/audio/coinCollect.wav');
-   static COINBARCOUNT = new Audio('assets/audio/coinCount.wav');
-   static DEATH = new Audio('assets/audio/death.wav');
-   static ENDBOSSBATTLE = new Audio('assets/audio/enbossBattle.ogg');
-   static JUMP = new Audio('assets/audio/jump.wav');
-   static GAMEMUSIC = new Audio('assets/audio/gamemusic.wav');
+   static CHICKENHIT = new Audio('assets/audio/ChickenSound.mp3'); //wenn chicken oder smal Chicken oder Endboss einen Hit bekommen
+   static COINBARCOLLECT = new Audio('assets/audio/coinCollect.wav'); //wenn ein Coin oder eine Bottle eingesammelt wird
+   static COINBARCOUNT = new Audio('assets/audio/coinCount.wav'); // wenn Coin oder Bottle der entsprechenden Bar hinzugefügt wird
+   static DEATH = new Audio('assets/audio/death.wav'); // wenn Character oder Endboss sterben
+   static ENDBOSSBATTLE = new Audio('assets/audio/enbossBattle.ogg');// wenn der Character so nah am endboss ist das dessen animation startet, spielt bis kampf beendet, schaltet normale hintergrundmusik aus
+   static JUMP = new Audio('assets/audio/jump.wav'); // wenn der Character springt
+   static GAMEMUSIC = new Audio('assets/audio/gamemusic.wav'); // hintergrundmusik für Game, soll später ein Start bildschilm ein und ausschaltbar sein
 
 
 
