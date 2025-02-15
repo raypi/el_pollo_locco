@@ -6,7 +6,7 @@
 function createLevel001() {
     return new Level(
         [
-            new Chicken()
+            //new Chicken()
         ],
         [
             new Cloud()

@@ -47,16 +47,17 @@ class World {
             this.checkThrowObjects();
             this.collectingCoins();
             this.collectingBottles();
-            this.checkSmalChickenCollisions();
+            //this.checkSmalChickenCollisions();
             this.checkChickenCollisions();
             this.checkJumpChickenCollisions();
             this.chickenBottle();
             this.checkEndbossCollisions();
             this.endbossBottle();
-            this.smalChickenBottle();
+            //this.smalChickenBottle();
             this.chickenBottle();
-            this.checkJumpSmalChicken();
+            //this.checkJumpSmalChicken();
             this.level.endboss.forEach(boss => boss.firstContact());
+            this.checkSmalChicken();
 
         }, 200);
     }
@@ -135,6 +136,9 @@ class World {
     
         this.level.enemies = this.level.enemies.filter((enemy) => !enemy.removeFromWorld);
         this.addObjectsToMap(this.level.enemies);
+
+        this.level.smalChicken = this.level.smalChicken.filter((chicken) => !chicken.removeFromWorld);
+        this.addObjectsToMap(this.level.smalChicken);
     
         this.addObjectsToMap(this.level.smalChicken);
         this.addObjectsToMap(this.level.endboss);
@@ -229,69 +233,127 @@ class World {
     }
     
     
-    checkSmalChickenCollisions() {
-        // Prüfen, ob der Charakter nicht springt
-        if (this.character.y == 151) {
-            this.level.smalChicken.forEach((chicken) => {
-                if (this.character.isColliding(chicken)) {
-                    console.log('Spieler läuft gegen kleines Huhn');
-                    this.character.hit(); // Schaden buchen
-                    this.statusBar.setPercentage(this.character.energy);
-                }
-            });
-        }
-    }
+    // checkSmalChickenCollisions() {
+    //     // Prüfen, ob der Charakter nicht springt
+    //     if (this.character.y == 150) {
+    //         this.level.smalChicken.forEach((chicken) => {
+    //             if (this.character.isColliding(chicken)) {
+    //                 console.log('Spieler läuft gegen kleines Huhn');
+    //                 this.character.hit(); // Schaden buchen
+    //                 this.statusBar.setPercentage(this.character.energy);
+    //             }
+    //         });
+    //     }
+    // }
     
 
 
-    checkJumpSmalChicken() {
-        // Iteriere durch alle kleinen Hühner im Level
-        this.level.smalChicken.forEach((chicken) => {
-            // Aktionen nur ausführen, wenn der Spieler mit dem kleinen Huhn kollidiert und über dem Huhn ist
-            if (this.character.isColliding(chicken) && this.character.y < 151) {
-                AudioHub.stopOneSound(AudioHub.CHICKENHIT);
-                AudioHub.playOneSound(AudioHub.CHICKENHIT);
-
-                console.log('Spieler springt auf kleines Huhn');
-                console.log('PepeY:', this.character.y);
+    // checkJumpSmalChicken() {
+    //     // Iteriere durch alle kleinen Hühner im Level
+    //     this.level.smalChicken.forEach((smalChicken) => {
+    //         // Aktionen nur ausführen, wenn der Spieler mit dem kleinen Huhn kollidiert und über dem Huhn ist
+    //         if (this.character.isColliding(smalChicken) && this.character.y < 151) {
+    //             AudioHub.stopOneSound(AudioHub.CHICKENHIT);
+    //             AudioHub.playOneSound(AudioHub.CHICKENHIT);
     
-                // Zeige das Todesbild des kleinen Huhns
-                chicken.loadImage(SmalChicken.IMAGES_DEATH[0]);
-                
-                // Verzögertes Entfernen des kleinen Huhns nach 1 Sekunde
-                setTimeout(() => {
-                    chicken.removeFromWorld = true;
-                    console.log('Kleines Huhn entfernt');
-                }, 1000);
-            }
-        });
-    }
+    //             console.log('Spieler springt auf kleines Huhn');
+    //             console.log('PepeY:', this.character.y);
+    
+    //             // Zeige das Todesbild des kleinen Huhns (richtiger Property-Name: IMAGES_DEAD)
+    //             smalChicken.loadImage(SmalChicken.IMAGES_DEAD[0]);
+    
+    //             // Verzögertes Entfernen des kleinen Huhns nach 1 Sekunde
+    //             setTimeout(() => {
+    //                 smalChicken.removeFromWorld = true;
+    //                 console.log('Kleines Huhn entfernt');
+    //             }, 1000);
+    //         }
+    //     });
+    // }
+    
+    
 
 
-    smalChickenBottle() {
-        // Gehe durch alle kleinen Hühner im Level
-        this.level.smalChicken.forEach((chicken) => {
-            // Prüfen, ob eine Flasche vorhanden ist und ob sie das kleine Huhn trifft
-            if (this.throwableObjects.length > 0) {
-                let bottle = this.throwableObjects[0]; // Aktuelle Flasche
-                if (bottle.isColliding(chicken)) {
-                    AudioHub.stopOneSound(AudioHub.CHICKENHIT);
-                    AudioHub.playOneSound(AudioHub.CHICKENHIT);
+    // smalChickenBottle() {
+    //     // Gehe durch alle kleinen Hühner im Level
+    //     this.level.smalChicken.forEach((chicken) => {
+    //         // Prüfen, ob eine Flasche vorhanden ist und ob sie das kleine Huhn trifft
+    //         if (this.throwableObjects.length > 0) {
+    //             let bottle = this.throwableObjects[0]; // Aktuelle Flasche
+    //             if (bottle.isColliding(chicken)) {
+    //                 AudioHub.stopOneSound(AudioHub.CHICKENHIT);
+    //                 AudioHub.playOneSound(AudioHub.CHICKENHIT);
 
-                    console.log('Flasche trifft kleines Huhn!');
+    //                 console.log('Flasche trifft kleines Huhn!');
                     
-                    // Zeige das Todesbild des kleinen Huhns
-                    chicken.loadImage(SmalChicken.IMAGES_DEATH[0]);
+    //                 // Zeige das Todesbild des kleinen Huhns
+    //                 chicken.loadImage(SmalChicken.IMAGES_DEATH[0]);
     
-                    // Entferne das kleine Huhn nach 1 Sekunde
-                    setTimeout(() => {
-                        chicken.removeFromWorld = true;
-                        console.log('Kleines Huhn entfernt');
-                    }, 1000);
-                }
+    //                 // Entferne das kleine Huhn nach 1 Sekunde
+    //                 setTimeout(() => {
+    //                     chicken.removeFromWorld = true;
+    //                     console.log('Kleines Huhn entfernt');
+    //                 }, 1000);
+    //             }
+    //         }
+    //     });
+    // }
+
+    checkSmalChicken() {
+        this.level.smalChicken.forEach((smalChicken) => {
+          // Fall 1: Spieler springt auf das kleine Huhn (also in der Luft, y < 151)
+          if (this.character.isColliding(smalChicken) && this.character.y < 151) {
+            AudioHub.stopOneSound(AudioHub.CHICKENHIT);
+            AudioHub.playOneSound(AudioHub.CHICKENHIT);
+            
+            console.log('Spieler springt auf kleines Huhn');
+            console.log('PepeY:', this.character.y);
+            
+            // Animation stoppen, falls ein Interval läuft
+            if (smalChicken.animationInterval) {
+              clearInterval(smalChicken.animationInterval);
             }
+            
+            // Rufe die Todesanimation auf (die sich um Bildwechsel und Flag-Setzung kümmert)
+            smalChicken.deadAnimation();
+            setTimeout(() => {
+                smalChicken.removeFromWorld = true;
+                console.log('Kleines Huhn entfernt');
+              }, 1000);
+
+            
+           
+      
+          // Fall 2: Eine Flasche trifft das kleine Huhn
+          } else if (this.throwableObjects.length > 0 &&
+                     this.throwableObjects[0].isColliding(smalChicken)) {
+            AudioHub.stopOneSound(AudioHub.CHICKENHIT);
+            AudioHub.playOneSound(AudioHub.CHICKENHIT);
+            
+            console.log('Flasche trifft kleines Huhn!');
+            
+            if (smalChicken.animationInterval) {
+              clearInterval(smalChicken.animationInterval);
+            }
+            
+            smalChicken.deadAnimation();
+            setTimeout(() => {
+                smalChicken.removeFromWorld = true;
+                console.log('Kleines Huhn entfernt');
+              }, 1000);
+            
+      
+          // Fall 3: Spieler läuft gegen das kleine Huhn (nicht springend)
+          } else if (this.character.y === 150 && this.character.isColliding(smalChicken)) {
+            console.log('Spieler läuft gegen kleines Huhn');
+            this.character.hit(); // Schaden buchen
+            this.statusBar.setPercentage(this.character.energy);
+          }
         });
-    }
+      }
+      
+      
+      
     
     
     checkChickenCollisions() {
@@ -329,6 +391,7 @@ class World {
             }
         });
     }
+
     
     
     chickenBottle() {
