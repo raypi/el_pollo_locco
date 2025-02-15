@@ -3,11 +3,10 @@
  
 // Jetzt definieren wir das Level-Objekt
 
-// levelFactory.js
 function createLevel001() {
     return new Level(
         [
-            // Gegner (z. B. new Chicken(), ...)
+            new Chicken()
         ],
         [
             new Cloud()
@@ -54,7 +53,7 @@ function createLevel001() {
             new Bottles(800, 280),
         ],
         [
-            // Optional: weitere Gegner wie SmalChicken
+            new SmalChicken()
         ]
     );
 }

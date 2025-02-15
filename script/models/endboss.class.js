@@ -76,7 +76,7 @@ class Endboss extends MovableObject {
       this.gameOverCallback = gameOverCallback;
   
       // Starte den normalen Animations-Loop
-      this.startAnimation();
+      //this.startAnimation();
     }
   
 
@@ -154,10 +154,11 @@ class Endboss extends MovableObject {
   
     // Zeigt die Boss-Statusbar an, wenn der Spieler in Reichweite kommt.
     firstContact() {
-      if (!this.contact && typeof world !== "undefined" && world.character.x > 2100) {
+      if (!this.contact && typeof world !== "undefined" && world.character.x > 2200) {
         console.log("CONTACT");
         this.contact = true;
         world.contactBossBar = true;
+        this.startAnimation();
         world.endbossBar = new StatusBar("Endboss");
         world.endbossBar.x = 470;
         world.endbossBar.y = 20;

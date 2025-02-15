@@ -56,6 +56,8 @@ class World {
             this.smalChickenBottle();
             this.chickenBottle();
             this.checkJumpSmalChicken();
+            this.level.endboss.forEach(boss => boss.firstContact());
+
         }, 200);
     }
 
