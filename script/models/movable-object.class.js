@@ -54,6 +54,8 @@ class MovableObject extends DrawableObject { // bewegbare Objekte
 
 
   jump(){
+   AudioHub.stopOneSound(AudioHub.JUMP);
+      AudioHub.playOneSound(AudioHub.JUMP);
    this.speedY = 22;
   }
 
