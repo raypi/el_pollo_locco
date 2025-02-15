@@ -36,3 +36,6 @@ class AudioHub {
 
     // Anmerkung. ggf. kann man eine methode einfügen die die Lautstärke aller Sounds regelt
 }
+
+// hintergrundmusik permanent abspielen 
+AudioHub.GAMEMUSIC.loop = true;
