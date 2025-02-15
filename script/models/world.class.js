@@ -42,7 +42,7 @@ class World {
     }
 
     run() {
-        setInterval(() => {
+        this.runIntervalId = setInterval(() => {
             // this.checkCollisions();
             this.checkThrowObjects();
             this.collectingCoins();
@@ -97,56 +97,6 @@ class World {
         });
     }
 
-    // draw() {
-    //     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-    
-    //     this.ctx.translate(this.camera_x, 0);
-    //     this.addObjectsToMap(this.level.backgroundObject);
-    
-    //     this.ctx.translate(-this.camera_x, 0);
-    
-    //     // Statusbars zeichnen
-    //     this.statusBar.y = 0;
-    //     this.addToMap(this.statusBar);
-    
-    //     this.coinBar.y = 40;
-    //     this.addToMap(this.coinBar);
-    
-    //     this.bottleBar.y = 80;
-    //     this.addToMap(this.bottleBar);
-
-    //     // Zeichne die Endboss-Statusbar nur, wenn der Kampf begonnen hat
-    //     if (this.contactBossBar) {
-    //     this.addToMap(this.endbossBar);  // Endboss Statusbar einblenden
-    //     }
-    
-    //     this.ctx.translate(this.camera_x, 0);
-    //     this.addObjectsToMap(this.level.clouds);
-        
-    //     this.level.enemies = this.level.enemies.filter((enemy) => !enemy.removeFromWorld);
-    //     this.addObjectsToMap(this.level.enemies);
-
-    //     this.addObjectsToMap(this.level.smalChicken);
-    //     this.addObjectsToMap(this.level.endboss);
-    
-        
-        
-    //     // Coins und Bottles zeichnen
-    //     this.addObjectsToMap(this.level.bottles);
-    //     // console.log('DG World Draw, Bottel:', this.level.bottles);
-    //     this.addObjectsToMap(this.level.coins);
-    //     // console.log('DG World Draw, Coins:', this.level.coins);
-    
-    //     this.addObjectsToMap(this.throwableObjects);
-    //     this.addToMap(this.character);
-    
-    //     this.ctx.translate(-this.camera_x, 0);
-    
-    //     let self = this;
-    //     requestAnimationFrame(function () {
-    //         self.draw();
-    //     });
-    // }
 
     draw() {
         // Wenn die Welt gestoppt wurde (z. B. nach dem Tod des Endboss), breche die Zeichnung ab.
@@ -208,6 +158,7 @@ class World {
     stopGame() {
         this.stopped = true;
         cancelAnimationFrame(this.animationFrameId);
+        clearInterval(this.runIntervalId);
     }
     
 

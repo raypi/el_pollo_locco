@@ -40,6 +40,7 @@ function init() {
 //newGame
 function newGame(){
     console.log('neues spiel')
+    AudioHub.stopAllSounds();
     // alle prozesse stoppen clear all inverals und inhalt der init.
     if (world && world.stopGame) {
         world.stopGame();
@@ -51,6 +52,7 @@ function newGame(){
 // später ändern in einen Bildschirm Manager um andere Ansichten zu realisieren wie Pause, Game Over...
 function startGame() {
     console.log('Spiel wird gestartet!');
+    level001 = createLevel001();
     world = new World(canvas, keyboard);
 }
 

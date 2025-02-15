@@ -118,6 +118,7 @@ class Endboss extends MovableObject {
           this.playAnimation(this.IMAGES_ATTACK);
         } else {
           this.playAnimation(this.IMAGES_WALKING);
+          this.moveLeftBoss();
         }
         this.currentAnimationFrame++;
       }, 100);
@@ -148,7 +149,7 @@ class Endboss extends MovableObject {
     // Bewegt den Boss nach links – aber nur, wenn er lebt.
     moveLeftBoss() {
       if (this.state !== "alive" || this.deathX !== null) return;
-      this.x -= 0.5;
+      this.x -= 2;
     }
   
     // Zeigt die Boss-Statusbar an, wenn der Spieler in Reichweite kommt.
