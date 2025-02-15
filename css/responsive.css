@@ -36,8 +36,17 @@
     }  
 }
 
+@media only screen and (max-width: 720px) {
+    .game-container {
+      width: 100vw;
+      /* Mit aspect-ratio wird das Seitenverhältnis 720:480 (3:2) beibehalten */
+      aspect-ratio: 720 / 480;
+    }
+  }
+  
+  @media only screen and (max-width: 480px) {
+    header, footer {
+      font-size: var(--fontSizeSmall);
+    }
+  }
 
-
-/* @media (max-width: 600px) {
-   
-} */
