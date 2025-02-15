@@ -30,6 +30,9 @@ class AudioHub {
     }
 
     // methode zum stoppen eines sounds
+    static stopOneSound(sound) {
+        sound.pause();  // Pausiert das übergebene Audio
+        }
 
     // Anmerkung. ggf. kann man eine methode einfügen die die Lautstärke aller Sounds regelt
 }
