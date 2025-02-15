@@ -9,6 +9,8 @@ class AudioHub {
    static ENDBOSSBATTLE = new Audio('assets/audio/enbossBattle.ogg');// wenn der Character so nah am endboss ist das dessen animation startet, spielt bis kampf beendet, schaltet normale hintergrundmusik aus
    static JUMP = new Audio('assets/audio/jump.wav'); // wenn der Character springt
    static GAMEMUSIC = new Audio('assets/audio/gamemusic.wav'); // hintergrundmusik für Game, soll später ein Start bildschilm ein und ausschaltbar sein
+   // sound als Plathalter weil ich noch nichts gefunden habe
+   static HITCHARACTER = new Audio('assets/audio/alarm.wav'); // wenn der Character springt
 
 
    // Array für alle audio Dateien

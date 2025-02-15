@@ -197,6 +197,8 @@ class World {
     collectingBottles() {
         this.level.bottles = this.level.bottles.filter((bottle) => {
             if (this.character.isColliding(bottle)) {
+                AudioHub.stopOneSound(AudioHub.COINBARCOLLECT);
+                AudioHub.playOneSound(AudioHub.COINBARCOLLECT);
                 // console.log('Fkasche eingesammelt', bottle);
                 this.bottleBar.setPercentage(Math.min(this.bottleBar.percentage + 10, 100));
                 
