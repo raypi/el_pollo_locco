@@ -233,6 +233,9 @@ class World {
         this.level.smalChicken.forEach((chicken) => {
             // Aktionen nur ausführen, wenn der Spieler mit dem kleinen Huhn kollidiert und über dem Huhn ist
             if (this.character.isColliding(chicken) && this.character.y < 151) {
+                AudioHub.stopOneSound(AudioHub.CHICKENHIT);
+                AudioHub.playOneSound(AudioHub.CHICKENHIT);
+
                 console.log('Spieler springt auf kleines Huhn');
                 console.log('PepeY:', this.character.y);
     
@@ -256,6 +259,9 @@ class World {
             if (this.throwableObjects.length > 0) {
                 let bottle = this.throwableObjects[0]; // Aktuelle Flasche
                 if (bottle.isColliding(chicken)) {
+                    AudioHub.stopOneSound(AudioHub.CHICKENHIT);
+                    AudioHub.playOneSound(AudioHub.CHICKENHIT);
+
                     console.log('Flasche trifft kleines Huhn!');
                     
                     // Zeige das Todesbild des kleinen Huhns
@@ -290,6 +296,9 @@ class World {
         this.level.enemies.forEach((enemy) => {
             // Aktionen nur ausführen, wenn beide Bedingungen erfüllt sind
             if (this.character.isColliding(enemy) && this.character.y < 151) {
+                AudioHub.stopOneSound(AudioHub.CHICKENHIT);
+                AudioHub.playOneSound(AudioHub.CHICKENHIT);
+
                 console.log('Spieler springt auf Huhn');
                 console.log('PepeY:', this.character.y);
     
@@ -313,6 +322,9 @@ class World {
             if (this.throwableObjects.length > 0) {
                 let bottle = this.throwableObjects[0]; // Aktuelle Flasche
                 if (bottle.isColliding(enemy)) {
+                    AudioHub.stopOneSound(AudioHub.CHICKENHIT);
+                    AudioHub.playOneSound(AudioHub.CHICKENHIT);
+
                     console.log('Flasche trifft Huhn!');
                     
                     // Zeige das Todesbild des Huhns
@@ -350,6 +362,9 @@ class World {
             // Prüfe Kollision mit Endboss
             for (let endboss of this.level.endboss) {
                 if (bottle.isColliding(endboss)) {
+                    AudioHub.stopOneSound(AudioHub.CHICKENHIT);
+                    AudioHub.playOneSound(AudioHub.CHICKENHIT);
+
                     console.log('Flasche trifft Endboss!');
                     endboss.hitBoss();
                     return false; // Entferne die Flasche sofort
