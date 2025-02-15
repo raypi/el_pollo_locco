@@ -11,9 +11,8 @@ class AudioHub {
    static GAMEMUSIC = new Audio('assets/audio/gamemusic.wav'); // hintergrundmusik für Game, soll später ein Start bildschilm ein und ausschaltbar sein
 
 
-
-
    // Array für alle audio Dateien
+   static allSounds = [AudioHub.CHICKENHIT, AudioHub.COINBARCOLLECT, AudioHub.COINBARCOUNT, AudioHub.DEATH, AudioHub.ENDBOSSBATTLE , AudioHub.JUMP , AudioHub.GAMEMUSIC];
    
     // methode zum abspielen einzelner Sounds
 
