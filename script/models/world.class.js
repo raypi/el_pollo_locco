@@ -31,7 +31,9 @@ class World {
         this.controlLeftImg = new Image();
         this.controlLeftImg.src = 'assets/button/arrowleft.png';
         this.controlUpImg = new Image();
-        this.controlUpImg.src = 'assets/button/arrowup.png';    
+        this.controlUpImg.src = 'assets/button/arrowup.png';
+        this.controlRightImg = new Image();
+        this.controlRightImg.src = 'assets/button/arrowright.png';    
        
          
        
