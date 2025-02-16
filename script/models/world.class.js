@@ -27,6 +27,9 @@ class World {
         this.run();
         this.contactBossBar = false;
         this.stopped = false; // Flag stopGame
+        // mobile Steuerung
+        this.controlLeftImg = new Image();
+        this.controlLeftImg.src = 'assets/button/arrowleft.png';
        
          
        
