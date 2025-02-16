@@ -1,3 +1,5 @@
+/* ggf. super wide Bildschirme 2560px/ 3840px abdecken zusätzlich  */
+
 @media (min-width: 1920px) {
     .header-content {
         width: 1920px;
