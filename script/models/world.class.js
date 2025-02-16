@@ -30,6 +30,8 @@ class World {
         // mobile Steuerung
         this.controlLeftImg = new Image();
         this.controlLeftImg.src = 'assets/button/arrowleft.png';
+        this.controlUpImg = new Image();
+        this.controlUpImg.src = 'assets/button/arrowup.png';    
        
          
        
