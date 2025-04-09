@@ -374,7 +374,7 @@ class World {
             
       
           // Fall 3: Spieler läuft gegen das kleine Huhn (nicht springend)
-          } else if (this.character.y === 151 && this.character.isColliding(smalChicken)) {
+          } else if (this.character.y === 150 && this.character.isColliding(smalChicken)) {
             console.log('Spieler läuft gegen kleines Huhn');
             this.character.hit(); // Schaden buchen
             this.statusBar.setPercentage(this.character.energy);
@@ -403,7 +403,8 @@ class World {
     checkJumpChickenCollisions() {
         this.level.enemies.forEach((enemy) => {
             // Aktionen nur ausführen, wenn beide Bedingungen erfüllt sind
-            if (this.character.isColliding(enemy) && this.character.y < 151) {
+            // if (this.character.isColliding(enemy) && this.character.y < 151) {
+                if (this.character.isColliding(enemy) && this.character.y < 151 && this.character.speedY < 0) {
                 AudioHub.stopOneSound(AudioHub.CHICKENHIT);
                 AudioHub.playOneSound(AudioHub.CHICKENHIT);
 
