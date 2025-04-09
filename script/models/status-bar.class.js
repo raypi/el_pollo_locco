@@ -55,7 +55,7 @@ class StatusBar extends DrawableObject {
             this.setPercentage(100); // Standard für Health
         } else if (this.type === 'Coin') {
             this.loadImages(this.IMAGES_COIN);
-            this.setPercentage(80); // Standard für Coins
+            this.setPercentage(0); // Standard für Coins
         } else if (this.type === 'Bottle') {
             this.loadImages(this.IMAGES_BOTTLE);
             this.setPercentage(0); // Standard für Bottles

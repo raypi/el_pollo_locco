@@ -388,7 +388,9 @@ class World {
     
     checkChickenCollisions() {
         // Prüfen, ob der Charakter nicht springt
-        if (this.character.y == 151) {
+        if (this.character.y == 151 && this.character.speedY == 0) {
+        // if (this.character.speedY === 0) {
+        // if (Math.abs(this.character.speedY) < 0.01){    
             this.level.enemies.forEach((enemy) => {
                 if (this.character.isColliding(enemy)) {
                     console.log('Spieler läuft gegen Huhn');
@@ -404,7 +406,7 @@ class World {
         this.level.enemies.forEach((enemy) => {
             // Aktionen nur ausführen, wenn beide Bedingungen erfüllt sind
             // if (this.character.isColliding(enemy) && this.character.y < 151) {
-                if (this.character.isColliding(enemy) && this.character.y < 151 && this.character.speedY < 0) {
+                if (this.character.isColliding(enemy) && this.character.y < 149 && this.character.speedY < 0) {
                 AudioHub.stopOneSound(AudioHub.CHICKENHIT);
                 AudioHub.playOneSound(AudioHub.CHICKENHIT);
 
