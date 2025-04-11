@@ -121,27 +121,54 @@ class Character extends MovableObject {
             this.world.camera_x = -this.x + 100;
         }, 1000 / 60);
 
-        setInterval(() => {
+    //     setInterval(() => {
 
-            if (this.isDead()) {
-                this.playAnimation(this.IMAGES_DEAD);
+    //         if (this.isDead()) {
+    //             this.playAnimation(this.IMAGES_DEAD);
 
                 
-            } else if(this.isHurt()){
-                this.playAnimation(this.IMAGES_HURT);
+    //         } else if(this.isHurt()){
+    //             this.playAnimation(this.IMAGES_HURT);
 
-            } else if(this.isAboveGrund()){
-                this.playAnimation(this.IMAGES_JUMPING);
+    //         } else if(this.isAboveGrund()){
+    //             this.playAnimation(this.IMAGES_JUMPING);
                 
+    //         } else {
+
+    //             if(this.world.keyboard.RIGHT || this.world.keyboard.LEFT){
+    //                 this.playAnimation(this.IMAGES_WALKING);
+    //             } else {
+    //                 this.checkIdle();
+    //             }
+    //     }    
+    // }, 100);    
+    setInterval(() => {
+        if (this.isDead()) {
+            this.playAnimation(this.IMAGES_DEAD);
+        } else if (this.isHurt()) {
+            this.playAnimation(this.IMAGES_HURT);
+        } else if (this.isAboveGrund()) {
+            this.playAnimation(this.IMAGES_JUMPING);
+        } else {
+            // Wenn Bewegungstasten gedrückt werden, spiele die Walking Animation.
+            if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
+                this.playAnimation(this.IMAGES_WALKING);
             } else {
-
-                if(this.world.keyboard.RIGHT || this.world.keyboard.LEFT){
-                    this.playAnimation(this.IMAGES_WALKING);
+                // Keine Bewegung: Sofort das Standbild zeigen, solange noch keine
+                // längere Inaktivität vorliegt.
+                const timeSinceLastMove = Date.now() - this.lastMoveTime;
+                if (timeSinceLastMove < 3000) {
+                    // Direkt das Standbild anzeigen.
+                    this.loadImage('assets/img/2_character_pepe/1_idle/idle/I-1.png');
                 } else {
+                    // Nach 3 Sekunden Inaktivität: Idle Animation bzw. 
+                    // nach 10 Sekunden: LongIdle Animation (wie in deiner checkIdle-Methode)
                     this.checkIdle();
                 }
-        }    
-    }, 100);    
+            }
+        }
+    }, 100);
+    
     }
 
 
