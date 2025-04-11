@@ -374,7 +374,7 @@ class World {
             
       
           // Fall 3: Spieler läuft gegen das kleine Huhn (nicht springend)
-          } else if (this.character.y === 150 && this.character.isColliding(smalChicken)) {
+          } else if (this.character.y === 151 && this.character.isColliding(smalChicken)) {
             console.log('Spieler läuft gegen kleines Huhn');
             this.character.hit(); // Schaden buchen
             this.statusBar.setPercentage(this.character.energy);
@@ -386,13 +386,26 @@ class World {
       
     
     
+    // checkChickenCollisions() {
+    //     // Prüfen, ob der Charakter nicht springt
+    //     if (this.character.y == 151) {
+    //     // if (this.character.speedY === 0) {
+    //     // if (Math.abs(this.character.speedY) < 0.01){    
+    //         this.level.enemies.forEach((enemy) => {
+    //             if (this.character.isColliding(enemy)) {
+    //                 console.log('Spieler läuft gegen Huhn');
+    //                 this.character.hit(); // Schaden buchen
+    //                 this.statusBar.setPercentage(this.character.energy);
+    //             }
+    //         });
+    //     }
+    // }
+
     checkChickenCollisions() {
         // Prüfen, ob der Charakter nicht springt
         if (this.character.y == 151) {
-        // if (this.character.speedY === 0) {
-        // if (Math.abs(this.character.speedY) < 0.01){    
             this.level.enemies.forEach((enemy) => {
-                if (this.character.isColliding(enemy)) {
+                if (enemy.alive && this.character.isColliding(enemy)) {
                     console.log('Spieler läuft gegen Huhn');
                     this.character.hit(); // Schaden buchen
                     this.statusBar.setPercentage(this.character.energy);
@@ -400,6 +413,7 @@ class World {
             });
         }
     }
+    
 
 
     checkJumpChickenCollisions() {
@@ -412,7 +426,9 @@ class World {
 
                 console.log('Spieler springt auf Huhn');
                 console.log('PepeY:', this.character.y);
-    
+                console.log('Vor kill: enemy.alive =', enemy.alive);
+                enemy.kill();
+                console.log('Nach kill: enemy.alive =', enemy.alive);
                 // Zeige das Todesbild
                 enemy.loadImage(enemy.IMAGES_DEATH[0]);
                 
@@ -424,6 +440,35 @@ class World {
             }
         });
     }
+
+    // checkJumpChickenCollisions() {
+    //     this.level.enemies.forEach((enemy) => {
+    //         if (enemy.alive && this.character.isColliding(enemy) &&
+    //             this.character.y < 149 && Math.abs(this.character.speedY) < 0.01) {
+                    
+    //             AudioHub.stopOneSound(AudioHub.CHICKENHIT);
+    //             AudioHub.playOneSound(AudioHub.CHICKENHIT);
+    
+    //             console.log('Spieler springt auf Huhn');
+    //             console.log('PepeY:', this.character.y);
+                
+    //             // Logge den Zustand vor dem Ändern:
+    //             console.log('Vor kill: enemy.alive =', enemy.alive);
+                
+    //             enemy.kill();  // Setzt enemy.alive auf false und ändert das Bild
+    
+    //             // Logge den Zustand nach dem Ändern:
+    //             console.log('Nach kill: enemy.alive =', enemy.alive);
+    
+    //             setTimeout(() => {
+    //                 enemy.removeFromWorld = true;
+    //                 console.log('Huhn entfernt');
+    //             }, 1000);
+    //         }
+    //     });
+    // }
+    
+    
 
     
     
