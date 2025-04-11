@@ -48,26 +48,53 @@ class World {
         
     }
 
+    // run() {
+    //     this.runIntervalId = setInterval(() => {
+    //         // this.checkCollisions();
+    //         this.checkThrowObjects();
+    //         this.collectingCoins();
+    //         this.collectingBottles();
+    //         //this.checkSmalChickenCollisions();
+    //         this.checkChickenCollisions();
+    //         this.checkJumpChickenCollisions();
+    //         this.chickenBottle();
+    //         this.checkEndbossCollisions();
+    //         this.endbossBottle();
+    //         //this.smalChickenBottle();
+    //         this.chickenBottle();
+    //         //this.checkJumpSmalChicken();
+    //         this.level.endboss.forEach(boss => boss.firstContact());
+    //         this.checkSmalChicken();
+
+    //     }, 1000/60); // von 200 auf 1000/60 geändert
+    // }
+
     run() {
-        this.runIntervalId = setInterval(() => {
-            // this.checkCollisions();
+        // Schnelles Intervall
+        this.fastIntervalId = setInterval(() => {
+            this.checkJumpChickenCollisions();
+        }, 1000 / 60);
+    
+        // Langsames Intervall
+        this.slowIntervalId = setInterval(() => {
             this.checkThrowObjects();
             this.collectingCoins();
             this.collectingBottles();
-            //this.checkSmalChickenCollisions();
             this.checkChickenCollisions();
-            this.checkJumpChickenCollisions();
             this.chickenBottle();
             this.checkEndbossCollisions();
             this.endbossBottle();
-            //this.smalChickenBottle();
-            this.chickenBottle();
-            //this.checkJumpSmalChicken();
             this.level.endboss.forEach(boss => boss.firstContact());
             this.checkSmalChicken();
-
-        }, 1000/60); // von 200 auf 1000/60 geändert
+        }, 200);
     }
+    
+    // Intervalle Stopen
+    stop() {
+        clearInterval(this.fastIntervalId);
+        clearInterval(this.slowIntervalId);
+    }
+    
 
     checkThrowObjects() {
         if (this.keyboard.M) {
