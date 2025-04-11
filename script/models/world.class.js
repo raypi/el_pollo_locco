@@ -424,11 +424,11 @@ class World {
                 AudioHub.stopOneSound(AudioHub.CHICKENHIT);
                 AudioHub.playOneSound(AudioHub.CHICKENHIT);
 
-                console.log('Spieler springt auf Huhn');
-                console.log('PepeY:', this.character.y);
-                console.log('Vor kill: enemy.alive =', enemy.alive);
+                // console.log('Spieler springt auf Huhn');
+                // console.log('PepeY:', this.character.y);
+                // console.log('Vor kill: enemy.alive =', enemy.alive);
                 enemy.alive = false;
-                console.log('Nach kill: enemy.alive =', enemy.alive);
+                // console.log('Nach kill: enemy.alive =', enemy.alive);
                 // Zeige das Todesbild
                 enemy.loadImage(enemy.IMAGES_DEATH[0]);
                 
@@ -440,36 +440,6 @@ class World {
             }
         });
     }
-
-    // checkJumpChickenCollisions() {
-    //     this.level.enemies.forEach((enemy) => {
-    //         if (enemy.alive && this.character.isColliding(enemy) &&
-    //             this.character.y < 149 && Math.abs(this.character.speedY) < 0.01) {
-                    
-    //             AudioHub.stopOneSound(AudioHub.CHICKENHIT);
-    //             AudioHub.playOneSound(AudioHub.CHICKENHIT);
-    
-    //             console.log('Spieler springt auf Huhn');
-    //             console.log('PepeY:', this.character.y);
-                
-    //             // Logge den Zustand vor dem Ändern:
-    //             console.log('Vor kill: enemy.alive =', enemy.alive);
-                
-    //             enemy.kill();  // Setzt enemy.alive auf false und ändert das Bild
-    
-    //             // Logge den Zustand nach dem Ändern:
-    //             console.log('Nach kill: enemy.alive =', enemy.alive);
-    
-    //             setTimeout(() => {
-    //                 enemy.removeFromWorld = true;
-    //                 console.log('Huhn entfernt');
-    //             }, 1000);
-    //         }
-    //     });
-    // }
-    
-    
-
     
     
     chickenBottle() {
