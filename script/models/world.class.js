@@ -428,6 +428,7 @@ class World {
                 // console.log('PepeY:', this.character.y);
                 // console.log('Vor kill: enemy.alive =', enemy.alive);
                 enemy.alive = false;
+                enemy.state = "dead";
                 // console.log('Nach kill: enemy.alive =', enemy.alive);
                 // Zeige das Todesbild
                 enemy.loadImage(enemy.IMAGES_DEATH[0]);

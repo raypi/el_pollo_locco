@@ -3,6 +3,7 @@ class Chicken extends MovableObject {
     height = 60;
     y = 365;
     alive = true;
+    state = "alive";
     
     IMAGES_WALKING = [
         'assets/img/3_enemies_chicken/chicken_normal/1_walk/1_w.png',
