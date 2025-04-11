@@ -127,7 +127,7 @@ class Endboss extends MovableObject {
     
   
     hitBoss() {
-      this.energyBoss -= 110;
+      this.energyBoss -= 40;
       if (this.energyBoss < 0) this.energyBoss = 0;
       console.log("Hit Endboss", this.energyBoss);
       if (typeof world !== "undefined" && world.endbossBar) {

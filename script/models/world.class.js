@@ -89,7 +89,7 @@ class World {
         }, 200);
     }
     
-    // Intervalle Stopen
+    // Intervalle Stopen ggf. umzug in game.js
     stop() {
         clearInterval(this.fastIntervalId);
         clearInterval(this.slowIntervalId);
