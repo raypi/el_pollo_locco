@@ -420,14 +420,14 @@ class World {
         this.level.enemies.forEach((enemy) => {
             // Aktionen nur ausführen, wenn beide Bedingungen erfüllt sind
             // if (this.character.isColliding(enemy) && this.character.y < 151) {
-                if (this.character.isColliding(enemy) && this.character.y < 149 && this.character.speedY < 0.01) {
+                if (this.character.isColliding(enemy) && this.character.y < 149 && this.character.speedY < 0) {
                 AudioHub.stopOneSound(AudioHub.CHICKENHIT);
                 AudioHub.playOneSound(AudioHub.CHICKENHIT);
 
                 console.log('Spieler springt auf Huhn');
                 console.log('PepeY:', this.character.y);
                 console.log('Vor kill: enemy.alive =', enemy.alive);
-                enemy.kill();
+                enemy.alive = false;
                 console.log('Nach kill: enemy.alive =', enemy.alive);
                 // Zeige das Todesbild
                 enemy.loadImage(enemy.IMAGES_DEATH[0]);
