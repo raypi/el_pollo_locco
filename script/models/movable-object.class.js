@@ -78,16 +78,33 @@ isColliding(mo) {
 }
 
 
+   // hit() {
+   //    AudioHub.stopOneSound(AudioHub.HITCHARACTER);
+   //    AudioHub.playOneSound(AudioHub.HITCHARACTER);
+   //    this.energy -= 10; 
+   //    if (this.energy < 0) {
+   //       this.energy = 0;
+   //    } else {
+   //       this.lasthit = new Date().getTime(); // speiert Zeit in Zahlenform seid dem 01.01.1970 in Milisekunden
+   //    }
+   // }
+
    hit() {
+      // Aktuelle Zeit holen
+      let currentTime = new Date().getTime();
+      // Prüfen, ob seit dem letzten Treffer mindestens 2 Sekunden vergangen sind
+      if (currentTime - this.lasthit < 2000) {
+         return; // Verlasse die Methode, wenn noch nicht 2 Sekunden vergangen sind
+      }
       AudioHub.stopOneSound(AudioHub.HITCHARACTER);
       AudioHub.playOneSound(AudioHub.HITCHARACTER);
-      this.energy -= 10; 
+      this.energy -= 10;
       if (this.energy < 0) {
          this.energy = 0;
-      } else {
-         this.lasthit = new Date().getTime(); // speiert Zeit in Zahlenform seid dem 01.01.1970 in Milisekunden
       }
+      this.lasthit = currentTime;
    }
+   
 
    isDead(){
       return this.energy == 0;
