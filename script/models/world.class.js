@@ -66,7 +66,7 @@ class World {
             this.level.endboss.forEach(boss => boss.firstContact());
             this.checkSmalChicken();
 
-        }, 200);
+        }, 1000/60); // von 200 auf 1000/60 geändert
     }
 
     checkThrowObjects() {
