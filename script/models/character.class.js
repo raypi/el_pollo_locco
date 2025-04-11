@@ -8,6 +8,7 @@ class Character extends MovableObject {
     lastMoveTime = Date.now();
     longIdle = false; 
     world;
+    state = "alive"
 
 
     IMAGES_WALKING = [
@@ -184,4 +185,20 @@ class Character extends MovableObject {
             this.playAnimation(this.IMAGES_IDLE);
         }
     }     
+
+
+dieCharacter() {
+    this.state = "dead"; 
+    console.log("Character is dead");
+    
+    // Todesanimation starten
+    
+    // Spiel beenden
+    setTimeout(() => {
+       if (typeof world !== "undefined" && world.stopGame) {
+          world.stopGame();  // Stoppt Animationen, Intervals und weitere Spielprozesse
+       }
+       // Game-Over-Bildschirm anzeigen = Callback 
+    }, 2000); 
+ }
 }
