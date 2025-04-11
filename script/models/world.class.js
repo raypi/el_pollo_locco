@@ -22,9 +22,9 @@ class World {
         this.ctx = canvas.getContext('2d');
         this.canvas = canvas;
         this.keyboard = keyboard;
-        this.draw();
-        this.setWorld();
-        this.run();
+        // this.draw();
+        // this.setWorld();
+        // this.run();
         this.contactBossBar = false;
         this.stopped = false; // Flag stopGame
         // mobile Steuerung
@@ -34,9 +34,13 @@ class World {
         this.controlUpImg.src = 'assets/button/arrowup.png';
         this.controlRightImg = new Image();
         this.controlRightImg.src = 'assets/button/arrowright.png';    
-       
-         
-       
+        this.character = new Character((resultType) => {
+            screenManager.showGameOverScreen(resultType);
+        });
+        this.setWorld();
+        this.character.animate();
+        this.draw();
+        this.run();
         // console.log('DG Constructor World, Coins:', this.level.coins);
         // console.log('DG Constructor World, Bottles:', this.level.bottles);
     }

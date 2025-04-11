@@ -79,7 +79,7 @@ class Character extends MovableObject {
     // currentImage = 0;
     world;
 
-    constructor(){
+    constructor(gameOverCallback){
         super().loadImage('assets/img/2_character_pepe/2_walk/W-21.png');
         this.loadImages(this.IMAGES_WALKING);
         this.loadImages(this.IMAGES_JUMPING);
@@ -88,7 +88,8 @@ class Character extends MovableObject {
         this.loadImages(this.IMAGES_IDLE);
         this.loadImages(this.IMAGES_LONGIDLE);
         this.applyGravity();
-        this.animate(); 
+        // this.animate();
+        this.gameOverCallback = gameOverCallback; 
     }
 
 
@@ -198,7 +199,9 @@ dieCharacter() {
        if (typeof world !== "undefined" && world.stopGame) {
           world.stopGame();  // Stoppt Animationen, Intervals und weitere Spielprozesse
        }
-       // Game-Over-Bildschirm anzeigen = Callback 
+       if (this.gameOverCallback && typeof this.gameOverCallback === 'function') {
+        this.gameOverCallback('character');
+    }
     }, 2000); 
  }
 }
