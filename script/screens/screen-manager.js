@@ -83,4 +83,24 @@ showGameOverScreen(type) {
           this.currentScreen.handleClick(event);
         };
       }
+
+      showControlsScreen() {
+        this.currentScreen = new ControlsScreen(this.canvas, () => {
+          this.showStartScreen();
+        });
+        this.currentScreen.show();
+        this.canvas.onclick = (event) => {
+          this.currentScreen.handleClick(event);
+        };
+      }
+    
+      showExplanationScreen() {
+        this.currentScreen = new ExplanationScreen(this.canvas, () => {
+          this.showStartScreen();
+        });
+        this.currentScreen.show();
+        this.canvas.onclick = (event) => {
+          this.currentScreen.handleClick(event);
+        };
+      }
 }

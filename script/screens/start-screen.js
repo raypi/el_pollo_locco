@@ -97,4 +97,14 @@ showImpressum() {
     screenManager.showImpressumScreen();
   }
 
+  showControls() {
+    // Delegiere die Anzeige an den ScreenManager
+    screenManager.showControlsScreen();
+  }
+
+  showExplanation() {
+    // Delegiere die Anzeige an den ScreenManager
+    screenManager.showExplanationScreen();
+  }
+
 }
