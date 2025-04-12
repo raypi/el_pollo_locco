@@ -70,6 +70,16 @@ showGameOverScreen(type) {
         this.currentScreen = new OrientationScreen(this.canvas);
         this.currentScreen.draw();
         this.canvas.onclick = (event) => {
+        this.currentScreen.handleClick(event);
+        };
+      }
+
+      showImpressumScreen() {
+        this.currentScreen = new ImpressumScreen(this.canvas, () => {
+          this.showStartScreen();
+        });
+        this.currentScreen.show();
+        this.canvas.onclick = (event) => {
           this.currentScreen.handleClick(event);
         };
       }

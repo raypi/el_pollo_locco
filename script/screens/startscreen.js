@@ -93,10 +93,8 @@ class StartScreen {
     this.draw(); // Neuzeichnen, um den geänderten Button-Text anzuzeigen
 }
 
-  // In deiner StartScreen-Klasse (z. B. in startScreen.js)
 showImpressum() {
-    const impressumScreen = new ImpressumScreen(this.canvas);
-    impressumScreen.show();
-}
+    screenManager.showImpressumScreen();
+  }
 
 }
