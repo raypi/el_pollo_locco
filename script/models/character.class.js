@@ -95,8 +95,6 @@ class Character extends MovableObject {
 
 
     animate(){
-        // Turbogang für Pepe
-        
         setInterval(() => {
             // console.log(this.world.level.level_end_x);
             if (this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x) {
@@ -105,15 +103,12 @@ class Character extends MovableObject {
                 this.lastMoveTime = Date.now();
                 this.longIdle = false;
             }
-
             if (this.world.keyboard.LEFT && this.x > 0) {
                 this.x -= this.speed;
                 this.otherDirection = true;
                 this.lastMoveTime = Date.now();
                 this.longIdle = false;
             }
-            // console.log('speedY: ', this.speedY); // Ausgabe von speedY in der Konsole
-            // Springen
             if (this.world.keyboard.SPACE && !this.isAboveGrund()){
                 this.jump();
                 this.lastMoveTime = Date.now();
@@ -123,27 +118,6 @@ class Character extends MovableObject {
             this.world.camera_x = -this.x + 100;
         }, 1000 / 60);
 
-    //     setInterval(() => {
-
-    //         if (this.isDead()) {
-    //             this.playAnimation(this.IMAGES_DEAD);
-
-                
-    //         } else if(this.isHurt()){
-    //             this.playAnimation(this.IMAGES_HURT);
-
-    //         } else if(this.isAboveGrund()){
-    //             this.playAnimation(this.IMAGES_JUMPING);
-                
-    //         } else {
-
-    //             if(this.world.keyboard.RIGHT || this.world.keyboard.LEFT){
-    //                 this.playAnimation(this.IMAGES_WALKING);
-    //             } else {
-    //                 this.checkIdle();
-    //             }
-    //     }    
-    // }, 100);    
     setInterval(() => {
         if (this.isDead()) {
             this.playAnimation(this.IMAGES_DEAD);
