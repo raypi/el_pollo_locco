@@ -98,7 +98,7 @@ isColliding(mo) {
       }
       AudioHub.stopOneSound(AudioHub.HITCHARACTER);
       AudioHub.playOneSound(AudioHub.HITCHARACTER);
-      this.energy -= 110;
+      this.energy -= 10;
       if (this.energy < 0) {
          this.energy = 0;
       }

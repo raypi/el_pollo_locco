@@ -77,6 +77,8 @@ class World {
         // Schnelles Intervall
         this.fastIntervalId = setInterval(() => {
             this.checkJumpChickenCollisions();
+            this.checkSmalChicken();
+            this.chickenBottle();
         }, 1000 / 60);
     
         // Langsames Intervall
@@ -85,11 +87,9 @@ class World {
             this.collectingCoins();
             this.collectingBottles();
             this.checkChickenCollisions();
-            this.chickenBottle();
             this.checkEndbossCollisions();
             this.endbossBottle();
             this.level.endboss.forEach(boss => boss.firstContact());
-            this.checkSmalChicken();
         }, 200);
     }
     
@@ -363,12 +363,14 @@ class World {
     checkSmalChicken() {
         this.level.smalChicken.forEach((smalChicken) => {
           // Fall 1: Spieler springt auf das kleine Huhn (also in der Luft, y < 151)
-          if (this.character.isColliding(smalChicken) && this.character.y < 151) {
+          if (this.character.isColliding(smalChicken) && this.character.y < 149 && this.character.speedY < 0) {
             AudioHub.stopOneSound(AudioHub.CHICKENHIT);
             AudioHub.playOneSound(AudioHub.CHICKENHIT);
             
             console.log('Spieler springt auf kleines Huhn');
             console.log('PepeY:', this.character.y);
+            smalChicken.alive = false;
+            smalChicken.state = "dead";
             
             // Animation stoppen, falls ein Interval läuft
             if (smalChicken.animationInterval) {
@@ -405,13 +407,16 @@ class World {
             
       
           // Fall 3: Spieler läuft gegen das kleine Huhn (nicht springend)
-          } else if (this.character.y === 151 && this.character.isColliding(smalChicken)) {
-            console.log('Spieler läuft gegen kleines Huhn');
-            this.character.hit(); // Schaden buchen
-            this.statusBar.setPercentage(this.character.energy);
-          }
-        });
-      }
+        } else if (this.character.y == 151 &&
+            smalChicken.alive &&
+            this.character.isColliding(smalChicken)) {
+     console.log('Spieler läuft gegen kleines Huhn');
+     this.character.hit(); // Schaden buchen
+     this.statusBar.setPercentage(this.character.energy);
+ }
+});
+}
+        
       
       
       
@@ -483,7 +488,8 @@ class World {
                 if (bottle.isColliding(enemy)) {
                     AudioHub.stopOneSound(AudioHub.CHICKENHIT);
                     AudioHub.playOneSound(AudioHub.CHICKENHIT);
-
+                    enemy.alive = false;
+                    enemy.state = "dead";
                     console.log('Flasche trifft Huhn!');
                     
                     // Zeige das Todesbild des Huhns
