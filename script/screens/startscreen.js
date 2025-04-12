@@ -21,7 +21,7 @@ class StartScreen {
             { label: 'Steuerung', action: () => this.showControls() },
             { label: 'Erklärung', action: () => this.showExplanation() },
             { label: 'Musik an', action: () => this.toggleSound() },// standart Hintergrundmusik aus, bei klick wird eingeschalten
-            { label: 'Game Over', action: () => this.showGameOver() },// nur zu testzwecken
+            { label: 'Impressum', action: () => this.showImpressum() },
         ];
 
     }
@@ -93,14 +93,10 @@ class StartScreen {
     this.draw(); // Neuzeichnen, um den geänderten Button-Text anzuzeigen
 }
 
-    // nur zum testen
-    showGameOver() {
-        // Hier greifen wir auf den globalen screenManager zu und rufen dessen Methode auf.
-        // Wir übergeben als Typ 'character' (für Testzwecke), du kannst hier auch 'endboss' übergeben, je nach Bedarf.
-        if (typeof screenManager !== 'undefined') {
-            screenManager.showGameOverScreen('character');
-        } else {
-            console.error("screenManager ist nicht definiert!");
-        }
-    }
+  // In deiner StartScreen-Klasse (z. B. in startScreen.js)
+showImpressum() {
+    const impressumScreen = new ImpressumScreen(this.canvas);
+    impressumScreen.show();
+}
+
 }
