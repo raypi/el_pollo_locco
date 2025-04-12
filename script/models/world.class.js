@@ -108,6 +108,7 @@ class World {
                 bottle.throwHigh();
                 this.throwableObjects.push(bottle);
                 ThrowableObject.countBottle--; // Flasche verbrauchen
+                this.bottleBar.setPercentage(Math.max(this.bottleBar.percentage - 20, 0));
                 console.log(`Flasche geworfen! Verbleibende Flaschen: ${ThrowableObject.countBottle}`);
             } else {
                 console.log('Keine Flaschen verfügbar, um zu werfen!');
@@ -121,6 +122,7 @@ class World {
                 bottle.throwHorizontal();
                 this.throwableObjects.push(bottle);
                 ThrowableObject.countBottle--; // Flasche verbrauchen
+                this.bottleBar.setPercentage(Math.max(this.bottleBar.percentage - 20, 0));
                 console.log(`Flasche geworfen! Verbleibende Flaschen: ${ThrowableObject.countBottle}`);
             } else {
                 console.log('Keine Flaschen verfügbar, um zu werfen!');

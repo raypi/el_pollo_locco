@@ -1,6 +1,6 @@
 class ThrowableObject extends MovableObject {
 
-    static countBottle = 3;
+    static countBottle = 0;
 
      constructor(x, y){
         super().loadImage('assets/img/6_salsa_bottle/salsa_bottle.png');

@@ -6,6 +6,10 @@
 function createLevel001() {
     return new Level(
         [
+            new Chicken(),
+            new Chicken(),
+            new Chicken(),
+            new Chicken(),
             new Chicken()
         ],
         [
@@ -31,7 +35,11 @@ function createLevel001() {
             new BackgroundObject('assets/img/5_background/layers/air.png', 2157),
             new BackgroundObject('assets/img/5_background/layers/3_third_layer/2.png', 2157),
             new BackgroundObject('assets/img/5_background/layers/2_second_layer/2.png', 2157),
-            new BackgroundObject('assets/img/5_background/layers/1_first_layer/2.png', 2157)
+            new BackgroundObject('assets/img/5_background/layers/1_first_layer/2.png', 2157),
+            new BackgroundObject('assets/img/5_background/layers/air.png', 2876),
+            new BackgroundObject('assets/img/5_background/layers/3_third_layer/1.png', 2876),
+            new BackgroundObject('assets/img/5_background/layers/2_second_layer/1.png', 2876),
+            new BackgroundObject('assets/img/5_background/layers/1_first_layer/1.png', 2876),
         ],
         [
             new Endboss((resultType) => {
@@ -53,12 +61,12 @@ function createLevel001() {
             new Bottles(800, 280),
         ],
         [
-            // new SmalChicken(),
-            // new SmalChicken(),
-            // new SmalChicken(),
-            // new SmalChicken(),
-            // new SmalChicken(),
-            // new SmalChicken()
+            new SmalChicken(),
+            new SmalChicken(),
+            new SmalChicken(),
+            new SmalChicken(),
+            new SmalChicken(),
+            new SmalChicken()
 
         ]
     );

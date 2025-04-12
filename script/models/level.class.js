@@ -6,7 +6,7 @@ class Level {
     coins;
     bottles;
     smalChicken;
-    level_end_x = 2600;
+    level_end_x = 2450;
 
 
 
