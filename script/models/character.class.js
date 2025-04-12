@@ -2,9 +2,8 @@ class Character extends MovableObject {
     
     height = 280;
     x = 100;
-    y = 150; // standart 150
+    y = 150; // standartwert 150
     speed = 5;
-    // Zeitnahme
     lastMoveTime = Date.now();
     longIdle = false; 
     world;
