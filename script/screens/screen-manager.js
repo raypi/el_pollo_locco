@@ -16,14 +16,18 @@ class ScreenManager {
             this.startGame();
         });
         this.currentScreen.draw();
-        // Richte den Klick-Eventhandler so ein, dass er an den aktuellen Screen weiterreicht.
-        this.canvas.onclick = (event) => {
-            this.currentScreen.handleClick(event);
-        };
+        
+        // Wir brauchen keinen globalen onclick Handler mehr, da der StartScreen
+        // seine eigenen Event Listener verwaltet
     }
 
     // Startet das Spiel.
     startGame() {
+       // Entferne alle vorherigen Event Listener
+       if (this.currentScreen && typeof this.currentScreen.removeEventListeners === 'function') {
+         this.currentScreen.removeEventListeners();
+       }
+       
        // Entferne den Klickhandler des Menüs.
        this.canvas.onclick = null;
        this.clearCanvas();
@@ -35,6 +39,11 @@ class ScreenManager {
    * @param {string} type - 'endboss' (Spieler gewinnt, weil er den Boss besiegt) oder 'character' (Spieler verliert).
    */
 showGameOverScreen(type) {
+    // Entferne alle vorherigen Event Listener
+    if (this.currentScreen && typeof this.currentScreen.removeEventListeners === 'function') {
+      this.currentScreen.removeEventListeners();
+    }
+    
     this.currentScreen = new GameOverScreen(
       this.canvas,
       type,
@@ -56,6 +65,11 @@ showGameOverScreen(type) {
 
     // Startet ein neues Spiel.
     newGame() {
+        // Entferne alle vorherigen Event Listener
+        if (this.currentScreen && typeof this.currentScreen.removeEventListeners === 'function') {
+          this.currentScreen.removeEventListeners();
+        }
+        
         this.canvas.onclick = null;
         this.clearCanvas();
         newGame();
@@ -67,14 +81,24 @@ showGameOverScreen(type) {
     }
 
     showOrientationScreen() {
+        // Entferne alle vorherigen Event Listener
+        if (this.currentScreen && typeof this.currentScreen.removeEventListeners === 'function') {
+          this.currentScreen.removeEventListeners();
+        }
+        
         this.currentScreen = new OrientationScreen(this.canvas);
         this.currentScreen.draw();
         this.canvas.onclick = (event) => {
-        this.currentScreen.handleClick(event);
+          this.currentScreen.handleClick(event);
         };
       }
 
       showImpressumScreen() {
+        // Entferne alle vorherigen Event Listener
+        if (this.currentScreen && typeof this.currentScreen.removeEventListeners === 'function') {
+          this.currentScreen.removeEventListeners();
+        }
+        
         this.currentScreen = new ImpressumScreen(this.canvas, () => {
           this.showStartScreen();
         });
@@ -85,6 +109,11 @@ showGameOverScreen(type) {
       }
 
       showControlsScreen() {
+        // Entferne alle vorherigen Event Listener
+        if (this.currentScreen && typeof this.currentScreen.removeEventListeners === 'function') {
+          this.currentScreen.removeEventListeners();
+        }
+        
         this.currentScreen = new ControlsScreen(this.canvas, () => {
           this.showStartScreen();
         });
@@ -95,6 +124,11 @@ showGameOverScreen(type) {
       }
     
       showExplanationScreen() {
+        // Entferne alle vorherigen Event Listener
+        if (this.currentScreen && typeof this.currentScreen.removeEventListeners === 'function') {
+          this.currentScreen.removeEventListeners();
+        }
+        
         this.currentScreen = new ExplanationScreen(this.canvas, () => {
           this.showStartScreen();
         });
