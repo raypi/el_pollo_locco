@@ -11,6 +11,9 @@ class ScreenManager {
     }
 
     showStartScreen(){
+        // Stoppe alle laufenden Prozesse und Timeouts
+        this.stopAllGameProcesses();
+        
         // Erstelle eine neue Instanz von StartScreen und übergebe als Callback zum Starten des Spiels.
         this.currentScreen = new StartScreen(this.canvas, () => {
             this.startGame();
@@ -20,9 +23,22 @@ class ScreenManager {
         // Wir brauchen keinen globalen onclick Handler mehr, da der StartScreen
         // seine eigenen Event Listener verwaltet
     }
+    
+    // Hilfsmethode zum Stoppen aller Spielprozesse
+    stopAllGameProcesses() {
+        // Stoppe die Welt, falls sie existiert
+        if (typeof world !== 'undefined' && world) {
+            if (world.stopGame) {
+                world.stopGame(); // Die stopGame-Methode kümmert sich jetzt um alle Timeouts und Intervalle
+            }
+        }
+    }
 
     // Startet das Spiel.
     startGame() {
+       // Stoppe alle laufenden Prozesse und Timeouts
+       this.stopAllGameProcesses();
+       
        // Entferne alle vorherigen Event Listener
        if (this.currentScreen && typeof this.currentScreen.removeEventListeners === 'function') {
          this.currentScreen.removeEventListeners();
@@ -39,6 +55,9 @@ class ScreenManager {
    * @param {string} type - 'endboss' (Spieler gewinnt, weil er den Boss besiegt) oder 'character' (Spieler verliert).
    */
 showGameOverScreen(type) {
+    // Stoppe alle laufenden Prozesse und Timeouts
+    this.stopAllGameProcesses();
+    
     // Entferne alle vorherigen Event Listener
     if (this.currentScreen && typeof this.currentScreen.removeEventListeners === 'function') {
       this.currentScreen.removeEventListeners();
@@ -65,6 +84,9 @@ showGameOverScreen(type) {
 
     // Startet ein neues Spiel.
     newGame() {
+        // Stoppe alle laufenden Prozesse und Timeouts
+        this.stopAllGameProcesses();
+        
         // Entferne alle vorherigen Event Listener
         if (this.currentScreen && typeof this.currentScreen.removeEventListeners === 'function') {
           this.currentScreen.removeEventListeners();
@@ -81,6 +103,9 @@ showGameOverScreen(type) {
     }
 
     showOrientationScreen() {
+        // Stoppe alle laufenden Prozesse und Timeouts
+        this.stopAllGameProcesses();
+        
         // Entferne alle vorherigen Event Listener
         if (this.currentScreen && typeof this.currentScreen.removeEventListeners === 'function') {
           this.currentScreen.removeEventListeners();
@@ -94,6 +119,9 @@ showGameOverScreen(type) {
       }
 
       showImpressumScreen() {
+        // Stoppe alle laufenden Prozesse und Timeouts
+        this.stopAllGameProcesses();
+        
         // Entferne alle vorherigen Event Listener
         if (this.currentScreen && typeof this.currentScreen.removeEventListeners === 'function') {
           this.currentScreen.removeEventListeners();
@@ -109,6 +137,9 @@ showGameOverScreen(type) {
       }
 
       showControlsScreen() {
+        // Stoppe alle laufenden Prozesse und Timeouts
+        this.stopAllGameProcesses();
+        
         // Entferne alle vorherigen Event Listener
         if (this.currentScreen && typeof this.currentScreen.removeEventListeners === 'function') {
           this.currentScreen.removeEventListeners();
@@ -124,6 +155,9 @@ showGameOverScreen(type) {
       }
     
       showExplanationScreen() {
+        // Stoppe alle laufenden Prozesse und Timeouts
+        this.stopAllGameProcesses();
+        
         // Entferne alle vorherigen Event Listener
         if (this.currentScreen && typeof this.currentScreen.removeEventListeners === 'function') {
           this.currentScreen.removeEventListeners();

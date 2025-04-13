@@ -95,8 +95,8 @@ class World {
     
     // Intervalle Stopen ggf. umzug in game.js
     stop() {
-        clearInterval(this.fastIntervalId);
-        clearInterval(this.slowIntervalId);
+        // Verwende die vollständige stopGame-Methode
+        this.stopGame();
     }
     
 
@@ -217,8 +217,8 @@ class World {
             this.ctx.drawImage(this.controlRightImg, rightX, bottomY, buttonWidth, buttonHeight);
         }
     
-        // Animations-Loop fortsetzen
-        requestAnimationFrame(() => {
+        // Animations-Loop fortsetzen und ID speichern
+        this.animationFrameId = requestAnimationFrame(() => {
             this.draw();
         });
     }
@@ -226,8 +226,56 @@ class World {
     
     stopGame() {
         this.stopped = true;
-        cancelAnimationFrame(this.animationFrameId);
-        clearInterval(this.runIntervalId);
+        
+        // Stoppe alle Animations-Loops
+        if (this.animationFrameId) {
+            cancelAnimationFrame(this.animationFrameId);
+        }
+        
+        // Stoppe alle Intervalle
+        if (this.fastIntervalId) {
+            clearInterval(this.fastIntervalId);
+        }
+        
+        if (this.slowIntervalId) {
+            clearInterval(this.slowIntervalId);
+        }
+        
+        // Stoppe alle Timeouts im Character
+        if (this.character && this.character.deathTimeoutId) {
+            clearTimeout(this.character.deathTimeoutId);
+            this.character.deathTimeoutId = null;
+        }
+        
+        // Stoppe alle Timeouts in Enemies und SmalChicken
+        if (this.level) {
+            // Stoppe Timeouts in Enemies
+            if (this.level.enemies) {
+                this.level.enemies.forEach(enemy => {
+                    if (enemy.removeTimeout) {
+                        clearTimeout(enemy.removeTimeout);
+                    }
+                });
+            }
+            
+            // Stoppe Timeouts in SmalChicken
+            if (this.level.smalChicken) {
+                this.level.smalChicken.forEach(chicken => {
+                    if (chicken.removeTimeout) {
+                        clearTimeout(chicken.removeTimeout);
+                    }
+                });
+            }
+            
+            // Stoppe Timeouts in Endboss
+            if (this.level.endboss) {
+                this.level.endboss.forEach(boss => {
+                    if (boss.animationInterval) {
+                        clearInterval(boss.animationInterval);
+                    }
+                });
+            }
+        }
     }
     
 
@@ -381,7 +429,7 @@ class World {
             
             // Rufe die Todesanimation auf (die sich um Bildwechsel und Flag-Setzung kümmert)
             smalChicken.deadAnimation();
-            setTimeout(() => {
+            smalChicken.removeTimeout = setTimeout(() => {
                 smalChicken.removeFromWorld = true;
                 console.log('Kleines Huhn entfernt');
               }, 1000);
@@ -402,7 +450,7 @@ class World {
             }
             
             smalChicken.deadAnimation();
-            setTimeout(() => {
+            smalChicken.removeTimeout = setTimeout(() => {
                 smalChicken.removeFromWorld = true;
                 console.log('Kleines Huhn entfernt');
               }, 1000);
@@ -472,7 +520,7 @@ class World {
                 enemy.loadImage(enemy.IMAGES_DEATH[0]);
                 
                 // Verzögertes Entfernen des Huhns nach 1 Sekunde
-                setTimeout(() => {
+                enemy.removeTimeout = setTimeout(() => {
                     enemy.removeFromWorld = true;
                     console.log('Huhn entfernt');
                 }, 1000);
@@ -498,7 +546,7 @@ class World {
                     enemy.loadImage(enemy.IMAGES_DEATH[0]);
     
                     // Entferne das Huhn nach 1 Sekunde
-                    setTimeout(() => {
+                    enemy.removeTimeout = setTimeout(() => {
                         enemy.removeFromWorld = true;
                         console.log('Huhn entfernt');
                     }, 1000);

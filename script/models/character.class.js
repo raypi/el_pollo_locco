@@ -166,7 +166,7 @@ dieCharacter() {
   console.log("Character is dead");
 
   // Warte 2 Sekunden für die Todesanimation, bevor der Game-Over-Screen angezeigt wird
-  setTimeout(() => {
+  this.deathTimeoutId = setTimeout(() => {
     // Stoppe das Spiel
     if (this.world && this.world.stopGame) {
       this.world.stopGame(); // Stoppt Animationen, Intervals etc.
