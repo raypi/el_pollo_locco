@@ -126,14 +126,18 @@ showGameOverScreen(type) {
         if (this.currentScreen && typeof this.currentScreen.removeEventListeners === 'function') {
           this.currentScreen.removeEventListeners();
         }
-        
+      
+        // Canvas ggf. leeren (optional)
+        this.clearCanvas();
+      
+        // Neuen ImpressumScreen erstellen
         this.currentScreen = new ImpressumScreen(this.canvas, () => {
           this.showStartScreen();
         });
+      
+        // Screen anzeigen
         this.currentScreen.show();
-        this.canvas.onclick = (event) => {
-          this.currentScreen.handleClick(event);
-        };
+      
       }
 
       // showControlsScreen() {
