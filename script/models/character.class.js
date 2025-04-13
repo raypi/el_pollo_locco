@@ -162,19 +162,21 @@ class Character extends MovableObject {
 
 
 dieCharacter() {
-    this.state = "dead"; 
-    console.log("Character is dead");
-    
-    // Todesanimation starten
-    
-    // Spiel beenden
-    setTimeout(() => {
-       if (typeof world !== "undefined" && world.stopGame) {
-          world.stopGame();  // Stoppt Animationen, Intervals und weitere Spielprozesse
-       }
-       if (this.gameOverCallback && typeof this.gameOverCallback === 'function') {
-        this.gameOverCallback('character');
+  this.state = "dead"; 
+  console.log("Character is dead");
+
+  // Warte 2 Sekunden für die Todesanimation, bevor der Game-Over-Screen angezeigt wird
+  setTimeout(() => {
+    // Stoppe das Spiel
+    if (this.world && this.world.stopGame) {
+      this.world.stopGame(); // Stoppt Animationen, Intervals etc.
     }
-    }, 2000); 
- }
+    
+    // Zeige den Game-Over-Screen an
+    if (this.gameOverCallback && typeof this.gameOverCallback === 'function') {
+      this.gameOverCallback('character');
+    }
+  }, 2000);
+}
+
 }
