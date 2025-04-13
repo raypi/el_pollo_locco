@@ -183,18 +183,23 @@ showGameOverScreen(type) {
       showExplanationScreen() {
         // Stoppe alle laufenden Prozesse und Timeouts
         this.stopAllGameProcesses();
-        
+      
         // Entferne alle vorherigen Event Listener
         if (this.currentScreen && typeof this.currentScreen.removeEventListeners === 'function') {
           this.currentScreen.removeEventListeners();
         }
-        
+      
+        // Canvas ggf. leeren (optional, kann nicht schaden)
+        this.clearCanvas();
+      
+        // Neuen ExplanationScreen erstellen
         this.currentScreen = new ExplanationScreen(this.canvas, () => {
           this.showStartScreen();
         });
+      
+        // Den Screen anzeigen
         this.currentScreen.show();
-        this.canvas.onclick = (event) => {
-          this.currentScreen.handleClick(event);
-        };
+      
+        // Kein eigenes this.canvas.onclick mehr – das übernimmt ExplanationScreen intern!
       }
-}
+    }
