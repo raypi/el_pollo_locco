@@ -39,7 +39,11 @@ class GameOverScreen {
         // Definiere die Buttons.
         this.buttons = [
             { label: 'Neues Spiel', action: () => this.restartGameCallback() },
-            { label: 'Menü', action: () => this.exitGameCallback() }
+            { label: 'Menü', action: () => {
+                // Musik komplett ausschalten, bevor zum Startscreen zurückgekehrt wird
+                AudioHub.stopOneSound(AudioHub.GAMEMUSIC);
+                this.exitGameCallback();
+            }}
         ];
     }
 
@@ -98,5 +102,10 @@ class GameOverScreen {
             }
         });
     }
-}
 
+    // Methode zum Entfernen von Event Listenern
+    removeEventListeners() {
+        // Entferne den onclick Handler vom Canvas
+        this.canvas.onclick = null;
+    }
+}

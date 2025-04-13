@@ -3,21 +3,25 @@ class StartScreen {
         this.canvas = canvas;
         this.ctx = canvas.getContext('2d');
         this.startGameCallback = startGameCallback;
-        this.musicOn = false;
+        
+        // Sicherstellen, dass die Musik gestoppt ist
+        AudioHub.stopOneSound(AudioHub.GAMEMUSIC);
+        
+        // 1) Beim Erstellen des Screens aus localStorage lesen:
+        const storedMusicOn = localStorage.getItem('musicOn');
+        if (storedMusicOn === 'true') {
+            this.musicOn = true;
+        } else {
+            this.musicOn = false;
+        }
+
         this.backgroundImage = new Image();
         this.backgroundImage.src = 'assets/img/9_intro_outro_screens/start/startscreen_1.png';
 
-        // Buttons definieren
-        this.buttons = [
-            { label: 'Start', action: () => {
-                this.removeEventListeners();
-                this.startGameCallback();
-            }},
-            { label: 'Steuerung', action: () => this.showControls() },
-            { label: 'Erklärung', action: () => this.showExplanation() },
-            { label: 'Musik an', action: () => this.toggleSound() },
-            { label: 'Impressum', action: () => this.showImpressum() },
-        ];
+        // 2) Buttons definieren; Label hängt davon ab, ob Musik an oder aus ist
+        this.initButtons();
+
+        // Im StartScreen wird keine Musik abgespielt, nur die Einstellung gespeichert
 
         // Aktuell gehighlighteter Button (Index)
         this.hoveredButton = null;
@@ -35,6 +39,54 @@ class StartScreen {
         this.addEventListeners();
     }
 
+    // Initialisiert die Buttons mit den korrekten Labels
+    initButtons() {
+        this.buttons = [
+            { label: 'Start', action: () => {
+                this.removeEventListeners();
+                // Musik entsprechend dem Status starten, wenn das Spiel beginnt
+                if (this.musicOn) {
+                    AudioHub.playOneSound(AudioHub.GAMEMUSIC);
+                }
+                this.startGameCallback();
+            }},
+            { label: 'Steuerung', action: () => this.showControls() },
+            { label: 'Erklärung', action: () => this.showExplanation() },
+            // Wenn Musik an ist (this.musicOn = true), zeige "Musik aus" als Option
+            // Wenn Musik aus ist (this.musicOn = false), zeige "Musik an" als Option
+            { label: this.musicOn ? 'Musik aus' : 'Musik an', action: () => this.toggleSound() },
+            { label: 'Impressum', action: () => this.showImpressum() },
+        ];
+    }
+
+    show(){
+        // Sicherstellen, dass die Musik gestoppt ist
+        AudioHub.stopOneSound(AudioHub.GAMEMUSIC);
+        
+        // Beim erneuten Anzeigen des Screens den Musikstatus aus localStorage lesen
+        const storedMusicOn = localStorage.getItem('musicOn');
+        if (storedMusicOn === 'true') {
+            this.musicOn = true;
+            // Musik wird NICHT automatisch abgespielt, sondern erst beim Spielstart
+        } else {
+            this.musicOn = false;
+        }
+        
+        // Buttons neu initialisieren mit aktuellem Musikstatus
+        this.buttons[3].label = this.musicOn ? 'Musik aus' : 'Musik an';
+        
+        // Sicherstellen, dass der Canvas-onclick-Handler entfernt wird
+        this.canvas.onclick = null;
+        
+        // Event Listener hinzufügen
+        this.addEventListeners();
+        
+        // Screen neu zeichnen
+        this.draw();
+        
+        console.log('StartScreen show() - Musik Status:', this.musicOn);
+    }
+    
     draw() {
         // Canvas leeren
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
@@ -60,8 +112,6 @@ class StartScreen {
                 // Transparenten Hintergrund zeichnen
                 this.ctx.fillStyle = 'rgba(255, 255, 255, 0.3)';
                 this.ctx.fillRect(button.x, button.y, button.width, button.height);
-
-                // Textfarbe
                 this.ctx.fillStyle = 'yellow';
             } else {
                 this.ctx.fillStyle = 'white';
@@ -140,35 +190,29 @@ class StartScreen {
             console.log('Current musicOn state:', this.musicOn);
             console.log('Current button label:', this.buttons[3].label);
             
+            // Musik stoppen (falls sie läuft)
+            AudioHub.stopOneSound(AudioHub.GAMEMUSIC);
+            
+            // Aktuellen Zustand umkehren
+            this.musicOn = !this.musicOn;
+            
+            // Nur den Button-Text und localStorage aktualisieren
+            // Die Musik wird erst beim Spielstart abgespielt
             if (this.musicOn) {
-                // Musik aus
-                console.log('Turning music off');
-                AudioHub.stopOneSound(AudioHub.GAMEMUSIC);
-                this.musicOn = false;
-                this.buttons[3].label = 'Musik an';
-            } else {
-                // Musik an
-                console.log('Turning music on');
-                AudioHub.playOneSound(AudioHub.GAMEMUSIC);
-                this.musicOn = true;
+                console.log('Music setting: ON (will play when game starts)');
                 this.buttons[3].label = 'Musik aus';
+            } else {
+                console.log('Music setting: OFF');
+                this.buttons[3].label = 'Musik an';
             }
             
+            // Neuen Wert in localStorage speichern
+            localStorage.setItem('musicOn', this.musicOn);
+
             console.log('New musicOn state:', this.musicOn);
             console.log('New button label:', this.buttons[3].label);
             
-            // Explicitly log all button labels before drawing
-            this.buttons.forEach((button, index) => {
-                console.log(`Button ${index} label: ${button.label}`);
-            });
-            
             this.draw(); // Label aktualisieren
-            
-            // Explicitly log all button labels after drawing
-            console.log('After draw:');
-            this.buttons.forEach((button, index) => {
-                console.log(`Button ${index} label: ${button.label}`);
-            });
         } catch (error) {
             console.error('Error in toggleSound:', error);
         }

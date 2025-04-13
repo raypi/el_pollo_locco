@@ -19,6 +19,8 @@ class ScreenManager {
             this.startGame();
         });
         this.currentScreen.draw();
+        this.currentScreen.show();
+
         
         // Wir brauchen keinen globalen onclick Handler mehr, da der StartScreen
         // seine eigenen Event Listener verwaltet
@@ -32,6 +34,15 @@ class ScreenManager {
                 world.stopGame(); // Die stopGame-Methode kümmert sich jetzt um alle Timeouts und Intervalle
             }
         }
+        
+        // Prüfe den Musikstatus in localStorage
+        const storedMusicOn = localStorage.getItem('musicOn');
+        if (storedMusicOn !== 'true') {
+            // Wenn Musik ausgeschaltet ist, stoppe alle Sounds
+            AudioHub.stopOneSound(AudioHub.GAMEMUSIC);
+        }
+        // Ansonsten lassen wir die Musik weiterlaufen, da der Musikstatus über localStorage verwaltet wird
+        // und in der show() Methode des StartScreen entsprechend gesetzt wird
     }
 
     // Startet das Spiel.
@@ -76,6 +87,9 @@ showGameOverScreen(type) {
       }
     );
     this.currentScreen.draw();
+    
+    // Setze den onclick Handler für den Canvas
+    // Dieser wird später durch die removeEventListeners Methode entfernt
     this.canvas.onclick = (event) => {
       this.currentScreen.handleClick(event);
     };

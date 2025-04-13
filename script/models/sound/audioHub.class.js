@@ -20,7 +20,25 @@ class AudioHub {
     static playOneSound(sound) { 
         sound.volume = 0.2;  // Setzt die Lautstärke auf 0.2 = 20% / 1 = 100%
         sound.currentTime = 0;  // Startet ab einer bestimmten stelle ggf. im Array speichern und mit übergeben
-        sound.play();  // Spielt das übergebene Sound-Objekt ab
+        
+        // Versuche den Sound abzuspielen und fange mögliche Fehler ab
+        const playPromise = sound.play();
+        
+        // Wenn play() ein Promise zurückgibt (moderner Browser)
+        if (playPromise !== undefined) {
+            playPromise.catch(error => {
+                // AbortError abfangen (tritt auf, wenn play() durch pause() unterbrochen wird)
+                console.log('Audio play error:', error);
+                // Wir könnten hier erneut versuchen, den Sound abzuspielen, aber das könnte zu einer Endlosschleife führen
+            });
+        }
+    }
+
+    // methode zum abspielen einzelner Sound mit Verzögerung (um AbortError zu vermeiden)
+    static playSoundWithDelay(sound, delay = 50) {
+        setTimeout(() => {
+            AudioHub.playOneSound(sound);
+        }, delay);
     }
 
     // methode zum stoppen aller Sounds
@@ -33,7 +51,7 @@ class AudioHub {
     // methode zum stoppen eines sounds
     static stopOneSound(sound) {
         sound.pause();  // Pausiert das übergebene Audio
-        }
+    }
 
     // Anmerkung. ggf. kann man eine methode einfügen die die Lautstärke aller Sounds regelt
 }
