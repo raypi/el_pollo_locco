@@ -136,23 +136,49 @@ showGameOverScreen(type) {
         };
       }
 
+      // showControlsScreen() {
+      //   // Stoppe alle laufenden Prozesse und Timeouts
+      //   this.stopAllGameProcesses();
+        
+      //   // Entferne alle vorherigen Event Listener
+      //   if (this.currentScreen && typeof this.currentScreen.removeEventListeners === 'function') {
+      //     this.currentScreen.removeEventListeners();
+      //   }
+        
+      //   this.currentScreen = new ControlsScreen(this.canvas, () => {
+      //     this.showStartScreen();
+      //   });
+      //   this.currentScreen.show();
+      //   this.canvas.onclick = (event) => {
+      //     this.currentScreen.handleClick(event);
+      //   };
+      // }
+
       showControlsScreen() {
         // Stoppe alle laufenden Prozesse und Timeouts
         this.stopAllGameProcesses();
-        
-        // Entferne alle vorherigen Event Listener
+      
+        // Entferne alle vorherigen Event Listener des aktiven Screens
         if (this.currentScreen && typeof this.currentScreen.removeEventListeners === 'function') {
           this.currentScreen.removeEventListeners();
         }
-        
+      
+        // Canvas leeren (optional, je nach Bedarf)
+        this.clearCanvas();
+      
+        // Erstelle den neuen ControlsScreen mit Callback
         this.currentScreen = new ControlsScreen(this.canvas, () => {
+          // Callback für den "Menü"-Button
           this.showStartScreen();
         });
+        
+        // Zeige den Screen an (ruft intern seine draw-Methode auf)
         this.currentScreen.show();
-        this.canvas.onclick = (event) => {
-          this.currentScreen.handleClick(event);
-        };
+      
+        // WICHTIG: Kein eigener this.canvas.onclick mehr!
+        // Die Klasse ControlsScreen verwaltet ihre Maus-Events intern (addEventListeners()).
       }
+      
     
       showExplanationScreen() {
         // Stoppe alle laufenden Prozesse und Timeouts
