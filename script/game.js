@@ -121,3 +121,42 @@ window.addEventListener('keyup', (event) => {
         keyboard.N = false;
     }
 });
+
+// Stelle sicher, dass das DOM vollständig geladen ist.
+window.addEventListener('load', function() {
+    // Hole die Buttons per ID
+    const btnLeft = document.getElementById('btnLeft');
+    const btnUp = document.getElementById('btnUp');
+    const btnRight = document.getElementById('btnRight');
+
+    // Für den linken Button
+    btnLeft.addEventListener('touchstart', (event) => {
+        event.preventDefault(); // Verhindert unerwünschtes Scrollen
+        keyboard.LEFT = true;
+    });
+    btnLeft.addEventListener('touchend', (event) => {
+        event.preventDefault();
+        keyboard.LEFT = false;
+    });
+
+    // Für den Sprung-Button (oben)
+    btnUp.addEventListener('touchstart', (event) => {
+        event.preventDefault();
+        keyboard.UP = true;
+    });
+    btnUp.addEventListener('touchend', (event) => {
+        event.preventDefault();
+        keyboard.UP = false;
+    });
+
+    // Für den rechten Button
+    btnRight.addEventListener('touchstart', (event) => {
+        event.preventDefault();
+        keyboard.RIGHT = true;
+    });
+    btnRight.addEventListener('touchend', (event) => {
+        event.preventDefault();
+        keyboard.RIGHT = false;
+    });
+
+});

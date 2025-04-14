@@ -195,27 +195,27 @@ class World {
         this.ctx.translate(-this.camera_x, 0);
 
         // zeichnen der BTN für mobilgeräte
-        if (window.innerWidth <= 900) {
-            // Größe der Buttons
-            const buttonWidth = 50;
-            const buttonHeight = 50;
-            // Abstand und Positionierung:
-            const marginBottom = 20; // Abstand vom unteren Rand
-            const centerX = this.canvas.width / 2;
-            const bottomY = this.canvas.height - buttonHeight - marginBottom;
-            const gap = 50; // Abstand zwischen Buttons
+        // if (window.innerWidth <= 900) {
+        //     // Größe der Buttons
+        //     const buttonWidth = 50;
+        //     const buttonHeight = 50;
+        //     // Abstand und Positionierung:
+        //     const marginBottom = 20; // Abstand vom unteren Rand
+        //     const centerX = this.canvas.width / 2;
+        //     const bottomY = this.canvas.height - buttonHeight - marginBottom;
+        //     const gap = 50; // Abstand zwischen Buttons
     
-            // Positionen berechnen:
-            const leftX = centerX - buttonWidth - gap;
-            const upX = centerX - buttonWidth / 2;
-            const rightX = centerX + gap;
+        //     // Positionen berechnen:
+        //     const leftX = centerX - buttonWidth - gap;
+        //     const upX = centerX - buttonWidth / 2;
+        //     const rightX = centerX + gap;
     
-            // Zeichne die Steuerungs-Buttons
-            // Stelle sicher, dass die Images bereits geladen sind.
-            this.ctx.drawImage(this.controlLeftImg, leftX, bottomY, buttonWidth, buttonHeight);
-            this.ctx.drawImage(this.controlUpImg, upX, bottomY, buttonWidth, buttonHeight);
-            this.ctx.drawImage(this.controlRightImg, rightX, bottomY, buttonWidth, buttonHeight);
-        }
+        //     // Zeichne die Steuerungs-Buttons
+        //     // Stelle sicher, dass die Images bereits geladen sind.
+        //     this.ctx.drawImage(this.controlLeftImg, leftX, bottomY, buttonWidth, buttonHeight);
+        //     this.ctx.drawImage(this.controlUpImg, upX, bottomY, buttonWidth, buttonHeight);
+        //     this.ctx.drawImage(this.controlRightImg, rightX, bottomY, buttonWidth, buttonHeight);
+        // }
     
         // Animations-Loop fortsetzen und ID speichern
         this.animationFrameId = requestAnimationFrame(() => {

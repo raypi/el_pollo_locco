@@ -150,20 +150,20 @@ class ImpressumScreen {
     });
   }
 
-  /**
-   * Event-Listener hinzufügen
-   */
-  addEventListeners() {
-    this.canvas.addEventListener('mousemove', this.boundHandleMouseMove);
-    this.canvas.addEventListener('click', this.boundHandleClick);
+    // Methode zum Hinzufügen der Event Listener (jetzt mit Touch-Events)
+    addEventListeners() {
+      this.canvas.addEventListener('click', this.boundHandleClick);
+      this.canvas.addEventListener('mousemove', this.boundHandleMouseMove);
+      this.canvas.addEventListener('touchstart', this.boundHandleTouchStart);
+      this.canvas.addEventListener('touchmove', this.boundHandleTouchMove);
   }
 
-  /**
-   * Event-Listener entfernen
-   */
+  // Methode zum Entfernen der Event Listener (sowohl Mouse als auch Touch)
   removeEventListeners() {
-    this.canvas.removeEventListener('mousemove', this.boundHandleMouseMove);
-    this.canvas.removeEventListener('click', this.boundHandleClick);
+      this.canvas.removeEventListener('click', this.boundHandleClick);
+      this.canvas.removeEventListener('mousemove', this.boundHandleMouseMove);
+      this.canvas.removeEventListener('touchstart', this.boundHandleTouchStart);
+      this.canvas.removeEventListener('touchmove', this.boundHandleTouchMove);
   }
 }
 
