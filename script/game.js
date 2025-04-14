@@ -60,8 +60,19 @@ function startGame() {
     console.log('Spiel wird gestartet!');
     level001 = createLevel001();
     world = new World(canvas, keyboard);
+    showMobileControls();
 }
 
+function showMobileControls() {
+    // Prüfen, ob Touch-Events unterstützt werden oder Bildschirm klein ist
+    if ('ontouchstart' in window || navigator.maxTouchPoints > 0 || window.innerWidth <= 900) { 
+        document.getElementById('mobile-controls').style.display = 'flex';
+    }
+}
+
+function hideMobileControls() {
+    document.getElementById('mobile-controls').style.display = 'none';
+}
 
 
 
@@ -128,6 +139,7 @@ window.addEventListener('load', function() {
     const btnLeft = document.getElementById('btnLeft');
     const btnUp = document.getElementById('btnUp');
     const btnRight = document.getElementById('btnRight');
+    const btnBottle = document.getElementById('btnBottle');
 
     // Für den linken Button
     btnLeft.addEventListener('touchstart', (event) => {
@@ -159,4 +171,13 @@ window.addEventListener('load', function() {
         keyboard.RIGHT = false;
     });
 
+    // Für den Flaschen-Button (Werfen)
+    btnBottle.addEventListener('touchstart', (event) => {
+        event.preventDefault();
+        keyboard.SPACE = true; // SPACE wird zum Werfen verwendet
+    });
+    btnBottle.addEventListener('touchend', (event) => {
+        event.preventDefault();
+        keyboard.SPACE = false;
+    });
 });

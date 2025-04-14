@@ -66,27 +66,33 @@ class ExplanationScreen {
     // Buttons zeichnen
     this.buttons.forEach((button, index) => {
       // Position: mittig, kurz über dem unteren Canvas-Rand
-      button.x = (this.canvas.width - button.width) / 2;
+      button.x = (this.canvas.width - 240) / 2;
       button.y = this.canvas.height - 100;
+      button.width = 240;
+      button.height = 60;
 
-      // Wenn gehhovered, zeichnen wir einen halbtransparenten Hintergrund und ändern die Textfarbe
+      // Zeichne einen sichtbaren Hintergrund für den Button
+      this.ctx.fillStyle = 'rgba(0, 0, 0, 0.5)'; // Halbtransparenter schwarzer Hintergrund
+      this.ctx.fillRect(button.x, button.y, button.width, button.height);
+      
+      // Zeichne einen Rahmen um den Button für bessere Sichtbarkeit
+      this.ctx.strokeStyle = 'white';
+      this.ctx.lineWidth = 2;
+      this.ctx.strokeRect(button.x, button.y, button.width, button.height);
+      
+      // Wenn gehhovered, ändern wir die Textfarbe
       if (this.hoveredButton === index) {
-        this.ctx.fillStyle = 'rgba(255, 255, 255, 0.3)';
-        this.ctx.fillRect(button.x, button.y, button.width, button.height);
         this.ctx.fillStyle = 'yellow';
       } else {
-        // Normaler Hintergrund und Textfarbe
-        this.ctx.fillStyle = 'rgba(255, 255, 255, 0.8)';
-        this.ctx.fillRect(button.x, button.y, button.width, button.height);
-        this.ctx.fillStyle = 'black';
+        this.ctx.fillStyle = 'white';
       }
 
-      this.ctx.font = '18px Arial';
       this.ctx.textAlign = 'center';
+      this.ctx.font = '24px Arial'; // Größere Schrift für bessere Lesbarkeit
       this.ctx.fillText(
         button.label,
         button.x + button.width / 2,
-        button.y + button.height / 2 + 7
+        button.y + button.height / 2 + 8
       );
     });
   }
@@ -169,21 +175,91 @@ class ExplanationScreen {
     });
   }
 
-   // Methode zum Hinzufügen der Event Listener (jetzt mit Touch-Events)
-   addEventListeners() {
+  /**
+   * Touch-Start-Event: simuliere einen Klick
+   */
+  handleTouchStart(event) {
+    // Wir verwenden preventDefault() nur für den Canvas, um unerwünschtes Scrollen zu verhindern
+    event.preventDefault();
+    
+    const touch = event.changedTouches[0];
+    const rect = this.canvas.getBoundingClientRect();
+    
+    // Berechne die korrekten Touch-Koordinaten relativ zum Canvas
+    // und berücksichtige dabei die Skalierung des Canvas
+    const canvasWidth = this.canvas.width;
+    const canvasHeight = this.canvas.height;
+    const rectWidth = rect.width;
+    const rectHeight = rect.height;
+    
+    // Skalierungsfaktoren berechnen
+    const scaleX = canvasWidth / rectWidth;
+    const scaleY = canvasHeight / rectHeight;
+    
+    // Touch-Position relativ zum Canvas berechnen
+    const touchX = (touch.clientX - rect.left) * scaleX;
+    const touchY = (touch.clientY - rect.top) * scaleY;
+    
+    console.log('Touch at:', touchX, touchY);
+    
+    // Prüfe direkt, ob ein Button getroffen wurde
+    let buttonClicked = false;
+    this.buttons.forEach((button, index) => {
+        if (
+            touchX >= button.x && 
+            touchX <= button.x + button.width &&
+            touchY >= button.y && 
+            touchY <= button.y + button.height
+        ) {
+            console.log('Button clicked:', button.label);
+            buttonClicked = true;
+            button.action();
+        }
+    });
+    
+    // Wenn kein Button direkt getroffen wurde, verwende die normale Klick-Verarbeitung
+    if (!buttonClicked) {
+        const simulatedEvent = {
+            clientX: touch.clientX,
+            clientY: touch.clientY
+        };
+        this.handleClick(simulatedEvent);
+    }
+  }
+
+  /**
+   * Touch-Move-Event: simuliere die Mausbewegung
+   */
+  handleTouchMove(event) {
+    // Wir entfernen preventDefault(), da es Touch-Interaktionen blockieren kann
+    const touch = event.changedTouches[0];
+    const simulatedEvent = {
+        clientX: touch.clientX,
+        clientY: touch.clientY
+    };
+    this.handleMouseMove(simulatedEvent);
+  }
+
+  // Methode zum Hinzufügen der Event Listener (jetzt mit Touch-Events)
+  addEventListeners() {
     this.canvas.addEventListener('click', this.boundHandleClick);
     this.canvas.addEventListener('mousemove', this.boundHandleMouseMove);
+    
+    // Bound event handlers für Touch-Events
+    this.boundHandleTouchStart = this.handleTouchStart.bind(this);
+    this.boundHandleTouchMove = this.handleTouchMove.bind(this);
+    
     this.canvas.addEventListener('touchstart', this.boundHandleTouchStart);
     this.canvas.addEventListener('touchmove', this.boundHandleTouchMove);
-}
+  }
 
-// Methode zum Entfernen der Event Listener (sowohl Mouse als auch Touch)
-removeEventListeners() {
+  // Methode zum Entfernen der Event Listener (sowohl Mouse als auch Touch)
+  removeEventListeners() {
     this.canvas.removeEventListener('click', this.boundHandleClick);
     this.canvas.removeEventListener('mousemove', this.boundHandleMouseMove);
     this.canvas.removeEventListener('touchstart', this.boundHandleTouchStart);
     this.canvas.removeEventListener('touchmove', this.boundHandleTouchMove);
-}
+  }
 }
 
 
@@ -283,5 +359,3 @@ removeEventListeners() {
 //       }
 //     }
 //   }
-  
-  

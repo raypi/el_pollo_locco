@@ -93,23 +93,26 @@ class StartScreen {
         this.buttons.forEach((button, index) => {
             // Position berechnen
             const x = this.canvas.width / 2;
-            const y = 200 + index * 60;
-            button.x = x - 100;
-            button.y = y - 30;
-            button.width = 200;
-            button.height = 40;
+            const y = 200 + index * 50; 
+            button.x = x - 100; 
+            button.y = y - 30; 
+            button.width = 240;
+            button.height = 60;
 
             // Überprüfen, ob der Button gehighlighted werden soll
             if (this.hoveredButton === index) {
-                // Transparenten Hintergrund zeichnen
-                this.ctx.fillStyle = 'rgba(255, 255, 255, 0.3)';
-                this.ctx.fillRect(button.x, button.y, button.width, button.height);
                 this.ctx.fillStyle = 'yellow';
             } else {
                 this.ctx.fillStyle = 'white';
             }
             
+            // Größere Schrift für bessere Lesbarkeit
+            this.ctx.font = '32px Arial';
             this.ctx.fillText(button.label, x, y);
+            
+            // Debug: Zeichne die Button-Grenzen (nur für Entwicklung)
+            // this.ctx.strokeStyle = 'red';
+            // this.ctx.strokeRect(button.x, button.y, button.width, button.height);
         });
     }
 
@@ -158,18 +161,62 @@ class StartScreen {
 
     // Touch-Start-Event: simuliere einen Klick
     handleTouchStart(event) {
-        event.preventDefault(); // Verhindert zum Beispiel versehentliches Scrollen
+        // Wir verwenden preventDefault() nur für den Canvas, um unerwünschtes Scrollen zu verhindern
+        // aber erlauben andere Touch-Interaktionen
+        event.preventDefault();
+        
         const touch = event.changedTouches[0];
+        const rect = this.canvas.getBoundingClientRect();
+        
+        // Berechne die korrekten Touch-Koordinaten relativ zum Canvas
+        // und berücksichtige dabei die Skalierung des Canvas
+        const canvasWidth = this.canvas.width;
+        const canvasHeight = this.canvas.height;
+        const rectWidth = rect.width;
+        const rectHeight = rect.height;
+        
+        // Skalierungsfaktoren berechnen
+        const scaleX = canvasWidth / rectWidth;
+        const scaleY = canvasHeight / rectHeight;
+        
+        // Touch-Position relativ zum Canvas berechnen
+        const touchX = (touch.clientX - rect.left) * scaleX;
+        const touchY = (touch.clientY - rect.top) * scaleY;
+        
+        // Simuliertes Event mit korrigierten Koordinaten
         const simulatedEvent = {
             clientX: touch.clientX,
             clientY: touch.clientY
         };
-        this.handleClick(simulatedEvent);
+        
+        console.log('Touch at:', touchX, touchY);
+        
+        // Prüfe direkt, ob ein Button getroffen wurde
+        let buttonClicked = false;
+        this.buttons.forEach((button, index) => {
+            if (
+                touchX >= button.x && 
+                touchX <= button.x + button.width &&
+                touchY >= button.y && 
+                touchY <= button.y + button.height
+            ) {
+                console.log('Button clicked:', button.label);
+                buttonClicked = true;
+                button.action();
+            }
+        });
+        
+        // Wenn kein Button direkt getroffen wurde, verwende die normale Klick-Verarbeitung
+        if (!buttonClicked) {
+            this.handleClick(simulatedEvent);
+        }
     }
 
     // Touch-Move-Event: simuliere die Mausbewegung
     handleTouchMove(event) {
+        // Wir verwenden preventDefault() nur für den Canvas, um unerwünschtes Scrollen zu verhindern
         event.preventDefault();
+        
         const touch = event.changedTouches[0];
         const simulatedEvent = {
             clientX: touch.clientX,

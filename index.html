@@ -2,7 +2,7 @@
 <html lang="de">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <link rel="stylesheet" href="./css/main.css">
     <link rel="stylesheet" href="./css/responsive.css">
     <script src="./script/models/sound/audioHub.class.js"></script>
@@ -44,9 +44,10 @@
         <main>
             <div class="game-container">
                     <canvas id="canvas" width="720px" height="480"></canvas>
-                    <div class="mobile-controls">
+                    <div id="mobile-controls" class="mobile-controls">
                         <button id="btnLeft" class="mobile-btn"></button>
                         <button id="btnUp" class="mobile-btn"></button>
+                        <button id="btnBottle" class="mobile-btn"></button>
                         <button id="btnRight" class="mobile-btn"></button>
                     </div>
             </div>

@@ -5,6 +5,13 @@ class OrientationScreen {
     constructor(canvas) {
       this.canvas = canvas;
       this.ctx = canvas.getContext('2d');
+      
+      // Bound event handlers
+      this.boundHandleClick = this.handleClick.bind(this);
+      this.boundHandleTouchStart = this.handleTouchStart.bind(this);
+      
+      // Event Listener hinzufügen
+      this.addEventListeners();
     }
   
     draw() {
@@ -26,5 +33,34 @@ class OrientationScreen {
         this.canvas.height / 2
       );
     }
+    
+    /**
+     * Klick-Handler (wird nicht wirklich benötigt, aber für Konsistenz implementiert)
+     */
+    handleClick(event) {
+      // Nichts zu tun, da der Benutzer das Gerät drehen muss
+    }
+    
+    /**
+     * Touch-Start-Event: simuliere einen Klick
+     */
+    handleTouchStart(event) {
+      // Nichts zu tun, da der Benutzer das Gerät drehen muss
+    }
+    
+    /**
+     * Event Listener hinzufügen
+     */
+    addEventListeners() {
+      this.canvas.addEventListener('click', this.boundHandleClick);
+      this.canvas.addEventListener('touchstart', this.boundHandleTouchStart);
+    }
+    
+    /**
+     * Event Listener entfernen
+     */
+    removeEventListeners() {
+      this.canvas.removeEventListener('click', this.boundHandleClick);
+      this.canvas.removeEventListener('touchstart', this.boundHandleTouchStart);
+    }
   }
-  

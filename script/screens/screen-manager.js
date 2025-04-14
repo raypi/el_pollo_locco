@@ -21,6 +21,8 @@ class ScreenManager {
         this.currentScreen.draw();
         this.currentScreen.show();
 
+        hideMobileControls();
+
         
         // Wir brauchen keinen globalen onclick Handler mehr, da der StartScreen
         // seine eigenen Event Listener verwaltet
@@ -60,6 +62,8 @@ class ScreenManager {
        this.clearCanvas();
        // Rufe die globale startGame()-Funktion auf.
        startGame();
+       // Stelle sicher, dass die mobilen Steuerelemente angezeigt werden
+       showMobileControls();
     }
 /**
    * Zeigt den Game Over Screen an.
@@ -73,6 +77,9 @@ showGameOverScreen(type) {
     if (this.currentScreen && typeof this.currentScreen.removeEventListeners === 'function') {
       this.currentScreen.removeEventListeners();
     }
+    
+    // Mobile Controls ausblenden
+    hideMobileControls();
     
     this.currentScreen = new GameOverScreen(
       this.canvas,
@@ -88,11 +95,15 @@ showGameOverScreen(type) {
     );
     this.currentScreen.draw();
     
-    // Setze den onclick Handler für den Canvas
-    // Dieser wird später durch die removeEventListeners Methode entfernt
-    this.canvas.onclick = (event) => {
-      this.currentScreen.handleClick(event);
-    };
+    // Event Listener hinzufügen (statt direktem onclick)
+    if (typeof this.currentScreen.addEventListeners === 'function') {
+      this.currentScreen.addEventListeners();
+    } else {
+      // Fallback für ältere Implementierungen
+      this.canvas.onclick = (event) => {
+        this.currentScreen.handleClick(event);
+      };
+    }
   }
 
 
@@ -109,6 +120,8 @@ showGameOverScreen(type) {
         this.canvas.onclick = null;
         this.clearCanvas();
         newGame();
+        // Stelle sicher, dass die mobilen Steuerelemente angezeigt werden
+        showMobileControls();
     }
 
     // Hilfsfunktion, um den Canvas zu leeren.
@@ -125,11 +138,13 @@ showGameOverScreen(type) {
           this.currentScreen.removeEventListeners();
         }
         
+        // Mobile Controls ausblenden
+        hideMobileControls();
+        
         this.currentScreen = new OrientationScreen(this.canvas);
         this.currentScreen.draw();
-        this.canvas.onclick = (event) => {
-          this.currentScreen.handleClick(event);
-        };
+        
+        // Event Listener werden bereits im Konstruktor hinzugefügt
       }
 
       showImpressumScreen() {
@@ -141,6 +156,9 @@ showGameOverScreen(type) {
           this.currentScreen.removeEventListeners();
         }
       
+        // Mobile Controls ausblenden
+        hideMobileControls();
+        
         // Canvas ggf. leeren (optional)
         this.clearCanvas();
       
@@ -181,6 +199,9 @@ showGameOverScreen(type) {
           this.currentScreen.removeEventListeners();
         }
       
+        // Mobile Controls ausblenden
+        hideMobileControls();
+        
         // Canvas leeren (optional, je nach Bedarf)
         this.clearCanvas();
       
@@ -207,6 +228,9 @@ showGameOverScreen(type) {
           this.currentScreen.removeEventListeners();
         }
       
+        // Mobile Controls ausblenden
+        hideMobileControls();
+        
         // Canvas ggf. leeren (optional, kann nicht schaden)
         this.clearCanvas();
       

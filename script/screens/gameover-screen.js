@@ -103,9 +103,40 @@ class GameOverScreen {
         });
     }
 
+    /**
+     * Touch-Start-Event: simuliere einen Klick
+     */
+    handleTouchStart(event) {
+        // Wir entfernen preventDefault(), da es Touch-Interaktionen blockieren kann
+        const touch = event.changedTouches[0];
+        const simulatedEvent = {
+            clientX: touch.clientX,
+            clientY: touch.clientY
+        };
+        this.handleClick(simulatedEvent);
+    }
+
+    // Methode zum Hinzufügen der Event Listener (mit Touch-Events)
+    addEventListeners() {
+        // Bound event handlers
+        this.boundHandleClick = this.handleClick.bind(this);
+        this.boundHandleTouchStart = this.handleTouchStart.bind(this);
+        
+        this.canvas.addEventListener('click', this.boundHandleClick);
+        this.canvas.addEventListener('touchstart', this.boundHandleTouchStart);
+    }
+
     // Methode zum Entfernen von Event Listenern
     removeEventListeners() {
-        // Entferne den onclick Handler vom Canvas
+        // Entferne alle Event Listener
+        if (this.boundHandleClick) {
+            this.canvas.removeEventListener('click', this.boundHandleClick);
+        }
+        if (this.boundHandleTouchStart) {
+            this.canvas.removeEventListener('touchstart', this.boundHandleTouchStart);
+        }
+        
+        // Entferne den onclick Handler vom Canvas (für Abwärtskompatibilität)
         this.canvas.onclick = null;
     }
 }

@@ -87,6 +87,7 @@ body {
     display: block;
     background-color: var(--backgroundColorOrange);
     border-radius: 16px;
+    touch-action: none; /* Verhindert Standard-Touch-Aktionen des Browsers */
 }
 
 
@@ -152,3 +153,45 @@ footer {
     height: 100vh;
     object-fit: contain;
   }
+
+  #mobile-controls {
+    display: none; /* erst sichtbar, wenn das Spiel aktiv ist */
+    position: absolute;
+    bottom: 20px;         /* Abstand vom unteren Rand des Game-Containers */
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 50px;            /* Abstand zwischen Buttons */
+    z-index: 10;          /* Damit er über dem Canvas liegt */
+    width: 100%;
+    justify-content: space-around;
+    padding: 0 10px;
+  }
+
+    /* Allgemeiner Stil für die Mobile Buttons */
+    .mobile-btn {
+        width: 60px;
+        height: 60px;
+        border: none;
+        background-color: rgba(255, 255, 255, 0.3); /* Leicht sichtbarer Hintergrund */
+        background-size: 70%;
+        background-repeat: no-repeat;
+        background-position: center;
+        outline: none;
+        border-radius: 50%; /* Runde Buttons */
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.3); /* Schatten für bessere Sichtbarkeit */
+      }
+      
+      /* Spezifische Hintergrundbilder zuweisen */
+      #btnLeft {
+        background-image: url('../assets/button/arrowleft.png');
+      }
+      #btnUp {
+        background-image: url('../assets/button/arrowup.png');
+      }
+      #btnBottle{
+        background-image: url('../assets/img/6_salsa_bottle/salsa_bottle.png');
+      }
+      #btnRight {
+        background-image: url('../assets/button/arrowright.png');
+      }
