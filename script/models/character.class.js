@@ -132,12 +132,10 @@ class Character extends MovableObject {
                 // Keine Bewegung: Sofort das Standbild zeigen, solange noch keine
                 // längere Inaktivität vorliegt.
                 const timeSinceLastMove = Date.now() - this.lastMoveTime;
-                if (timeSinceLastMove < 3000) {
+                if (timeSinceLastMove < 50) {
                     // Direkt das Standbild anzeigen.
                     this.loadImage('assets/img/2_character_pepe/1_idle/idle/I-1.png');
                 } else {
-                    // Nach 3 Sekunden Inaktivität: Idle Animation bzw. 
-                    // nach 10 Sekunden: LongIdle Animation (wie in deiner checkIdle-Methode)
                     this.checkIdle();
                 }
             }
@@ -152,10 +150,10 @@ class Character extends MovableObject {
         const now = Date.now();
         const timeSinceLastMove = now - this.lastMoveTime;
     
-        if (timeSinceLastMove > 10000) { // nach 10s
+        if (timeSinceLastMove > 5000) { 
             this.playAnimation(this.IMAGES_LONGIDLE);
             this.longIdle = true; // Zustand merken
-        } else if (timeSinceLastMove > 3000 && !this.longIdle) { // nach 3s
+        } else if (timeSinceLastMove > 200 && !this.longIdle) { 
             this.playAnimation(this.IMAGES_IDLE);
         }
     }     
