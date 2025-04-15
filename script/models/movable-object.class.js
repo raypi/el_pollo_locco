@@ -111,7 +111,7 @@ isColliding(mo) {
    
 
    isDead(){
-      return this.energy < 20;
+      return this.energy <= 20;
 
    }
 

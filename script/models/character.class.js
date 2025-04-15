@@ -163,6 +163,9 @@ dieCharacter() {
   this.state = "dead"; 
   console.log("Character is dead");
 
+  // Spiele die Todesanimation ab
+  this.playAnimation(this.IMAGES_DEAD);
+
   // Warte 2 Sekunden für die Todesanimation, bevor der Game-Over-Screen angezeigt wird
   this.deathTimeoutId = setTimeout(() => {
     // Stoppe das Spiel
