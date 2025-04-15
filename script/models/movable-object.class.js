@@ -98,20 +98,20 @@ isColliding(mo) {
       }
       AudioHub.stopOneSound(AudioHub.HITCHARACTER);
       AudioHub.playOneSound(AudioHub.HITCHARACTER);
-      this.energy -= 10;
+      this.energy -= 20;
       if (this.energy < 0) {
          this.energy = 0;
       }
       this.lasthit = currentTime;
 
-      if (this.energy === 0 && this instanceof Character) {
+      if (this.energy <= 20 && this instanceof Character) {
          this.dieCharacter();
       }
    }
    
 
    isDead(){
-      return this.energy == 0;
+      return this.energy < 20;
 
    }
 

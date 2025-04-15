@@ -8,8 +8,6 @@ function createLevel001() {
         [
             new Chicken(),
             new Chicken(),
-            new Chicken(),
-            new Chicken(),
             new Chicken()
         ],
         [
@@ -63,11 +61,7 @@ function createLevel001() {
         [
             new SmalChicken(),
             new SmalChicken(),
-            new SmalChicken(),
-            new SmalChicken(),
-            new SmalChicken(),
             new SmalChicken()
-
         ]
     );
 }
