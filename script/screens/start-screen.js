@@ -42,16 +42,15 @@ class StartScreen {
                 label: 'Start', 
                 action: () => {
                     this.removeEventListeners();
-                    // Musik entsprechend dem Status starten, wenn das Spiel beginnt
-                    if (this.musicOn) {
-                        AudioHub.playOneSound(AudioHub.GAMEMUSIC);
-                    }
+                    // Sound entsprechend dem Status starten, wenn das Spiel beginnt
+                    // Die playOneSound Methode prüft bereits den Sound-Status
+                    AudioHub.playOneSound(AudioHub.GAMEMUSIC);
                     this.startGameCallback();
                 }
             },
             { label: 'Steuerung', action: () => this.showControls() },
             { label: 'Erklärung', action: () => this.showExplanation() },
-            { label: this.musicOn ? 'Musik aus' : 'Musik an', action: () => this.toggleSound() },
+            { label: this.musicOn ? 'Sound aus' : 'Sound an', action: () => this.toggleSound() },
             { label: 'Impressum', action: () => this.showImpressum() },
         ];
     }
@@ -65,7 +64,7 @@ class StartScreen {
         this.musicOn = storedMusicOn === 'true';
         
         // Button-Label entsprechend aktualisieren
-        this.buttons[3].label = this.musicOn ? 'Musik aus' : 'Musik an';
+        this.buttons[3].label = this.musicOn ? 'Sound aus' : 'Sound an';
         
         // Sicherstellen, dass eventuelle vorherige Canvas-onclick Handler entfernt werden
         this.canvas.onclick = null;
@@ -253,7 +252,7 @@ class StartScreen {
             this.musicOn = !this.musicOn;
             
             // Button-Text und localStorage aktualisieren
-            this.buttons[3].label = this.musicOn ? 'Musik aus' : 'Musik an';
+            this.buttons[3].label = this.musicOn ? 'Sound aus' : 'Sound an';
             localStorage.setItem('musicOn', this.musicOn);
 
             this.draw(); // Aktualisiere die Anzeige

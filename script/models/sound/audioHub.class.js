@@ -18,6 +18,12 @@ class AudioHub {
    
     // methode zum abspielen einzelner Sound
     static playOneSound(sound) { 
+        // Prüfe, ob Sound aktiviert ist
+        const soundOn = localStorage.getItem('musicOn') === 'true';
+        if (!soundOn) {
+            return; // Wenn Sound deaktiviert ist, spiele keinen Sound ab
+        }
+        
         sound.volume = 0.2;  // Setzt die Lautstärke auf 0.2 = 20% / 1 = 100%
         sound.currentTime = 0;  // Startet ab einer bestimmten stelle ggf. im Array speichern und mit übergeben
         
@@ -36,6 +42,12 @@ class AudioHub {
 
     // methode zum abspielen einzelner Sound mit Verzögerung (um AbortError zu vermeiden)
     static playSoundWithDelay(sound, delay = 50) {
+        // Prüfe, ob Sound aktiviert ist
+        const soundOn = localStorage.getItem('musicOn') === 'true';
+        if (!soundOn) {
+            return; // Wenn Sound deaktiviert ist, spiele keinen Sound ab
+        }
+        
         setTimeout(() => {
             AudioHub.playOneSound(sound);
         }, delay);

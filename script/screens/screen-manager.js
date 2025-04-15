@@ -37,13 +37,13 @@ class ScreenManager {
             }
         }
         
-        // Prüfe den Musikstatus in localStorage
-        const storedMusicOn = localStorage.getItem('musicOn');
-        if (storedMusicOn !== 'true') {
-            // Wenn Musik ausgeschaltet ist, stoppe alle Sounds
-            AudioHub.stopOneSound(AudioHub.GAMEMUSIC);
+        // Prüfe den Sound-Status in localStorage
+        const soundOn = localStorage.getItem('musicOn');
+        if (soundOn !== 'true') {
+            // Wenn Sound ausgeschaltet ist, stoppe alle Sounds
+            AudioHub.stopAllSounds();
         }
-        // Ansonsten lassen wir die Musik weiterlaufen, da der Musikstatus über localStorage verwaltet wird
+        // Ansonsten lassen wir die Sounds weiterlaufen, da der Sound-Status über localStorage verwaltet wird
         // und in der show() Methode des StartScreen entsprechend gesetzt wird
     }
 
