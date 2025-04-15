@@ -1,6 +1,6 @@
 class SmalChicken extends MovableObject {
-    width = 60;
-    height = 60;
+    width = 40;
+    height = 40;
     y = 365;
     alive = true;
     state = "alive";
