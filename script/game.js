@@ -64,9 +64,25 @@ function startGame() {
 }
 
 function showMobileControls() {
-    // Prüfen, ob Touch-Events unterstützt werden oder Bildschirm klein ist
-    if ('ontouchstart' in window || navigator.maxTouchPoints > 0 || window.innerWidth <= 900) { 
+    // Verbesserte Touch-Gerät-Erkennung
+    const isTouchDevice = (function() {
+        // Prüfe auf Touch-Events
+        const hasTouchEvents = 'ontouchstart' in window || 
+                              navigator.maxTouchPoints > 0 || 
+                              navigator.msMaxTouchPoints > 0;
+        
+        // Prüfe auf mobile User-Agent (zusätzliche Sicherheit)
+        const mobileRegex = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i;
+        const isMobileUserAgent = mobileRegex.test(navigator.userAgent);
+        
+        // Prüfe auf tatsächliche Touch-Unterstützung und mobile Geräte
+        return hasTouchEvents && isMobileUserAgent;
+    })();
+    
+    if (isTouchDevice) {
         document.getElementById('mobile-controls').style.display = 'flex';
+    } else {
+        document.getElementById('mobile-controls').style.display = 'none';
     }
 }
 
