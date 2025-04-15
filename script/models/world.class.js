@@ -425,11 +425,6 @@ class World {
             smalChicken.alive = false;
             smalChicken.state = "dead";
             
-            // Animation stoppen, falls ein Interval läuft
-            if (smalChicken.animationInterval) {
-              clearInterval(smalChicken.animationInterval);
-            }
-            
             // Rufe die Todesanimation auf (die sich um Bildwechsel und Flag-Setzung kümmert)
             smalChicken.deadAnimation();
             smalChicken.removeTimeout = setTimeout(() => {
@@ -447,10 +442,6 @@ class World {
             AudioHub.playOneSound(AudioHub.CHICKENHIT);
             
             console.log('Flasche trifft kleines Huhn!');
-            
-            if (smalChicken.animationInterval) {
-              clearInterval(smalChicken.animationInterval);
-            }
             
             smalChicken.deadAnimation();
             smalChicken.removeTimeout = setTimeout(() => {
@@ -519,8 +510,7 @@ class World {
                 enemy.alive = false;
                 enemy.state = "dead";
                 // console.log('Nach kill: enemy.alive =', enemy.alive);
-                // Zeige das Todesbild
-                enemy.loadImage(enemy.IMAGES_DEATH[0]);
+                // Die Chicken-Klasse kümmert sich jetzt um das Anzeigen des Todesbildes
                 
                 // Verzögertes Entfernen des Huhns nach 1 Sekunde
                 enemy.removeTimeout = setTimeout(() => {
@@ -545,8 +535,7 @@ class World {
                     enemy.state = "dead";
                     console.log('Flasche trifft Huhn!');
                     
-                    // Zeige das Todesbild des Huhns
-                    enemy.loadImage(enemy.IMAGES_DEATH[0]);
+                    // Die Chicken-Klasse kümmert sich jetzt um das Anzeigen des Todesbildes
     
                     // Entferne das Huhn nach 1 Sekunde
                     enemy.removeTimeout = setTimeout(() => {
