@@ -94,7 +94,7 @@ class ThrowableObject extends MovableObject {
             setTimeout(() => {
                 // this.loadImage(''); 
                 this.removeFromWorld = true; 
-            }, 1000);
+            }, 100);
         }
     }, 100);
 
