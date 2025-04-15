@@ -321,7 +321,7 @@ class World {
                 AudioHub.stopOneSound(AudioHub.COINBARCOLLECT);
                 AudioHub.playOneSound(AudioHub.COINBARCOLLECT);
                 // console.log('Coin eingesammelt!', coin);
-                this.coinBar.setPercentage(Math.min(this.coinBar.percentage + 10, 100));// Test
+                this.coinBar.setPercentage(Math.min(this.coinBar.percentage + 20, 100));
                 return false; // Coin wird entfernt
             }
             return true; // Coin bleibt in der Welt
