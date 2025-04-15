@@ -89,15 +89,32 @@ class GameOverScreen {
     // Leitet Klicks an die Buttons weiter.
     handleClick(event) {
         const rect = this.canvas.getBoundingClientRect();
-        const clickX = event.clientX - rect.left;
-        const clickY = event.clientY - rect.top;
+        
+        // Berechne die korrekten Klick-Koordinaten relativ zum Canvas
+        // und berücksichtige dabei die Skalierung des Canvas
+        const canvasWidth = this.canvas.width;
+        const canvasHeight = this.canvas.height;
+        const rectWidth = rect.width;
+        const rectHeight = rect.height;
+        
+        // Skalierungsfaktoren berechnen
+        const scaleX = canvasWidth / rectWidth;
+        const scaleY = canvasHeight / rectHeight;
+        
+        // Klick-Position relativ zum Canvas berechnen
+        const clickX = (event.clientX - rect.left) * scaleX;
+        const clickY = (event.clientY - rect.top) * scaleY;
+        
+        console.log('Click detected at:', clickX, clickY);
+        
         this.buttons.forEach((button) => {
             if (
-                clickX > button.x &&
-                clickX < button.x + button.width &&
-                clickY > button.y &&
-                clickY < button.y + button.height
+                clickX >= button.x &&
+                clickX <= button.x + button.width &&
+                clickY >= button.y &&
+                clickY <= button.y + button.height
             ) {
+                console.log('Button clicked:', button.label);
                 button.action();
             }
         });
@@ -107,13 +124,104 @@ class GameOverScreen {
      * Touch-Start-Event: simuliere einen Klick
      */
     handleTouchStart(event) {
-        // Wir entfernen preventDefault(), da es Touch-Interaktionen blockieren kann
+        // Prevent default to avoid double-firing or scrolling
+        event.preventDefault();
+        
         const touch = event.changedTouches[0];
-        const simulatedEvent = {
-            clientX: touch.clientX,
-            clientY: touch.clientY
-        };
-        this.handleClick(simulatedEvent);
+        const rect = this.canvas.getBoundingClientRect();
+        
+        // Berechne die korrekten Touch-Koordinaten relativ zum Canvas
+        // und berücksichtige dabei die Skalierung des Canvas
+        const canvasWidth = this.canvas.width;
+        const canvasHeight = this.canvas.height;
+        const rectWidth = rect.width;
+        const rectHeight = rect.height;
+        
+        // Skalierungsfaktoren berechnen
+        const scaleX = canvasWidth / rectWidth;
+        const scaleY = canvasHeight / rectHeight;
+        
+        // Touch-Position relativ zum Canvas berechnen
+        const touchX = (touch.clientX - rect.left) * scaleX;
+        const touchY = (touch.clientY - rect.top) * scaleY;
+        
+        console.log('Touch detected at:', touchX, touchY);
+        
+        // Prüfe direkt, ob ein Button getroffen wurde
+        let buttonClicked = false;
+        this.buttons.forEach((button, index) => {
+            if (
+                touchX >= button.x && 
+                touchX <= button.x + button.width &&
+                touchY >= button.y && 
+                touchY <= button.y + button.height
+            ) {
+                console.log('Button touched:', button.label);
+                buttonClicked = true;
+                button.action();
+            }
+        });
+        
+        // Wenn kein Button direkt getroffen wurde, verwende die normale Klick-Verarbeitung
+        if (!buttonClicked) {
+            const simulatedEvent = {
+                clientX: touch.clientX,
+                clientY: touch.clientY
+            };
+            this.handleClick(simulatedEvent);
+        }
+    }
+
+    /**
+     * Touch-End-Event: für Geräte, die touchend besser verarbeiten als touchstart
+     */
+    handleTouchEnd(event) {
+        // Prevent default to avoid double-firing
+        event.preventDefault();
+        
+        const touch = event.changedTouches[0];
+        const rect = this.canvas.getBoundingClientRect();
+        
+        // Berechne die korrekten Touch-Koordinaten relativ zum Canvas
+        // und berücksichtige dabei die Skalierung des Canvas
+        const canvasWidth = this.canvas.width;
+        const canvasHeight = this.canvas.height;
+        const rectWidth = rect.width;
+        const rectHeight = rect.height;
+        
+        // Skalierungsfaktoren berechnen
+        const scaleX = canvasWidth / rectWidth;
+        const scaleY = canvasHeight / rectHeight;
+        
+        // Touch-Position relativ zum Canvas berechnen
+        const touchX = (touch.clientX - rect.left) * scaleX;
+        const touchY = (touch.clientY - rect.top) * scaleY;
+        
+        console.log('Touch end detected at:', touchX, touchY);
+        
+        // Prüfe direkt, ob ein Button getroffen wurde
+        let buttonClicked = false;
+        this.buttons.forEach((button, index) => {
+            if (
+                touchX >= button.x && 
+                touchX <= button.x + button.width &&
+                touchY >= button.y && 
+                touchY <= button.y + button.height
+            ) {
+                console.log('Button released:', button.label);
+                buttonClicked = true;
+                button.action();
+            }
+        });
+        
+        // Wenn kein Button direkt getroffen wurde, verwende die normale Klick-Verarbeitung
+        if (!buttonClicked) {
+            const simulatedEvent = {
+                clientX: touch.clientX,
+                clientY: touch.clientY
+            };
+            this.handleClick(simulatedEvent);
+        }
     }
 
     // Methode zum Hinzufügen der Event Listener (mit Touch-Events)
@@ -121,9 +229,17 @@ class GameOverScreen {
         // Bound event handlers
         this.boundHandleClick = this.handleClick.bind(this);
         this.boundHandleTouchStart = this.handleTouchStart.bind(this);
+        this.boundHandleTouchEnd = this.handleTouchEnd.bind(this);
         
+        // Stelle sicher, dass das Canvas für Touch-Events bereit ist
+        this.canvas.style.touchAction = 'none'; // Verhindert Browser-Gesten
+        
+        // Füge Event-Listener hinzu
         this.canvas.addEventListener('click', this.boundHandleClick);
-        this.canvas.addEventListener('touchstart', this.boundHandleTouchStart);
+        this.canvas.addEventListener('touchstart', this.boundHandleTouchStart, { passive: false });
+        this.canvas.addEventListener('touchend', this.boundHandleTouchEnd, { passive: false });
+        
+        console.log('Event listeners added to GameOverScreen');
     }
 
     // Methode zum Entfernen von Event Listenern
@@ -135,8 +251,13 @@ class GameOverScreen {
         if (this.boundHandleTouchStart) {
             this.canvas.removeEventListener('touchstart', this.boundHandleTouchStart);
         }
+        if (this.boundHandleTouchEnd) {
+            this.canvas.removeEventListener('touchend', this.boundHandleTouchEnd);
+        }
         
         // Entferne den onclick Handler vom Canvas (für Abwärtskompatibilität)
         this.canvas.onclick = null;
+        
+        console.log('Event listeners removed from GameOverScreen');
     }
 }
