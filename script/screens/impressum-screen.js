@@ -79,6 +79,15 @@ class ImpressumScreen {
       button.width = 240;
       button.height = 60;
 
+      // Zeichne einen sichtbaren Hintergrund für den Button
+      this.ctx.fillStyle = 'rgba(0, 0, 0, 0.5)'; // Halbtransparenter schwarzer Hintergrund
+      this.ctx.fillRect(button.x, button.y, button.width, button.height);
+      
+      // Zeichne einen Rahmen um den Button für bessere Sichtbarkeit
+      this.ctx.strokeStyle = 'white';
+      this.ctx.lineWidth = 2;
+      this.ctx.strokeRect(button.x, button.y, button.width, button.height);
+      
       // Hover-Effekt
       if (this.hoveredButton === index) {
         this.ctx.fillStyle = 'yellow';

@@ -154,11 +154,11 @@ window.addEventListener('load', function() {
     // Für den Sprung-Button (oben)
     btnUp.addEventListener('touchstart', (event) => {
         event.preventDefault();
-        keyboard.UP = true;
+        keyboard.SPACE = true; 
     });
     btnUp.addEventListener('touchend', (event) => {
         event.preventDefault();
-        keyboard.UP = false;
+        keyboard.SPACE = false;
     });
 
     // Für den rechten Button
@@ -174,10 +174,10 @@ window.addEventListener('load', function() {
     // Für den Flaschen-Button (Werfen)
     btnBottle.addEventListener('touchstart', (event) => {
         event.preventDefault();
-        keyboard.SPACE = true; // SPACE wird zum Werfen verwendet
+        keyboard.N = true; 
     });
     btnBottle.addEventListener('touchend', (event) => {
         event.preventDefault();
-        keyboard.SPACE = false;
+        keyboard.N = false;
     });
 });
