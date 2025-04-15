@@ -23,24 +23,34 @@ function init() {
     screenManager = new ScreenManager(canvas);
     // Zeige zunächst den Startscreen an
     screenManager.showStartScreen();
-      // Event-Listener für Orientierungswechsel
+    // Event-Listener für Orientierungswechsel
     window.addEventListener("orientationchange", checkOrientation);
     window.addEventListener("resize", checkOrientation);
     // Füge Tastatur-Eventlistener hinzu
     window.addEventListener('keydown', keyboardKeyDown);
     window.addEventListener('keyup', keyboardKeyUp);
     
+    // Starte periodische Orientierungsprüfung für mobile Geräte
+    startOrientationCheck();
+}
+
+// Periodische Überprüfung der Orientierung für mobile Geräte
+function startOrientationCheck() {
+    // Prüfe, ob es sich um ein mobiles Gerät handelt
+    const isMobileDevice = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+    
+    if (isMobileDevice) {
+        console.log('Starte periodische Orientierungsprüfung für mobiles Gerät');
+        // Prüfe alle 2 Sekunden die Orientierung
+        setInterval(checkOrientation, 2000);
+    }
 }
 
 function checkOrientation() {
-    if (window.matchMedia("(orientation: portrait)").matches) {
-      // Gerät ist im Portraitmodus – zeige den OrientationScreen
-      screenManager.showOrientationScreen();
-    } else {
-      // Gerät ist im Landscapemodus – zeige den StartScreen (oder den zuletzt genutzten Screen)
-      screenManager.showStartScreen();
-    }
-  }
+    // Verwende die checkOrientation-Methode des ScreenManagers
+    // Diese Methode kümmert sich um die korrekte Anzeige des entsprechenden Screens
+    screenManager.checkOrientation();
+}
   
 
 //newGame

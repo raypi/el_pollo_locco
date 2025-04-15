@@ -160,8 +160,6 @@ class StartScreen {
 
     // Touch-Start-Event: simuliere einen Klick
     handleTouchStart(event) {
-        // Wir verwenden preventDefault() nur für den Canvas, um unerwünschtes Scrollen zu verhindern
-        // aber erlauben andere Touch-Interaktionen
         event.preventDefault();
         
         const touch = event.changedTouches[0];
