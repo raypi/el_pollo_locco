@@ -52,7 +52,7 @@ class StatusBar extends DrawableObject {
         // Lade die richtigen Bilder basierend auf dem Typ
         if (this.type === 'Health') {
             this.loadImages(this.IMAGES_HEALTH);
-            this.setPercentage(100); // Standard für Health
+            this.setPercentage(101); // Standard für Health
         } else if (this.type === 'Coin') {
             this.loadImages(this.IMAGES_COIN);
             this.setPercentage(1); // Standard für Coins
@@ -61,7 +61,7 @@ class StatusBar extends DrawableObject {
             this.setPercentage(1); // Standard für Bottles
         } else if (this.type === 'Endboss') {
             this.loadImages(this.IMAGES_ENDBOSS);
-            this.setPercentage(100); // Standard für Endboss
+            this.setPercentage(101); // Standard für Endboss
         }
     }
 
