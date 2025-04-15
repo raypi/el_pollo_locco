@@ -90,9 +90,10 @@ class ThrowableObject extends MovableObject {
         if (i >= Bottles.IMAGES_BOTTLES_SPLASH.length) {
             clearInterval(splashInterval);
 
-            // Das Endbild nach 1 Sekunde entfernen
+            
             setTimeout(() => {
-                this.loadImage(''); // Setzt das Bild auf ein leeres Bild oder Standardbild
+                // this.loadImage(''); 
+                this.removeFromWorld = true; 
             }, 1000);
         }
     }, 100);

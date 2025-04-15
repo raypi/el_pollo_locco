@@ -144,6 +144,9 @@ class World {
     draw() {
         // Wenn die Welt gestoppt wurde (z. B. nach dem Tod des Endboss), breche die Zeichnung ab.
         if (this.stopped) return;
+
+        // Zuerst alle aus der Welt zu entfernenden Objekte herausfiltern
+        this.throwableObjects = this.throwableObjects.filter(bottle => !bottle.removeFromWorld);
         
         // Canvas leeren
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
@@ -551,7 +554,7 @@ class World {
                         console.log('Huhn entfernt');
                     }, 1000);
     
-                    // Keine separate Entfernung der Flasche nötig, da splashBottle() sie bereits entfernt
+                    
                 }
             }
         });
