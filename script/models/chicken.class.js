@@ -29,18 +29,14 @@ class Chicken extends MovableObject {
 
     animate(){
         this.moveLeft();
-
         this.animationInterval = setInterval(() => {
             if (this.alive) {
-                let index = this.currentImage % this.IMAGES_WALKING.length; // let i = 0 % 6 
-                // i = 0, 1, 2, 3, 4, 5, nicht 6 sondern 0, 1, 2, ...    
+                let index = this.currentImage % this.IMAGES_WALKING.length;
                 let path = this.IMAGES_WALKING[index];
                 this.img = this.imageCache[path];
                 this.currentImage++;
             } else {
-                // Stop animation if chicken is dead
                 clearInterval(this.animationInterval);
-                // Display death image
                 this.loadImage(this.IMAGES_DEATH[0]);
             }
         }, 200);    
