@@ -1,3 +1,7 @@
+/**
+ * Represents a small chicken enemy in the game.
+ * Extends MovableObject with small chicken-specific properties and behaviors.
+ */
 class SmalChicken extends MovableObject {
     width = 40;
     height = 40;
@@ -5,18 +9,28 @@ class SmalChicken extends MovableObject {
     alive = true;
     state = "alive";
 
-    
+    /**
+     * Array of image paths for the walking animation.
+     * @type {string[]}
+     */
     IMAGES_WALKING = [
         'assets/img/3_enemies_chicken/chicken_small/1_walk/1_w.png',
         'assets/img/3_enemies_chicken/chicken_small/1_walk/2_w.png',
         'assets/img/3_enemies_chicken/chicken_small/1_walk/3_w.png'
     ];
 
+    /**
+     * Array of image paths for the death animation.
+     * @type {string[]}
+     */
     IMAGES_DEAD = [
         'assets/img/3_enemies_chicken/chicken_small/2_dead/dead.png'
     ];
     
-
+    /**
+     * Creates a new SmalChicken instance.
+     * Initializes position, speed, and starts animation.
+     */
     constructor(){
         super().loadImage('assets/img/3_enemies_chicken/chicken_normal/1_walk/1_w.png');
         this.loadImages(this.IMAGES_WALKING);
@@ -27,7 +41,10 @@ class SmalChicken extends MovableObject {
         this.animate();
     }
    
-
+    /**
+     * Starts the small chicken's movement and animation.
+     * Handles both alive and death states.
+     */
     animate(){
         this.moveLeft();
         this.animationInterval = setInterval(() => {
@@ -43,8 +60,11 @@ class SmalChicken extends MovableObject {
         }, 200);    
     }
 
+    /**
+     * Triggers the death animation for the small chicken.
+     * Sets the chicken as dead and schedules its removal.
+     */
     deadAnimation() {
-        // Set chicken as dead
         this.alive = false;
         this.state = "dead";
                 

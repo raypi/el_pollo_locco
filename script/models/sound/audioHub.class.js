@@ -1,72 +1,119 @@
+/**
+ * Manages all audio functionality in the game.
+ * Provides static methods for playing and stopping sounds.
+ */
 class AudioHub {
-   // grundsätzliche steuerung aller sounds im spiel
-
-   // Audiodateien laden
-   static CHICKENHIT = new Audio('assets/audio/ChickenSound.mp3'); //wenn chicken oder smal Chicken oder Endboss einen Hit bekommen
-   static COINBARCOLLECT = new Audio('assets/audio/coinCollect.wav'); //wenn ein Coin oder eine Bottle eingesammelt wird
-   static COINBARCOUNT = new Audio('assets/audio/coinCount.wav'); // wenn Coin oder Bottle der entsprechenden Bar hinzugefügt wird
-   static DEATH = new Audio('assets/audio/death.wav'); // wenn Character oder Endboss sterben
-   static ENDBOSSBATTLE = new Audio('assets/audio/enbossBattle.ogg');// wenn der Character so nah am endboss ist das dessen animation startet, spielt bis kampf beendet, schaltet normale hintergrundmusik aus
-   static JUMP = new Audio('assets/audio/jump.wav'); // wenn der Character springt
-   static GAMEMUSIC = new Audio('assets/audio/gamemusic.wav'); // hintergrundmusik für Game, soll später ein Start bildschilm ein und ausschaltbar sein
-   // sound als Plathalter weil ich noch nichts gefunden habe
-   static HITCHARACTER = new Audio('assets/audio/alarm.wav'); // wenn der Character springt
-
-
-   // Array für alle audio Dateien
-   static allSounds = [AudioHub.CHICKENHIT, AudioHub.COINBARCOLLECT, AudioHub.COINBARCOUNT, AudioHub.DEATH, AudioHub.ENDBOSSBATTLE , AudioHub.JUMP , AudioHub.GAMEMUSIC, AudioHub.HITCHARACTER];
+   /**
+    * Sound effect for when a chicken, small chicken, or endboss is hit.
+    * @type {HTMLAudioElement}
+    */
+   static CHICKENHIT = new Audio('assets/audio/ChickenSound.mp3');
    
-    // methode zum abspielen einzelner Sound
-    static playOneSound(sound) { 
-        // Prüfe, ob Sound aktiviert ist
-        const soundOn = localStorage.getItem('musicOn') === 'true';
-        if (!soundOn) {
-            return; // Wenn Sound deaktiviert ist, spiele keinen Sound ab
-        }
-        
-        sound.volume = 0.2;  // Setzt die Lautstärke auf 0.2 = 20% / 1 = 100%
-        sound.currentTime = 0;  // Startet ab einer bestimmten stelle ggf. im Array speichern und mit übergeben
-        
-        // Versuche den Sound abzuspielen und fange mögliche Fehler ab
-        const playPromise = sound.play();
-        
-        // Wenn play() ein Promise zurückgibt (moderner Browser)
-        if (playPromise !== undefined) {
-            playPromise.catch(error => {
-                // AbortError abfangen (tritt auf, wenn play() durch pause() unterbrochen wird)
-                console.log('Audio play error:', error);
-                // Wir könnten hier erneut versuchen, den Sound abzuspielen, aber das könnte zu einer Endlosschleife führen
-            });
-        }
-    }
+   /**
+    * Sound effect for when a coin or bottle is collected.
+    * @type {HTMLAudioElement}
+    */
+   static COINBARCOLLECT = new Audio('assets/audio/coinCollect.wav');
+   
+   /**
+    * Sound effect for when a coin or bottle is added to the status bar.
+    * @type {HTMLAudioElement}
+    */
+   static COINBARCOUNT = new Audio('assets/audio/coinCount.wav');
+   
+   /**
+    * Sound effect for when the character or endboss dies.
+    * @type {HTMLAudioElement}
+    */
+   static DEATH = new Audio('assets/audio/death.wav');
+   
+   /**
+    * Sound effect for the endboss battle.
+    * @type {HTMLAudioElement}
+    */
+   static ENDBOSSBATTLE = new Audio('assets/audio/enbossBattle.ogg');
+   
+   /**
+    * Sound effect for when the character jumps.
+    * @type {HTMLAudioElement}
+    */
+   static JUMP = new Audio('assets/audio/jump.wav');
+   
+   /**
+    * Background music for the game.
+    * @type {HTMLAudioElement}
+    */
+   static GAMEMUSIC = new Audio('assets/audio/gamemusic.wav');
+   
+   /**
+    * Sound effect for when the character is hit.
+    * @type {HTMLAudioElement}
+    */
+   static HITCHARACTER = new Audio('assets/audio/alarm.wav');
 
-    // methode zum abspielen einzelner Sound mit Verzögerung (um AbortError zu vermeiden)
-    static playSoundWithDelay(sound, delay = 50) {
-        // Prüfe, ob Sound aktiviert ist
-        const soundOn = localStorage.getItem('musicOn') === 'true';
-        if (!soundOn) {
-            return; // Wenn Sound deaktiviert ist, spiele keinen Sound ab
-        }
-        
-        setTimeout(() => {
-            AudioHub.playOneSound(sound);
-        }, delay);
-    }
+   /**
+    * Array containing all sound effects used in the game.
+    * @type {HTMLAudioElement[]}
+    */
+   static allSounds = [AudioHub.CHICKENHIT, AudioHub.COINBARCOLLECT, AudioHub.COINBARCOUNT, AudioHub.DEATH, AudioHub.ENDBOSSBATTLE, AudioHub.JUMP, AudioHub.GAMEMUSIC, AudioHub.HITCHARACTER];
+   
+   /**
+    * Plays a single sound effect.
+    * @param {HTMLAudioElement} sound - The sound to play.
+    */
+   static playOneSound(sound) { 
+      const soundOn = localStorage.getItem('musicOn') === 'true';
+      if (!soundOn) {
+         return;
+      }
+      
+      sound.volume = 0.2;
+      sound.currentTime = 0;
+      
+      const playPromise = sound.play();
+      
+      if (playPromise !== undefined) {
+         playPromise.catch(error => {
+            // Handle AbortError silently
+         });
+      }
+   }
 
-    // methode zum stoppen aller Sounds
-    static stopAllSounds() {
-        AudioHub.allSounds.forEach(sound => {
-            sound.pause();  // Pausiert jedes Audio in der Liste
-        });
-    }
+   /**
+    * Plays a sound effect with a delay to avoid AbortError.
+    * @param {HTMLAudioElement} sound - The sound to play.
+    * @param {number} [delay=50] - The delay in milliseconds before playing the sound.
+    */
+   static playSoundWithDelay(sound, delay = 50) {
+      const soundOn = localStorage.getItem('musicOn') === 'true';
+      if (!soundOn) {
+         return;
+      }
+      
+      setTimeout(() => {
+         AudioHub.playOneSound(sound);
+      }, delay);
+   }
 
-    // methode zum stoppen eines sounds
-    static stopOneSound(sound) {
-        sound.pause();  // Pausiert das übergebene Audio
-    }
+   /**
+    * Stops all sounds currently playing.
+    */
+   static stopAllSounds() {
+      AudioHub.allSounds.forEach(sound => {
+         sound.pause();
+      });
+   }
 
-    // Anmerkung. ggf. kann man eine methode einfügen die die Lautstärke aller Sounds regelt
+   /**
+    * Stops a specific sound from playing.
+    * @param {HTMLAudioElement} sound - The sound to stop.
+    */
+   static stopOneSound(sound) {
+      sound.pause();
+   }
 }
 
-// hintergrundmusik permanent abspielen 
+/**
+ * Set background music to loop continuously.
+ */
 AudioHub.GAMEMUSIC.loop = true;

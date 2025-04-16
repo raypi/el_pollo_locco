@@ -1,6 +1,11 @@
+/**
+ * Represents the orientation screen shown when the device is in portrait mode.
+ * Prompts the user to rotate their device to landscape mode.
+ */
 class OrientationScreen {
   /**
-   * @param {HTMLCanvasElement} canvas
+   * Creates a new OrientationScreen instance.
+   * @param {HTMLCanvasElement} canvas - The canvas element to render the screen on.
    */
   constructor(canvas) {
     this.canvas = canvas;
@@ -10,6 +15,9 @@ class OrientationScreen {
     this.addEventListeners();
   }
 
+  /**
+   * Draws the orientation screen with instructions to rotate the device.
+   */
   draw() {
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
     this.ctx.fillStyle = 'black';
@@ -29,23 +37,33 @@ class OrientationScreen {
     this.ctx.fillText(line3, this.canvas.width / 2, startY + 2 * lineHeight);
   }
   
-
+  /**
+   * Handles click events on the orientation screen.
+   * @param {MouseEvent} event - The click event.
+   */
   handleClick(event) {
-
+    // Empty implementation - no action needed for clicks on this screen
   }
   
-
+  /**
+   * Handles touch start events on the orientation screen.
+   * @param {TouchEvent} event - The touch start event.
+   */
   handleTouchStart(event) {
-    
+    // Empty implementation - no action needed for touches on this screen
   }
   
-
+  /**
+   * Adds event listeners for mouse and touch events.
+   */
   addEventListeners() {
     this.canvas.addEventListener('click', this.boundHandleClick);
     this.canvas.addEventListener('touchstart', this.boundHandleTouchStart);
   }
   
-
+  /**
+   * Removes event listeners for mouse and touch events.
+   */
   removeEventListeners() {
     this.canvas.removeEventListener('click', this.boundHandleClick);
     this.canvas.removeEventListener('touchstart', this.boundHandleTouchStart);

@@ -1,3 +1,9 @@
+/**
+ * Creates and returns the first level of the game.
+ * Initializes all game objects including enemies, clouds, background objects, 
+ * endboss, collectibles, and small chickens.
+ * @returns {Level} A new Level instance with all game objects.
+ */
 function createLevel001() {
     return new Level(
         [

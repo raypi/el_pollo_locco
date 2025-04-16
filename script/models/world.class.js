@@ -1,3 +1,6 @@
+/**
+ * Represents the game world that contains and manages all game objects and interactions.
+ */
 class World {
     character = new Character();
     level = level001;
@@ -14,6 +17,11 @@ class World {
     bottle = new Bottles();
     coins = new Coins();
   
+    /**
+     * Creates a new World instance.
+     * @param {HTMLCanvasElement} canvas - The canvas element to render the world on.
+     * @param {Object} keyboard - The keyboard input handler.
+     */
     constructor(canvas, keyboard) {
       this.ctx = canvas.getContext('2d');
       this.canvas = canvas;
@@ -30,11 +38,17 @@ class World {
       this.run();
     }
   
+    /**
+     * Sets up the world reference in the character.
+     */
     setWorld() {
       this.character.world = this;
       this.character.keyboard = this.keyboard;
     }
   
+    /**
+     * Starts the game loops for different update frequencies.
+     */
     run() {
       this.fastIntervalId = setInterval(() => {
         this.checkJumpChickenCollisions(); this.checkSmalChicken(); this.chickenBottle();
@@ -45,8 +59,15 @@ class World {
       }, 200);
     }
   
+    /**
+     * Stops the game by calling stopGame method.
+     */
     stop() { this.stopGame(); }
   
+    /**
+     * Creates and throws a bottle in the specified direction.
+     * @param {string} type - The type of throw ('M' for high throw, 'N' for horizontal throw).
+     */
     throwBottle(type) {
       if (ThrowableObject.countBottle > 0) {
         let bottle = new ThrowableObject(this.character.x + 100, this.character.y + 100);
@@ -54,27 +75,32 @@ class World {
         this.throwableObjects.push(bottle);
         ThrowableObject.countBottle--;
         this.bottleBar.setPercentage(Math.max(this.bottleBar.percentage - 20, 0));
-        console.log(`Flasche geworfen! Verbleibende Flaschen: ${ThrowableObject.countBottle}`);
-      } else {
-        console.log('Keine Flaschen verfügbar, um zu werfen!');
       }
     }
   
+    /**
+     * Checks if the player is trying to throw objects and handles the throw.
+     */
     checkThrowObjects() {
       if (this.keyboard.M) this.throwBottle('M');
       if (this.keyboard.N) this.throwBottle('N');
     }
   
+    /**
+     * Checks for collisions between the character and enemies.
+     */
     checkCollisions() {
       this.level.enemies.forEach(enemy => { 
         if (this.character.isColliding(enemy)) { 
           this.character.hit(); 
           this.statusBar.setPercentage(this.character.energy); 
-          console.log('Energie:', this.character.energy); 
         } 
       });
     }
   
+    /**
+     * Main draw function that renders all game elements.
+     */
     draw() {
       if (this.stopped) return;
       this.filterThrowableObjects();
@@ -85,19 +111,39 @@ class World {
       this.resetCamera();
       this.animationFrameId = requestAnimationFrame(() => { this.draw(); });
     }
+
+    /**
+     * Filters out throwable objects that should be removed from the world.
+     */
     filterThrowableObjects() { this.throwableObjects = this.throwableObjects.filter(bottle => !bottle.removeFromWorld); }
+    
+    /**
+     * Clears the canvas for the next frame.
+     */
     clearCanvas() { this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height); }
+    
+    /**
+     * Draws the background objects with camera translation.
+     */
     drawBackground() {
       this.ctx.translate(this.camera_x, 0);
       this.addObjectsToMap(this.level.backgroundObject);
       this.ctx.translate(-this.camera_x, 0);
     }
+    
+    /**
+     * Draws all status bars.
+     */
     drawStatusBars() {
       this.statusBar.y = 0; this.addToMap(this.statusBar);
       this.coinBar.y = 40; this.addToMap(this.coinBar);
       this.bottleBar.y = 80; this.addToMap(this.bottleBar);
       if (this.contactBossBar) this.addToMap(this.endbossBar);
     }
+    
+    /**
+     * Draws all world objects with camera translation.
+     */
     drawWorldObjects() {
       this.ctx.translate(this.camera_x, 0);
       this.addObjectsToMap(this.level.clouds);
@@ -111,8 +157,15 @@ class World {
       this.addObjectsToMap(this.throwableObjects);
       this.addToMap(this.character);
     }
+    
+    /**
+     * Resets the camera translation.
+     */
     resetCamera() { this.ctx.translate(-this.camera_x, 0); }
   
+    /**
+     * Stops all game loops, animations, and timeouts.
+     */
     stopGame() {
       this.stopped = true;
       if (this.animationFrameId) cancelAnimationFrame(this.animationFrameId);
@@ -126,25 +179,45 @@ class World {
       }
     }
   
+    /**
+     * Adds an array of objects to the map.
+     * @param {Array} objects - The array of objects to add to the map.
+     */
     addObjectsToMap(objects) {
       if (!objects || objects.length === 0) return;
       objects.forEach(o => { this.addToMap(o); });
     }
   
+    /**
+     * Adds a single object to the map, handling direction flipping if needed.
+     * @param {Object} mo - The movable object to add to the map.
+     */
     addToMap(mo) {
       if (mo.otherDirection) this.flipImage(mo);
       mo.draw(this.ctx);
       if (mo.otherDirection) this.flipImageBack(mo);
     }
   
+    /**
+     * Flips the image horizontally for objects facing left.
+     * @param {Object} mo - The movable object to flip.
+     */
     flipImage(mo) {
       this.ctx.save();
       this.ctx.translate(mo.width, 0);
       this.ctx.scale(-1, 1);
       mo.x = -mo.x;
     }
+    
+    /**
+     * Restores the original image orientation after flipping.
+     * @param {Object} mo - The movable object to restore.
+     */
     flipImageBack(mo) { mo.x = -mo.x; this.ctx.restore(); }
   
+    /**
+     * Handles coin collection by the character.
+     */
     collectingCoins() {
       this.level.coins = this.level.coins.filter(coin => {
         if (this.character.isColliding(coin)) {
@@ -157,6 +230,9 @@ class World {
       });
     }
   
+    /**
+     * Handles bottle collection by the character.
+     */
     collectingBottles() {
       this.level.bottles = this.level.bottles.filter(bottle => {
         if (this.character.isColliding(bottle)) {
@@ -170,27 +246,32 @@ class World {
       });
     }
   
+    /**
+     * Checks collisions with small chickens and handles different interaction scenarios.
+     */
     checkSmalChicken() {
       this.level.smalChicken.forEach(small => {
         if (this.character.isColliding(small) && this.character.y < 149 && this.character.speedY < 0) {
           AudioHub.stopOneSound(AudioHub.CHICKENHIT); AudioHub.playOneSound(AudioHub.CHICKENHIT);
           small.alive = false; small.state = "dead"; small.deadAnimation();
-          small.removeTimeout = setTimeout(() => { small.removeFromWorld = true; console.log('Kleines Huhn entfernt'); }, 1000);
+          small.removeTimeout = setTimeout(() => { small.removeFromWorld = true; }, 1000);
         } else if (this.throwableObjects.length > 0 && this.throwableObjects[0].isColliding(small)) {
           AudioHub.stopOneSound(AudioHub.CHICKENHIT); AudioHub.playOneSound(AudioHub.CHICKENHIT);
           small.deadAnimation();
-          small.removeTimeout = setTimeout(() => { small.removeFromWorld = true; console.log('Kleines Huhn entfernt'); }, 1000);
+          small.removeTimeout = setTimeout(() => { small.removeFromWorld = true; }, 1000);
         } else if (this.character.y == 151 && small.alive && this.character.isColliding(small)) {
-          console.log('Spieler läuft gegen kleines Huhn'); this.character.hit(); this.statusBar.setPercentage(this.character.energy);
+          this.character.hit(); this.statusBar.setPercentage(this.character.energy);
         }
       });
     }
   
+    /**
+     * Checks collisions with regular chickens when the character is walking.
+     */
     checkChickenCollisions() {
       if (this.character.y == 151) {
         this.level.enemies.forEach(enemy => { 
           if (enemy.alive && this.character.isColliding(enemy)) { 
-            console.log('Spieler läuft gegen Huhn'); 
             this.character.hit(); 
             this.statusBar.setPercentage(this.character.energy); 
           } 
@@ -198,16 +279,22 @@ class World {
       }
     }
   
+    /**
+     * Checks collisions with regular chickens when the character is jumping on them.
+     */
     checkJumpChickenCollisions() {
       this.level.enemies.forEach(enemy => { 
         if (this.character.isColliding(enemy) && this.character.y < 149 && this.character.speedY < 0) { 
           AudioHub.stopOneSound(AudioHub.CHICKENHIT); AudioHub.playOneSound(AudioHub.CHICKENHIT);
           enemy.alive = false; enemy.state = "dead"; 
-          enemy.removeTimeout = setTimeout(() => { enemy.removeFromWorld = true; console.log('Huhn entfernt'); }, 1000);
+          enemy.removeTimeout = setTimeout(() => { enemy.removeFromWorld = true; }, 1000);
         } 
       });
     }
   
+    /**
+     * Checks if thrown bottles hit regular chickens.
+     */
     chickenBottle() {
       this.level.enemies.forEach(enemy => { 
         if (this.throwableObjects.length > 0) { 
@@ -215,23 +302,27 @@ class World {
           if (bottle.isColliding(enemy)) { 
             AudioHub.stopOneSound(AudioHub.CHICKENHIT); AudioHub.playOneSound(AudioHub.CHICKENHIT);
             enemy.alive = false; enemy.state = "dead"; 
-            console.log('Flasche trifft Huhn!'); 
-            enemy.removeTimeout = setTimeout(() => { enemy.removeFromWorld = true; console.log('Huhn entfernt'); }, 1000);
+            enemy.removeTimeout = setTimeout(() => { enemy.removeFromWorld = true; }, 1000);
           } 
         } 
       });
     }
   
+    /**
+     * Checks collisions between the character and the end boss.
+     */
     checkEndbossCollisions() {
       this.level.endboss.forEach(endboss => { 
         if (this.character.isColliding(endboss)) { 
-          console.log('Spieler läuft gegen Endboss!!!'); 
           this.character.hit(); 
           this.statusBar.setPercentage(this.character.energy); 
         } 
       });
     }
   
+    /**
+     * Checks if thrown bottles hit the end boss.
+     */
     endbossBottle() {
       this.throwableObjects = this.throwableObjects.filter(bottle => {
         if (bottle.removeFromWorld) return false;
@@ -239,7 +330,6 @@ class World {
           if (bottle.isColliding(endboss)) {
             AudioHub.stopOneSound(AudioHub.CHICKENHIT);
             AudioHub.playOneSound(AudioHub.CHICKENHIT);
-            console.log('Flasche trifft Endboss!');
             endboss.hitBoss();
             return false;
           }
@@ -248,588 +338,3 @@ class World {
       });
     }
   }
-  
-// class World {
-//     character = new Character();
-//     level = level001;
-//     canvas;
-//     ctx;
-//     keyboard;
-//     camera_x = 0;
-//     countOpponents = 0;
-
-//     // Jede StatusBar erhält einen eigenen Typ
-//     statusBar = new StatusBar('Health');
-//     coinBar = new StatusBar('Coin');
-//     bottleBar = new StatusBar('Bottle');
-//     endbossBar;
-
-//     throwableObjects = [];
-//     bottle = new Bottles();
-//     coins = new Coins();
-
-
-//     constructor(canvas, keyboard) {
-//         this.ctx = canvas.getContext('2d');
-//         this.canvas = canvas;
-//         this.keyboard = keyboard;
-//         // this.draw();
-//         // this.setWorld();
-//         // this.run();
-//         this.contactBossBar = false;
-//         this.stopped = false; // Flag stopGame
-//         // mobile Steuerung
-//         this.controlLeftImg = new Image();
-//         this.controlLeftImg.src = 'assets/button/arrowleft.png';
-//         this.controlUpImg = new Image();
-//         this.controlUpImg.src = 'assets/button/arrowup.png';
-//         this.controlRightImg = new Image();
-//         this.controlRightImg.src = 'assets/button/arrowright.png';    
-//         this.character = new Character((resultType) => {
-//             screenManager.showGameOverScreen(resultType);
-//         });
-//         this.setWorld();
-//         this.character.animate();
-//         this.draw();
-//         this.run();
-//         // console.log('DG Constructor World, Coins:', this.level.coins);
-//         // console.log('DG Constructor World, Bottles:', this.level.bottles);
-//     }
-
-//     setWorld() {
-//         this.character.world = this;
-//         this.character.keyboard = this.keyboard;
-//         //  this.level.endboss[0].world = this;
-        
-//     }
-
-//     // run() {
-//     //     this.runIntervalId = setInterval(() => {
-//     //         // this.checkCollisions();
-//     //         this.checkThrowObjects();
-//     //         this.collectingCoins();
-//     //         this.collectingBottles();
-//     //         //this.checkSmalChickenCollisions();
-//     //         this.checkChickenCollisions();
-//     //         this.checkJumpChickenCollisions();
-//     //         this.chickenBottle();
-//     //         this.checkEndbossCollisions();
-//     //         this.endbossBottle();
-//     //         //this.smalChickenBottle();
-//     //         this.chickenBottle();
-//     //         //this.checkJumpSmalChicken();
-//     //         this.level.endboss.forEach(boss => boss.firstContact());
-//     //         this.checkSmalChicken();
-
-//     //     }, 1000/60); // von 200 auf 1000/60 geändert
-//     // }
-
-//     run() {
-//         // Schnelles Intervall
-//         this.fastIntervalId = setInterval(() => {
-//             this.checkJumpChickenCollisions();
-//             this.checkSmalChicken();
-//             this.chickenBottle();
-//         }, 1000 / 60);
-    
-//         // Langsames Intervall
-//         this.slowIntervalId = setInterval(() => {
-//             this.checkThrowObjects();
-//             this.collectingCoins();
-//             this.collectingBottles();
-//             this.checkChickenCollisions();
-//             this.checkEndbossCollisions();
-//             this.endbossBottle();
-//             this.level.endboss.forEach(boss => boss.firstContact());
-//         }, 200);
-//     }
-    
-//     // Intervalle Stopen ggf. umzug in game.js
-//     stop() {
-//         // Verwende die vollständige stopGame-Methode
-//         this.stopGame();
-//     }
-    
-
-//     checkThrowObjects() {
-//         if (this.keyboard.M) {
-//             // Hoher Wurf
-//             if (ThrowableObject.countBottle > 0) {
-//                 let bottle = new ThrowableObject(this.character.x + 100, this.character.y + 100);
-//                 bottle.throwHigh();
-//                 this.throwableObjects.push(bottle);
-//                 ThrowableObject.countBottle--; // Flasche verbrauchen
-//                 this.bottleBar.setPercentage(Math.max(this.bottleBar.percentage - 20, 0));
-//                 console.log(`Flasche geworfen! Verbleibende Flaschen: ${ThrowableObject.countBottle}`);
-//             } else {
-//                 console.log('Keine Flaschen verfügbar, um zu werfen!');
-//             }
-//         }
-    
-//         if (this.keyboard.N) {
-//             // Waagerechter Wurf
-//             if (ThrowableObject.countBottle > 0) {
-//                 let bottle = new ThrowableObject(this.character.x + 100, this.character.y + 100);
-//                 bottle.throwHorizontal();
-//                 this.throwableObjects.push(bottle);
-//                 ThrowableObject.countBottle--; // Flasche verbrauchen
-//                 this.bottleBar.setPercentage(Math.max(this.bottleBar.percentage - 20, 0));
-//                 console.log(`Flasche geworfen! Verbleibende Flaschen: ${ThrowableObject.countBottle}`);
-//             } else {
-//                 console.log('Keine Flaschen verfügbar, um zu werfen!');
-//             }
-//         }
-//     }
-
-//     checkCollisions() {
-//         this.level.enemies.forEach((enemy) => {
-//             if (this.character.isColliding(enemy)) {
-//                 this.character.hit();
-//                 this.statusBar.setPercentage(this.character.energy); // Health aktualisieren
-//                 console.log('Energie: ', this.character.energy);
-//             }
-//         });
-//     }
-
-
-//     draw() {
-//         // Wenn die Welt gestoppt wurde (z. B. nach dem Tod des Endboss), breche die Zeichnung ab.
-//         if (this.stopped) return;
-
-//         // Zuerst alle aus der Welt zu entfernenden Objekte herausfiltern
-//         this.throwableObjects = this.throwableObjects.filter(bottle => !bottle.removeFromWorld);
-        
-//         // Canvas leeren
-//         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-    
-//         // --- Hintergrund zeichnen (mit Kamera-Verschiebung) ---
-//         this.ctx.translate(this.camera_x, 0);
-//         this.addObjectsToMap(this.level.backgroundObject);
-//         // Kamera zurücksetzen
-//         this.ctx.translate(-this.camera_x, 0);
-    
-//         // --- Statusbars und UI-Elemente (ohne Kamera-Verschiebung) ---
-//         this.statusBar.y = 0;
-//         this.addToMap(this.statusBar);
-    
-//         this.coinBar.y = 40;
-//         this.addToMap(this.coinBar);
-    
-//         this.bottleBar.y = 80;
-//         this.addToMap(this.bottleBar);
-    
-//         // Endboss-Statusbar nur anzeigen, wenn der Kampf begonnen hat
-//         if (this.contactBossBar) {
-//             this.addToMap(this.endbossBar);
-//         }
-    
-//         // --- Restliche Weltobjekte zeichnen (mit Kamera-Verschiebung) ---
-//         this.ctx.translate(this.camera_x, 0);
-    
-//         this.addObjectsToMap(this.level.clouds);
-    
-//         this.level.enemies = this.level.enemies.filter((enemy) => !enemy.removeFromWorld);
-//         this.addObjectsToMap(this.level.enemies);
-
-//         this.level.smalChicken = this.level.smalChicken.filter((chicken) => !chicken.removeFromWorld);
-//         this.addObjectsToMap(this.level.smalChicken);
-    
-//         this.addObjectsToMap(this.level.smalChicken);
-//         this.addObjectsToMap(this.level.endboss);
-    
-//         // Coins und Bottles zeichnen
-//         this.addObjectsToMap(this.level.bottles);
-//         this.addObjectsToMap(this.level.coins);
-    
-//         // Weitere Objekte und den Character zeichnen
-//         this.addObjectsToMap(this.throwableObjects);
-//         this.addToMap(this.character);
-    
-//         // Kamera-Verschiebung zurücksetzen
-//         this.ctx.translate(-this.camera_x, 0);
-
-//         // zeichnen der BTN für mobilgeräte
-//         // if (window.innerWidth <= 900) {
-//         //     // Größe der Buttons
-//         //     const buttonWidth = 50;
-//         //     const buttonHeight = 50;
-//         //     // Abstand und Positionierung:
-//         //     const marginBottom = 20; // Abstand vom unteren Rand
-//         //     const centerX = this.canvas.width / 2;
-//         //     const bottomY = this.canvas.height - buttonHeight - marginBottom;
-//         //     const gap = 50; // Abstand zwischen Buttons
-    
-//         //     // Positionen berechnen:
-//         //     const leftX = centerX - buttonWidth - gap;
-//         //     const upX = centerX - buttonWidth / 2;
-//         //     const rightX = centerX + gap;
-    
-//         //     // Zeichne die Steuerungs-Buttons
-//         //     // Stelle sicher, dass die Images bereits geladen sind.
-//         //     this.ctx.drawImage(this.controlLeftImg, leftX, bottomY, buttonWidth, buttonHeight);
-//         //     this.ctx.drawImage(this.controlUpImg, upX, bottomY, buttonWidth, buttonHeight);
-//         //     this.ctx.drawImage(this.controlRightImg, rightX, bottomY, buttonWidth, buttonHeight);
-//         // }
-    
-//         // Animations-Loop fortsetzen und ID speichern
-//         this.animationFrameId = requestAnimationFrame(() => {
-//             this.draw();
-//         });
-//     }
-    
-    
-//     stopGame() {
-//         this.stopped = true;
-        
-//         // Stoppe alle Animations-Loops
-//         if (this.animationFrameId) {
-//             cancelAnimationFrame(this.animationFrameId);
-//         }
-        
-//         // Stoppe alle Intervalle
-//         if (this.fastIntervalId) {
-//             clearInterval(this.fastIntervalId);
-//         }
-        
-//         if (this.slowIntervalId) {
-//             clearInterval(this.slowIntervalId);
-//         }
-        
-//         // Stoppe alle Timeouts im Character
-//         if (this.character && this.character.deathTimeoutId) {
-//             clearTimeout(this.character.deathTimeoutId);
-//             this.character.deathTimeoutId = null;
-//         }
-        
-//         // Stoppe alle Timeouts in Enemies und SmalChicken
-//         if (this.level) {
-//             // Stoppe Timeouts in Enemies
-//             if (this.level.enemies) {
-//                 this.level.enemies.forEach(enemy => {
-//                     if (enemy.removeTimeout) {
-//                         clearTimeout(enemy.removeTimeout);
-//                     }
-//                 });
-//             }
-            
-//             // Stoppe Timeouts in SmalChicken
-//             if (this.level.smalChicken) {
-//                 this.level.smalChicken.forEach(chicken => {
-//                     if (chicken.removeTimeout) {
-//                         clearTimeout(chicken.removeTimeout);
-//                     }
-//                 });
-//             }
-            
-//             // Stoppe Timeouts in Endboss
-//             if (this.level.endboss) {
-//                 this.level.endboss.forEach(boss => {
-//                     if (boss.animationInterval) {
-//                         clearInterval(boss.animationInterval);
-//                     }
-//                 });
-//             }
-//         }
-//     }
-    
-
-//     addObjectsToMap(objects) {
-//         if (!objects || objects.length === 0) return; // Sicherheitsprüfung
-//         objects.forEach(o => {
-//             this.addToMap(o);
-//         });
-//     }
-    
-
-
-//     addToMap(mo) {
-//         if (mo.otherDirection) {
-//             this.flipImage(mo);
-//         }
-//         mo.draw(this.ctx);
-//         mo.drawBox(this.ctx);
-
-//         if (mo.otherDirection) {
-//             this.flipImageBack(mo);
-//         }
-//     }
-
-//     flipImage(mo) {
-//         this.ctx.save();
-//         this.ctx.translate(mo.width, 0);
-//         this.ctx.scale(-1, 1);
-//         mo.x = mo.x * -1;
-//     }
-
-//     flipImageBack(mo) {
-//         mo.x = mo.x * -1;
-//         this.ctx.restore();
-//     }
-
-//     collectingCoins(){
-//         this.level.coins = this.level.coins.filter((coin) => {
-//             if (this.character.isColliding(coin)) {
-//                 AudioHub.stopOneSound(AudioHub.COINBARCOLLECT);
-//                 AudioHub.playOneSound(AudioHub.COINBARCOLLECT);
-//                 // console.log('Coin eingesammelt!', coin);
-//                 this.coinBar.setPercentage(Math.min(this.coinBar.percentage + 20, 100));
-//                 return false; // Coin wird entfernt
-//             }
-//             return true; // Coin bleibt in der Welt
-//         });
-//     }
-
-//     collectingBottles() {
-//         this.level.bottles = this.level.bottles.filter((bottle) => {
-//             if (this.character.isColliding(bottle)) {
-//                 AudioHub.stopOneSound(AudioHub.COINBARCOLLECT);
-//                 AudioHub.playOneSound(AudioHub.COINBARCOLLECT);
-//                 // console.log('Fkasche eingesammelt', bottle);
-//                 this.bottleBar.setPercentage(Math.min(this.bottleBar.percentage + 20, 100));
-                
-//                 // Erhöhe den Zähler der gesammelten Flaschen
-//                 ThrowableObject.countBottle++;
-//                 // console.log('Flaschen:', ThrowableObject.countBottle);
-    
-//                 return false; // Bottle wird entfernt
-//             }
-//             return true; // Bottle bleibt in der Welt
-//         });
-//     }
-    
-    
-//     // checkSmalChickenCollisions() {
-//     //     // Prüfen, ob der Charakter nicht springt
-//     //     if (this.character.y == 150) {
-//     //         this.level.smalChicken.forEach((chicken) => {
-//     //             if (this.character.isColliding(chicken)) {
-//     //                 console.log('Spieler läuft gegen kleines Huhn');
-//     //                 this.character.hit(); // Schaden buchen
-//     //                 this.statusBar.setPercentage(this.character.energy);
-//     //             }
-//     //         });
-//     //     }
-//     // }
-    
-
-
-//     // checkJumpSmalChicken() {
-//     //     // Iteriere durch alle kleinen Hühner im Level
-//     //     this.level.smalChicken.forEach((smalChicken) => {
-//     //         // Aktionen nur ausführen, wenn der Spieler mit dem kleinen Huhn kollidiert und über dem Huhn ist
-//     //         if (this.character.isColliding(smalChicken) && this.character.y < 151) {
-//     //             AudioHub.stopOneSound(AudioHub.CHICKENHIT);
-//     //             AudioHub.playOneSound(AudioHub.CHICKENHIT);
-    
-//     //             console.log('Spieler springt auf kleines Huhn');
-//     //             console.log('PepeY:', this.character.y);
-    
-//     //             // Zeige das Todesbild des kleinen Huhns (richtiger Property-Name: IMAGES_DEAD)
-//     //             smalChicken.loadImage(SmalChicken.IMAGES_DEAD[0]);
-    
-//     //             // Verzögertes Entfernen des kleinen Huhns nach 1 Sekunde
-//     //             setTimeout(() => {
-//     //                 smalChicken.removeFromWorld = true;
-//     //                 console.log('Kleines Huhn entfernt');
-//     //             }, 1000);
-//     //         }
-//     //     });
-//     // }
-    
-    
-
-
-//     // smalChickenBottle() {
-//     //     // Gehe durch alle kleinen Hühner im Level
-//     //     this.level.smalChicken.forEach((chicken) => {
-//     //         // Prüfen, ob eine Flasche vorhanden ist und ob sie das kleine Huhn trifft
-//     //         if (this.throwableObjects.length > 0) {
-//     //             let bottle = this.throwableObjects[0]; // Aktuelle Flasche
-//     //             if (bottle.isColliding(chicken)) {
-//     //                 AudioHub.stopOneSound(AudioHub.CHICKENHIT);
-//     //                 AudioHub.playOneSound(AudioHub.CHICKENHIT);
-
-//     //                 console.log('Flasche trifft kleines Huhn!');
-                    
-//     //                 // Zeige das Todesbild des kleinen Huhns
-//     //                 chicken.loadImage(SmalChicken.IMAGES_DEATH[0]);
-    
-//     //                 // Entferne das kleine Huhn nach 1 Sekunde
-//     //                 setTimeout(() => {
-//     //                     chicken.removeFromWorld = true;
-//     //                     console.log('Kleines Huhn entfernt');
-//     //                 }, 1000);
-//     //             }
-//     //         }
-//     //     });
-//     // }
-
-//     checkSmalChicken() {
-//         this.level.smalChicken.forEach((smalChicken) => {
-//           // Fall 1: Spieler springt auf das kleine Huhn (also in der Luft, y < 151)
-//           if (this.character.isColliding(smalChicken) && this.character.y < 149 && this.character.speedY < 0) {
-//             AudioHub.stopOneSound(AudioHub.CHICKENHIT);
-//             AudioHub.playOneSound(AudioHub.CHICKENHIT);
-            
-//             console.log('Spieler springt auf kleines Huhn');
-//             console.log('PepeY:', this.character.y);
-//             smalChicken.alive = false;
-//             smalChicken.state = "dead";
-            
-//             // Rufe die Todesanimation auf (die sich um Bildwechsel und Flag-Setzung kümmert)
-//             smalChicken.deadAnimation();
-//             smalChicken.removeTimeout = setTimeout(() => {
-//                 smalChicken.removeFromWorld = true;
-//                 console.log('Kleines Huhn entfernt');
-//               }, 1000);
-
-            
-           
-      
-//           // Fall 2: Eine Flasche trifft das kleine Huhn
-//           } else if (this.throwableObjects.length > 0 &&
-//                      this.throwableObjects[0].isColliding(smalChicken)) {
-//             AudioHub.stopOneSound(AudioHub.CHICKENHIT);
-//             AudioHub.playOneSound(AudioHub.CHICKENHIT);
-            
-//             console.log('Flasche trifft kleines Huhn!');
-            
-//             smalChicken.deadAnimation();
-//             smalChicken.removeTimeout = setTimeout(() => {
-//                 smalChicken.removeFromWorld = true;
-//                 console.log('Kleines Huhn entfernt');
-//               }, 1000);
-            
-      
-//           // Fall 3: Spieler läuft gegen das kleine Huhn (nicht springend)
-//         } else if (this.character.y == 151 &&
-//             smalChicken.alive &&
-//             this.character.isColliding(smalChicken)) {
-//      console.log('Spieler läuft gegen kleines Huhn');
-//      this.character.hit(); // Schaden buchen
-//      this.statusBar.setPercentage(this.character.energy);
-//  }
-// });
-// }
-        
-      
-      
-      
-    
-    
-//     // checkChickenCollisions() {
-//     //     // Prüfen, ob der Charakter nicht springt
-//     //     if (this.character.y == 151) {
-//     //     // if (this.character.speedY === 0) {
-//     //     // if (Math.abs(this.character.speedY) < 0.01){    
-//     //         this.level.enemies.forEach((enemy) => {
-//     //             if (this.character.isColliding(enemy)) {
-//     //                 console.log('Spieler läuft gegen Huhn');
-//     //                 this.character.hit(); // Schaden buchen
-//     //                 this.statusBar.setPercentage(this.character.energy);
-//     //             }
-//     //         });
-//     //     }
-//     // }
-
-//     checkChickenCollisions() {
-//         // Prüfen, ob der Charakter nicht springt
-//         if (this.character.y == 151) {
-//             this.level.enemies.forEach((enemy) => {
-//                 if (enemy.alive && this.character.isColliding(enemy)) {
-//                     console.log('Spieler läuft gegen Huhn');
-//                     this.character.hit(); // Schaden buchen
-//                     this.statusBar.setPercentage(this.character.energy);
-//                 }
-//             });
-//         }
-//     }
-    
-
-
-//     checkJumpChickenCollisions() {
-//         this.level.enemies.forEach((enemy) => {
-//             // Aktionen nur ausführen, wenn beide Bedingungen erfüllt sind
-//             // if (this.character.isColliding(enemy) && this.character.y < 151) {
-//                 if (this.character.isColliding(enemy) && this.character.y < 149 && this.character.speedY < 0) {
-//                 AudioHub.stopOneSound(AudioHub.CHICKENHIT);
-//                 AudioHub.playOneSound(AudioHub.CHICKENHIT);
-
-//                 // console.log('Spieler springt auf Huhn');
-//                 // console.log('PepeY:', this.character.y);
-//                 // console.log('Vor kill: enemy.alive =', enemy.alive);
-//                 enemy.alive = false;
-//                 enemy.state = "dead";
-//                 // console.log('Nach kill: enemy.alive =', enemy.alive);
-//                 // Die Chicken-Klasse kümmert sich jetzt um das Anzeigen des Todesbildes
-                
-//                 // Verzögertes Entfernen des Huhns nach 1 Sekunde
-//                 enemy.removeTimeout = setTimeout(() => {
-//                     enemy.removeFromWorld = true;
-//                     console.log('Huhn entfernt');
-//                 }, 1000);
-//             }
-//         });
-//     }
-    
-    
-//     chickenBottle() {
-//         // Gehe durch alle Hühner im Level
-//         this.level.enemies.forEach((enemy) => {
-//             // Prüfen, ob eine Flasche vorhanden ist und ob sie das Huhn trifft
-//             if (this.throwableObjects.length > 0) {
-//                 let bottle = this.throwableObjects[0]; // Aktuelle Flasche
-//                 if (bottle.isColliding(enemy)) {
-//                     AudioHub.stopOneSound(AudioHub.CHICKENHIT);
-//                     AudioHub.playOneSound(AudioHub.CHICKENHIT);
-//                     enemy.alive = false;
-//                     enemy.state = "dead";
-//                     console.log('Flasche trifft Huhn!');
-                    
-//                     // Die Chicken-Klasse kümmert sich jetzt um das Anzeigen des Todesbildes
-    
-//                     // Entferne das Huhn nach 1 Sekunde
-//                     enemy.removeTimeout = setTimeout(() => {
-//                         enemy.removeFromWorld = true;
-//                         console.log('Huhn entfernt');
-//                     }, 1000);
-    
-                    
-//                 }
-//             }
-//         });
-//     }
-    
-    
-//     checkEndbossCollisions() {
-//         this.level.endboss.forEach((endboss) => {
-//             if (this.character.isColliding(endboss)) {
-//                 console.log('Spieler läuft gegen Endboss!!!' );
-//                 this.character.hit(); // Schaden buchen
-//                 this.statusBar.setPercentage(this.character.energy);
-//             }
-//         });
-//     }
-  
-    
-//     endbossBottle() {
-//         // Filtere aktive Flaschen
-//         this.throwableObjects = this.throwableObjects.filter(bottle => {
-//             if (bottle.removeFromWorld) return false;
-
-//             // Prüfe Kollision mit Endboss
-//             for (let endboss of this.level.endboss) {
-//                 if (bottle.isColliding(endboss)) {
-//                     AudioHub.stopOneSound(AudioHub.CHICKENHIT);
-//                     AudioHub.playOneSound(AudioHub.CHICKENHIT);
-
-//                     console.log('Flasche trifft Endboss!');
-//                     endboss.hitBoss();
-//                     return false; // Entferne die Flasche sofort
-//                 }
-//             }
-//             return true; // Behalte die Flasche
-//         });
-//     }
-
-// }
