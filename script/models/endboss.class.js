@@ -1,5 +1,4 @@
 class Endboss extends MovableObject {
-    // Grundlegende Eigenschaften des Endgegners
     width = 300;
     height = 300;
     y = 150;
@@ -11,7 +10,6 @@ class Endboss extends MovableObject {
     lastAnimationTime = Date.now();
     deathX = null;
   
-    // Bildsequenzen für verschiedene Animationen
     IMAGES_WALKING = [
       'assets/img/4_enemie_boss_chicken/1_walk/G1.png',
       'assets/img/4_enemie_boss_chicken/1_walk/G2.png',
@@ -62,68 +60,45 @@ class Endboss extends MovableObject {
     constructor(gameOverCallback) {
       // Lade ein Startbild
       super().loadImage('assets/img/4_enemie_boss_chicken/2_alert/G5.png');
-      // Alle Bilder laden
       this.loadImages(this.IMAGES_WALKING);
       this.loadImages(this.IMAGES_ALERT);
       this.loadImages(this.IMAGES_ATTACK);
       this.loadImages(this.IMAGES_HURT);
       this.loadImages(this.IMAGES_DEAD);
-  
-      this.x = 2550; // Startposition
+      this.x = 2550; 
       this.speed = 0.15 + Math.random() + 0.25;
-
-      // Speichere den Callback, falls vorhanden
       this.gameOverCallback = gameOverCallback;
-  
-      // Starte den normalen Animations-Loop
-      //this.startAnimation();
     }
   
-
     startAnimation() {
       this.animationInterval = setInterval(() => {
-        // Wenn der Boss nicht mehr "alive" ist, starte die Todesanimation.
-        if (this.state !== "alive") {
-          clearInterval(this.animationInterval);
-          // Berechne den Delay, damit die Todesanimation insgesamt 3000ms dauert.
-          const frameCount = this.IMAGES_DEAD.length;
-          const delay = 3000 / frameCount;
-          let deathFrame = 0;
-          let deathInterval = setInterval(() => {
-            this.playAnimation(this.IMAGES_DEAD);
-            deathFrame++;
-            if (deathFrame >= frameCount) {
-              clearInterval(deathInterval);
-              this.state = "finished";
-              console.log("Game Over wird aufgerufen.");
-              //world stoppen
-              if (typeof world !== 'undefined' && world.stopGame) {
-                world.stopGame();  // Stoppe die Welt (Animation, Intervals etc.)
-              }
-              if (this.gameOverCallback && typeof this.gameOverCallback === 'function') {
-                this.gameOverCallback('endboss');
-              }
-            }
-          }, delay);
-          return;
-        }
-  
-        // Wenn der Boss verwundet ist, spiele die Hurt-Animation;
-        // ansonsten zyklisch zwischen Alert-, Attack- und Walking-Animation wechseln.
-        if (this.isHurt()) {
-          this.playAnimation(this.IMAGES_HURT);
-        } else if ((this.currentAnimationFrame % 60) < 15) {
-          this.playAnimation(this.IMAGES_ALERT);
-        } else if ((this.currentAnimationFrame % 60) < 30) {
-          this.playAnimation(this.IMAGES_ATTACK);
-        } else {
-          this.playAnimation(this.IMAGES_WALKING);
-          this.moveLeftBoss();
-        }
-        this.currentAnimationFrame++;
+        if (this.state !== "alive") { this.startDeathAnimation(); return; }
+        this.runAliveAnimationFrame();
       }, 100);
     }
-      
+    
+    startDeathAnimation() {
+      clearInterval(this.animationInterval);
+      const frameCount = this.IMAGES_DEAD.length, delay = 3000 / frameCount;
+      let deathFrame = 0;
+      let deathInterval = setInterval(() => {
+        this.playAnimation(this.IMAGES_DEAD); deathFrame++;
+        if (deathFrame >= frameCount) {
+          clearInterval(deathInterval); this.state = "finished";
+          if (typeof world !== 'undefined' && world.stopGame) world.stopGame();
+          if (this.gameOverCallback && typeof this.gameOverCallback === 'function')
+            this.gameOverCallback('endboss');
+        }
+      }, delay);
+    }
+    
+    runAliveAnimationFrame() {
+      if (this.isHurt()) this.playAnimation(this.IMAGES_HURT);
+      else if ((this.currentAnimationFrame % 60) < 15) this.playAnimation(this.IMAGES_ALERT);
+      else if ((this.currentAnimationFrame % 60) < 30) this.playAnimation(this.IMAGES_ATTACK);
+      else { this.playAnimation(this.IMAGES_WALKING); this.moveLeftBoss(); }
+      this.currentAnimationFrame++;
+    }
     
   
     hitBoss() {
@@ -139,23 +114,18 @@ class Endboss extends MovableObject {
       }
     }
   
-    // Diese Methode wird aufgerufen, wenn der Boss sterben soll.
     dieBoss() {
       this.state = "dead";
-      // speichert Podition um boss bestzuhalten
       this.deathX = this.x;
     }
   
-    // Bewegt den Boss nach links – aber nur, wenn er lebt.
     moveLeftBoss() {
       if (this.state !== "alive" || this.deathX !== null) return;
       this.x -= 2;
     }
   
-    // Zeigt die Boss-Statusbar an, wenn der Spieler in Reichweite kommt.
     firstContact() {
       if (!this.contact && typeof world !== "undefined" && world.character.x > 2200) {
-        console.log("CONTACT");
         this.contact = true;
         world.contactBossBar = true;
         this.startAnimation();
@@ -166,7 +136,6 @@ class Endboss extends MovableObject {
     }
   
     isHurt() {
-      // Der Boss gilt als "hurt", wenn seit dem letzten Treffer weniger als 1 Sekunde vergangen ist.
       return (Date.now() - this.lasthitBoss) / 1000 < 1;
     }
   }

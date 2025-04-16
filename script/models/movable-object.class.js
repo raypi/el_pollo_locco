@@ -1,10 +1,10 @@
-class MovableObject extends DrawableObject { // bewegbare Objekte
+class MovableObject extends DrawableObject { 
    
      currentImage = 0;
      speed = 0.15;
      otherDirection = false;
      speedY = 0;
-     acceleration = 1; // Fallgeschwindigkeit in pixel pro durchlauf
+     acceleration = 1;
      energy = 100;
      lasthit = 0;
 
@@ -13,7 +13,6 @@ class MovableObject extends DrawableObject { // bewegbare Objekte
             if(this.isAboveGrund() || this.speedY > 0) {
                this.y -= this.speedY;
                this.speedY -= this.acceleration;
-               // console.log('speedY:', this.speedY); // Ausgabe von speedY in der Konsole
             }
          }, 1000 / 25);
      }
@@ -21,33 +20,22 @@ class MovableObject extends DrawableObject { // bewegbare Objekte
 
      isAboveGrund() {
       if (this instanceof ThrowableObject) {
-          return this.y < 380; // Bodenhöhe für die Flasche
+          return this.y < 380;
       } else {
-          return this.y < 151; // Standardhöhe für andere Objekte
+          return this.y < 151; 
       }
   }
       
-   
-   
-
    moveRight() { 
       this.x += this.speed;
-      // console.log('Moving right!');
    }
 
 
-//    moveLeft(){
-//       setInterval(() => {
-//           this.x -= this.speed;
-//       }, 1000 / 60);   
-//   }
-
   moveLeft() {
-   // Falls das Objekt einen state hat (z. B. Endboss) und nicht "alive" ist, tue nichts.
    if (this.state && this.state !== "alive") return;
    
    setInterval(() => {
-     if (this.state && this.state !== "alive") return; // keine Bewegung, wenn nicht alive
+     if (this.state && this.state !== "alive") return; 
      this.x -= this.speed;
    }, 1000 / 60);
  }
@@ -77,24 +65,10 @@ isColliding(mo) {
    }
 }
 
-
-   // hit() {
-   //    AudioHub.stopOneSound(AudioHub.HITCHARACTER);
-   //    AudioHub.playOneSound(AudioHub.HITCHARACTER);
-   //    this.energy -= 10; 
-   //    if (this.energy < 0) {
-   //       this.energy = 0;
-   //    } else {
-   //       this.lasthit = new Date().getTime(); // speiert Zeit in Zahlenform seid dem 01.01.1970 in Milisekunden
-   //    }
-   // }
-
    hit() {
-      // Aktuelle Zeit holen
       let currentTime = new Date().getTime();
-      // Prüfen, ob seit dem letzten Treffer mindestens 2 Sekunden vergangen sind
       if (currentTime - this.lasthit < 2000) {
-         return; // Verlasse die Methode, wenn noch nicht 2 Sekunden vergangen sind
+         return; 
       }
       AudioHub.stopOneSound(AudioHub.HITCHARACTER);
       AudioHub.playOneSound(AudioHub.HITCHARACTER);
@@ -103,7 +77,6 @@ isColliding(mo) {
          this.energy = 0;
       }
       this.lasthit = currentTime;
-
       if (this.energy <= 20 && this instanceof Character) {
          this.dieCharacter();
       }
@@ -116,10 +89,9 @@ isColliding(mo) {
    }
 
    isHurt(){
-      let timeDuration = new Date().getTime()- this.lasthit; // errechnet uns die Differenz in Milisekunden
-      timeDuration = timeDuration / 1000; // rechnet die Differenz in sekunden um 
-      //  
-       return timeDuration < 1; // gibt true zurück
+      let timeDuration = new Date().getTime()- this.lasthit; 
+      timeDuration = timeDuration / 1000; 
+       return timeDuration < 1; 
    }
 
    playAnimation(images) {

@@ -1,4 +1,4 @@
-class DrawableObject { // zeichenbare Objekte
+class DrawableObject { 
     x = 100;
     y = 280;
     height = 150;
@@ -8,7 +8,7 @@ class DrawableObject { // zeichenbare Objekte
     currentImage = 0;
 
     loadImage(path){
-        this.img = new Image(); // this.img = document.getElementById('image') <img id="image" src>
+        this.img = new Image(); 
         this.img.src = path;
     }
 
@@ -27,7 +27,7 @@ class DrawableObject { // zeichenbare Objekte
     }
 
     drawBox(ctx) {
-        if(this instanceof Character || this instanceof Chicken ) { //|| this instanceof Endboss
+        if(this instanceof Character || this instanceof Chicken ) { 
         ctx.beginPath();
         ctx.lineWidth = '5';
         ctx.strokeStyle = 'blue';

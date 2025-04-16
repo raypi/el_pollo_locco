@@ -2,7 +2,7 @@ class Character extends MovableObject {
     
     height = 280;
     x = 100;
-    y = 150; // standartwert 150
+    y = 150; 
     speed = 5;
     lastMoveTime = Date.now();
     longIdle = false; 
@@ -75,8 +75,7 @@ class Character extends MovableObject {
 
 
 
-    // currentImage = 0;
-    world;
+  
 
     constructor(gameOverCallback){
         super().loadImage('assets/img/2_character_pepe/2_walk/W-21.png');
@@ -87,72 +86,78 @@ class Character extends MovableObject {
         this.loadImages(this.IMAGES_IDLE);
         this.loadImages(this.IMAGES_LONGIDLE);
         this.applyGravity();
-        // this.animate();
         this.gameOverCallback = gameOverCallback; 
     }
 
-
-
-    animate(){
+    animate() {
+        this.startMovementAnimation();
+        this.startFrameAnimation();
+      }
+      
+      startMovementAnimation() {
         setInterval(() => {
-            // console.log(this.world.level.level_end_x);
-            if (this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x) {
-                this.moveRight();
-                this.otherDirection = false;
-                this.lastMoveTime = Date.now();
-                this.longIdle = false;
-            }
-            if (this.world.keyboard.LEFT && this.x > 0) {
-                this.x -= this.speed;
-                this.otherDirection = true;
-                this.lastMoveTime = Date.now();
-                this.longIdle = false;
-            }
-            if (this.world.keyboard.SPACE && !this.isAboveGrund()){
-                this.jump();
-                this.lastMoveTime = Date.now();
-                this.longIdle = false;
-            }
-
-            this.world.camera_x = -this.x + 100;
+          this.processRightMovement();
+          this.processLeftMovement();
+          this.processJumpMovement();
+          this.world.camera_x = -this.x + 100;
         }, 1000 / 60);
-
-    setInterval(() => {
-        if (this.isDead()) {
-            this.playAnimation(this.IMAGES_DEAD);
-        } else if (this.isHurt()) {
-            this.playAnimation(this.IMAGES_HURT);
-        } else if (this.isAboveGrund()) {
-            this.playAnimation(this.IMAGES_JUMPING);
-        } else {
-            // Wenn Bewegungstasten gedrückt werden, spiele die Walking Animation.
-            if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
-                this.playAnimation(this.IMAGES_WALKING);
-            } else {
-                // Keine Bewegung: Sofort das Standbild zeigen, solange noch keine
-                // längere Inaktivität vorliegt.
-                const timeSinceLastMove = Date.now() - this.lastMoveTime;
-                if (timeSinceLastMove < 50) {
-                    // Direkt das Standbild anzeigen.
-                    this.loadImage('assets/img/2_character_pepe/1_idle/idle/I-1.png');
-                } else {
-                    this.checkIdle();
-                }
-            }
+      }
+      
+      processRightMovement() {
+        if (this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x) {
+          this.moveRight();
+          this.otherDirection = false;
+          this.lastMoveTime = Date.now();
+          this.longIdle = false;
         }
-    }, 100);
-    
-    }
-
-
-    // nach X sekunden idle nach y Sekunden longidle setzen
+      }
+      
+      processLeftMovement() {
+        if (this.world.keyboard.LEFT && this.x > 0) {
+          this.x -= this.speed;
+          this.otherDirection = true;
+          this.lastMoveTime = Date.now();
+          this.longIdle = false;
+        }
+      }
+      
+      processJumpMovement() {
+        if (this.world.keyboard.SPACE && !this.isAboveGrund()) {
+          this.jump();
+          this.lastMoveTime = Date.now();
+          this.longIdle = false;
+        }
+      }
+      
+      startFrameAnimation() {
+        setInterval(() => {
+          if (this.isDead() || this.isHurt() || this.isAboveGrund()) {
+            if (this.isDead()) this.playAnimation(this.IMAGES_DEAD);
+            else if (this.isHurt()) this.playAnimation(this.IMAGES_HURT);
+            else this.playAnimation(this.IMAGES_JUMPING);
+          } else {
+            this.animateIdleOrWalking();
+          }
+        }, 100);
+      }
+      
+      animateIdleOrWalking() {
+        if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
+          this.playAnimation(this.IMAGES_WALKING);
+        } else {
+          const timeSince = Date.now() - this.lastMoveTime;
+          if (timeSince < 50) this.loadImage('assets/img/2_character_pepe/1_idle/idle/I-1.png');
+          else this.checkIdle();
+        }
+      }
+      
     checkIdle() {
         const now = Date.now();
         const timeSinceLastMove = now - this.lastMoveTime;
     
         if (timeSinceLastMove > 5000) { 
             this.playAnimation(this.IMAGES_LONGIDLE);
-            this.longIdle = true; // Zustand merken
+            this.longIdle = true;
         } else if (timeSinceLastMove > 200 && !this.longIdle) { 
             this.playAnimation(this.IMAGES_IDLE);
         }
@@ -162,18 +167,11 @@ class Character extends MovableObject {
 dieCharacter() {
   this.state = "dead"; 
   console.log("Character is dead");
-
-  // Spiele die Todesanimation ab
   this.playAnimation(this.IMAGES_DEAD);
-
-  // Warte 2 Sekunden für die Todesanimation, bevor der Game-Over-Screen angezeigt wird
   this.deathTimeoutId = setTimeout(() => {
-    // Stoppe das Spiel
     if (this.world && this.world.stopGame) {
-      this.world.stopGame(); // Stoppt Animationen, Intervals etc.
+      this.world.stopGame(); 
     }
-    
-    // Zeige den Game-Over-Screen an
     if (this.gameOverCallback && typeof this.gameOverCallback === 'function') {
       this.gameOverCallback('character');
     }

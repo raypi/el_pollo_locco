@@ -1,22 +1,19 @@
 class AudioError {
     static LONG = new Audio('assets/audio/binary.mp3');
 
-    // Spielt eine einzelne Audiodatei ab, - wenn sie bereit ist - 
     static playOneSound(sound) {
-        setInterval(() => {  // Wiederholt die Überprüfung alle 200ms
-            //hier sound wird gestoppt
-            if (sound.readyState == 4) {  // Überprüft, ob die Audiodatei vollständig geladen ist, wenn man die if abfrage rausnehmen würde, würde es bei start & drücken auf den stopp Knopf einen Fehler werfen. (am besten low-tier throttling nutzen!)
+        setInterval(() => { 
+            if (sound.readyState == 4) { 
                 console.log("Sound ready"); 
-                sound.volume = 0.5;  // Setzt die Lautstärke auf 50%
-                sound.play();  // Spielt das übergebene Sound-Objekt ab
+                sound.volume = 0.5;
+                sound.play(); 
             } else {
                 console.log("Sound not ready"); 
             }
         }, 200);
     }
 
-    // Stoppt das Abspielen einer einzelnen Audiodatei
     static stopOneSound(sound) {
-        sound.pause();  // Pausiert das übergebene Audio
+        sound.pause();
     }
 }

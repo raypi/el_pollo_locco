@@ -3,7 +3,7 @@ class BackgroundObject extends MovableObject {
     height = 480;
     constructor(imagaPath, x) {
         super().loadImage(imagaPath);
-        this.y = 480 - this.height; // Gesammthöhe Canvas 480 - 400(höhe Grafik) = 80
+        this.y = 480 - this.height;
         this.x = x;
     }
 }

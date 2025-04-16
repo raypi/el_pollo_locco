@@ -1,8 +1,3 @@
-// Zuerst definieren wir alle Elemente, die wir später für das Level brauchen
-
- 
-// Jetzt definieren wir das Level-Objekt
-
 function createLevel001() {
     return new Level(
         [

@@ -1,7 +1,7 @@
 class SmalChicken extends MovableObject {
     width = 40;
     height = 40;
-    y = 365;
+    y = 380;
     alive = true;
     state = "alive";
 
@@ -30,35 +30,26 @@ class SmalChicken extends MovableObject {
 
     animate(){
         this.moveLeft();
-
         this.animationInterval = setInterval(() => {
             if (this.alive) {
-                let index = this.currentImage % this.IMAGES_WALKING.length; // let i = 0 % 6 
-                // i = 0, 1, 2, 3, 4, 5, nicht 6 sondern 0, 1, 2, ...    
+                let index = this.currentImage % this.IMAGES_WALKING.length;
                 let path = this.IMAGES_WALKING[index];
                 this.img = this.imageCache[path];
                 this.currentImage++;
             } else {
-                // Stop animation if chicken is dead
                 clearInterval(this.animationInterval);
-                // Display death image
                 this.loadImage(this.IMAGES_DEAD[0]);
             }
         }, 200);    
     }
 
-    //Bild wenn getötet 
     deadAnimation() {
         // Set chicken as dead
         this.alive = false;
         this.state = "dead";
-        
-        // The animation interval will be cleared in the animate method
-        // and the death image will be displayed there
-        
+                
         setTimeout(() => {
-            // Entfernen nach Animation
-            this.isDead = true; // Optionales Flag
-        }, 1000); // Nach 1000 ms = 1s
+            this.isDead = true;
+        }, 1000);
     }
 }
