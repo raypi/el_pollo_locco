@@ -1,16 +1,3 @@
-// Aufgaben:
-// Coins erstellen und einsammeln
-// Flaschen erstellen und einsammeln als munition
-// Flaschen nur werfen, wenn sie eingesammelt sind 
-// Collision (drauf springen und besiegen können)
-// Endgegner besiegen (energie anzeigen und 3 mal treffen oder drauf springen tötet ihn)
-// Game Over Screen
-// Full Screen Button für Vollbild Modus (pixel) Tipp: canvis Fullscreen
-// Spielanleitung: welche Tasten welches Ziel
-// Start Screen
-// Musik und Sounds hinzufügen
-// Favicon erstellen und einfügen
-
 let canvas;
 let world;
 let keyboard = new Keyboard();
@@ -36,11 +23,33 @@ function init() {
 
 // Periodische Überprüfung der Orientierung für mobile Geräte
 function startOrientationCheck() {
-    // Prüfe, ob es sich um ein mobiles Gerät handelt
-    const isMobileDevice = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+    // Verbesserte Geräteerkennung für alle Tablet-Größen
+    const isMobileOrTabletDevice = (function() {
+        // Prüfe auf Touch-Events
+        const hasTouchEvents = 'ontouchstart' in window || 
+                              navigator.maxTouchPoints > 0 || 
+                              navigator.msMaxTouchPoints > 0;
+        
+        // Prüfe auf mobile User-Agent (erweitert für alle iPad-Modelle)
+        const mobileRegex = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i;
+        const isMobileUserAgent = mobileRegex.test(navigator.userAgent);
+        
+        // Prüfe auf iPad-spezifische User-Agent (für iPad Air, Pro, etc.)
+        const isIPad = /iPad/i.test(navigator.userAgent) || 
+                      (/Macintosh/i.test(navigator.userAgent) && hasTouchEvents);
+        
+        // Prüfe auf Bildschirmgröße (für Tablets)
+        const isTabletSize = window.innerWidth <= 1366 && window.innerHeight <= 1024;
+        
+        // Zeige Controls an, wenn:
+        // - Es ist ein bekanntes mobiles Gerät ODER
+        // - Es ist ein iPad ODER
+        // - Es hat Touch-Events UND ist in Tablet-Größe
+        return isMobileUserAgent || isIPad || (hasTouchEvents && isTabletSize);
+    })();
     
-    if (isMobileDevice) {
-        console.log('Starte periodische Orientierungsprüfung für mobiles Gerät');
+    if (isMobileOrTabletDevice) {
+        console.log('Starte periodische Orientierungsprüfung für mobiles Gerät oder Tablet');
         // Prüfe alle 2 Sekunden die Orientierung
         setInterval(checkOrientation, 2000);
     }
@@ -74,29 +83,48 @@ function startGame() {
 }
 
 function showMobileControls() {
-    // Verbesserte Touch-Gerät-Erkennung
-    const isTouchDevice = (function() {
+    // Verbesserte Touch-Gerät-Erkennung für alle Tablet-Größen
+    const shouldShowControls = (function() {
         // Prüfe auf Touch-Events
         const hasTouchEvents = 'ontouchstart' in window || 
                               navigator.maxTouchPoints > 0 || 
                               navigator.msMaxTouchPoints > 0;
         
-        // Prüfe auf mobile User-Agent (zusätzliche Sicherheit)
+        // Prüfe auf mobile User-Agent (erweitert für alle iPad-Modelle)
         const mobileRegex = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i;
         const isMobileUserAgent = mobileRegex.test(navigator.userAgent);
         
-        // Prüfe auf tatsächliche Touch-Unterstützung und mobile Geräte
-        return hasTouchEvents && isMobileUserAgent;
+        // Prüfe auf iPad-spezifische User-Agent (für iPad Air, Pro, etc.)
+        const isIPad = /iPad/i.test(navigator.userAgent) || 
+                      (/Macintosh/i.test(navigator.userAgent) && hasTouchEvents);
+        
+        // Prüfe auf Bildschirmgröße (für Tablets)
+        const isTabletSize = window.innerWidth <= 1366 && window.innerHeight <= 1024;
+        
+        console.log('Touch Events:', hasTouchEvents);
+        console.log('Mobile User Agent:', isMobileUserAgent);
+        console.log('Is iPad:', isIPad);
+        console.log('Is Tablet Size:', isTabletSize);
+        console.log('Screen Size:', window.innerWidth, 'x', window.innerHeight);
+        
+        // Zeige Controls an, wenn:
+        // - Es ist ein bekanntes mobiles Gerät ODER
+        // - Es ist ein iPad ODER
+        // - Es hat Touch-Events UND ist in Tablet-Größe
+        return isMobileUserAgent || isIPad || (hasTouchEvents && isTabletSize);
     })();
     
-    if (isTouchDevice) {
+    if (shouldShowControls) {
+        console.log('Mobile controls werden angezeigt');
         document.getElementById('mobile-controls').style.display = 'flex';
     } else {
+        console.log('Mobile controls werden ausgeblendet');
         document.getElementById('mobile-controls').style.display = 'none';
     }
 }
 
 function hideMobileControls() {
+    console.log('Mobile controls werden ausgeblendet (explizit)');
     document.getElementById('mobile-controls').style.display = 'none';
 }
 
